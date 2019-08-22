@@ -1,6 +1,6 @@
 from .models import Profile, Movie, Rating
 from rest_framework import serializers
-
+from django.db.models import Avg,Count
 
 class ProfileSerializer(serializers.ModelSerializer):
     id = serializers.ReadOnlyField()
@@ -17,14 +17,18 @@ class ProfileSerializer(serializers.ModelSerializer):
     def get_is_staff(self, obj):
         return obj.user.is_staff
 
-
 class MovieSerializer(serializers.ModelSerializer):
-    genres_array = serializers.ReadOnlyField()
-
-    class Meta:
-        model = Movie
-        fields = ('id', 'title', 'genres_array')
-
+   genres_array = serializers.ReadOnlyField()
+   view_cnt = serializers.SerializerMethodField('get_view_cnt')
+   average_rating = serializers.SerializerMethodField('get_average_rating')
+   class Meta:
+       model = Movie
+       fields = ('id', 'title', 'genres_array','view_cnt','average_rating','genres')
+   def get_view_cnt(self, obj):
+       return obj['view_cnt']
+   def get_average_rating(self, obj):
+       print(obj)
+       return obj['average_rating']
 
 class RatingSerializer(serializers.ModelSerializer):
 

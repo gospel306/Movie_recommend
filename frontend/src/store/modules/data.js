@@ -13,11 +13,10 @@ const actions = {
     const movies = resp.data.map(d => ({
       id: d.id,
       title: d.title,
-      genres: d.genres_array,
+      genres: d.genres,
       viewCnt: d.view_cnt,
       rating: d.average_rating,
     }))
-
     commit('setMovieSearchList', movies)
   },
 }

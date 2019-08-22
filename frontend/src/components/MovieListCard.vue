@@ -10,7 +10,7 @@
                   <v-list-item-title class="headline">
                     {{ title }}
                   </v-list-item-title>
-                  <v-list-item-subtitle>{{ genresStr }}</v-list-item-subtitle>
+                  <v-list-item-subtitle>{{ genreSplit }}</v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
               <v-card-text>
@@ -36,11 +36,18 @@
           </v-container>
         </v-flex>
       </v-layout>
+
+      <MovieDetail      
+        :title="title"
+        :genres="genres"
+        :rating="rating"/>
+
     </v-card>
   </v-hover>
 </template>
 
 <script>
+import MovieDetail from "../components/MovieDetail"
 
 export default {
   props: {
@@ -53,8 +60,8 @@ export default {
       default: ""
     },
     genres: {
-      type: Array,
-      default: () => new Array()
+      type: String,
+      default: ""
     },
     img: {
       type: String,
@@ -63,16 +70,20 @@ export default {
     rating: {
       type: Number,
       default: 0.0
-    },
+    },                                                                                                                                                                       
     viewCnt: {
       type: Number,
       default: 0
     }
   },
   computed: {
-    genresStr: function() {
-      return this.genres.join(" / ");
-    },
-  }
+    genreSplit() {
+      var str = this.genres
+      return str.replace(/\|/g," / ")
+    }
+  },
+  components: {
+    MovieDetail,
+  },
 };
 </script>
