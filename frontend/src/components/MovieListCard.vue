@@ -37,7 +37,8 @@
         </v-flex>
       </v-layout>
 
-      <MovieDetail      
+      <MovieDetail
+        :id="id"
         :title="title"
         :genres="genres"
         :rating="rating"/>

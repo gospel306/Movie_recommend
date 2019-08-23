@@ -40,7 +40,7 @@ INSTALLED_APPS = [
 
     # restframework
     'rest_framework',
-
+    'corsheaders',
     # apps
     'api',
 ]
@@ -53,6 +53,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'api.disable.DisableCSRF',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 
@@ -125,3 +126,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True

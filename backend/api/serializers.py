@@ -6,16 +6,19 @@ class ProfileSerializer(serializers.ModelSerializer):
     id = serializers.ReadOnlyField()
     username = serializers.SerializerMethodField('get_username')
     is_staff = serializers.SerializerMethodField('get_is_staff')
-
+    rating = serializers.SerializerMethodField('get_rating')
     class Meta:
         model = Profile
-        fields = ('id', 'username', 'is_staff', 'gender', 'age', 'occupation')
+        fields = ('id', 'username', 'is_staff', 'gender', 'age', 'occupation','rating')
 
     def get_username(self, obj):
         return obj.user.username
 
     def get_is_staff(self, obj):
         return obj.user.is_staff
+    
+    def get_rating(self, obj):
+        return obj.rating
 
 class MovieSerializer(serializers.ModelSerializer):
    genres_array = serializers.ReadOnlyField()
@@ -29,6 +32,8 @@ class MovieSerializer(serializers.ModelSerializer):
    def get_average_rating(self, obj):
        print(obj)
        return obj['average_rating']
+
+
 
 class RatingSerializer(serializers.ModelSerializer):
 
