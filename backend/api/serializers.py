@@ -18,7 +18,11 @@ class ProfileSerializer(serializers.ModelSerializer):
         return obj.user.is_staff
     
     def get_rating(self, obj):
-        return obj.rating
+        if hasattr(obj, 'rating') is True:
+            a = obj.rating
+        else:
+            a = ''
+        return a
 
 class MovieSerializer(serializers.ModelSerializer):
    genres_array = serializers.ReadOnlyField()
@@ -28,11 +32,17 @@ class MovieSerializer(serializers.ModelSerializer):
        model = Movie
        fields = ('id', 'title', 'genres_array','view_cnt','average_rating','genres')
    def get_view_cnt(self, obj):
-       return obj['view_cnt']
+       if 'view_cnt' in obj.keys():
+           num = obj['view_cnt']
+       else:
+           num = ''
+       return num
    def get_average_rating(self, obj):
-       print(obj)
-       return obj['average_rating']
-
+       if 'average_rating' in obj.keys():
+           num = obj['average_rating']
+       else:
+           num = ''
+       return num
 
 
 class RatingSerializer(serializers.ModelSerializer):
