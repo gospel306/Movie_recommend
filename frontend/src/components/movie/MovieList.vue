@@ -2,13 +2,13 @@
   <v-container class="pa-2" fluid grid-list-md>
     <v-layout column>
       <v-flex v-for="card in movieListCardsSliced" :key="card.id" pa-2>
-        <MovieListCard
+        <MovieItem
           :id="card.id"
           :img="card.img"
           :title="card.title"
           :genres="card.genres"
-          :rating="card.rating"
-          :view-cnt="card.viewCnt"
+          :rating="card.average_rating"
+          :view-cnt="card.view_cnt"
         />
       </v-flex>
       <v-pagination v-if="maxPages > 1" v-model="page" :length="maxPages" />
@@ -17,13 +17,13 @@
 </template>
 
 <script>
-import MovieListCard from "./MovieListCard"
+import MovieItem from "./MovieItem"
 export default {
   components: {
-    MovieListCard
+    MovieItem
   },
   props: {
-    movieListCards: {
+    MovieItems: {
       type: Array,
       default: () => new Array(),
     },
@@ -35,13 +35,13 @@ export default {
   computed: {
     // pagination related variables
     movieListEmpty: function() {
-      return this.movieListCards.length === 0;
+      return this.MovieItems.length === 0;
     },
     maxPages: function() {
-      return Math.floor((this.movieListCards.length + this.cardsPerPage - 1) / this.cardsPerPage)
+      return Math.floor((this.MovieItems.length + this.cardsPerPage - 1) / this.cardsPerPage)
     },
     movieListCardsSliced: function() {
-      return this.movieListCards.slice(this.cardsPerPage * (this.page - 1), this.cardsPerPage * this.page)
+      return this.MovieItems.slice(this.cardsPerPage * (this.page - 1), this.cardsPerPage * this.page)
     },
   },
 };

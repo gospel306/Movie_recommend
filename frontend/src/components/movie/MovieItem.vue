@@ -37,8 +37,7 @@
         </v-flex>
       </v-layout>
 
-      <MovieDetail
-        :id="id"
+      <MovieDetail      
         :title="title"
         :genres="genres"
         :rating="rating"/>
@@ -48,7 +47,7 @@
 </template>
 
 <script>
-import MovieDetail from "../components/MovieDetail"
+import MovieDetail from "./MovieDetail"
 
 export default {
   props: {
