@@ -1,6 +1,6 @@
 <template>
-  <v-navigation-drawer v-model="drawer" app clipped color="grey lighten-4">
-    <v-list dense class="grey lighten-4">
+  <v-navigation-drawer v-model="drawer" app clipped color="blue lighten-4">
+    <v-list dense class="blue lighten-4">
       <template v-for="(choice, i) in choices">
         <v-list-item
           :key="i"
