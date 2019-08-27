@@ -1,7 +1,8 @@
-import MainPage from '../views/MainPage.vue'
+import MainPage from '@/views/MainPage.vue'
 
-import MovieRoute from './Main/MovieRoute.js'
-import UserRoute from './Main/UserRoute.js'
+import MovieRoute from '@/router/Main/MovieRoute.js'
+import UserRoute from '@/router/Main/UserRoute.js'
+import AdminRoute from '@/router/Main/AdminRoute.js'
 
 export default {
     path: '/',
@@ -10,5 +11,6 @@ export default {
     children: [
         ...MovieRoute,
         ...UserRoute,
+        ...AdminRoute,
     ]
 }

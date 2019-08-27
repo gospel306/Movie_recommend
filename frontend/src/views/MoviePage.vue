@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import MovieSearch from '../components/movie/search'
+import MovieSearch from '@/components/movie/search'
 export default {
     name: "MoviePage",
     components:{
