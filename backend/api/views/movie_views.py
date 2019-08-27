@@ -1,9 +1,10 @@
 from rest_framework import status
 from rest_framework.decorators import api_view
-from api.models import Movie,Rating
-from api.serializers import MovieSerializer
+from api.models import Movie, Rating, Profile
+from api.serializers import MovieSerializer, RankSerializer
 from rest_framework.response import Response
-from django.db.models import Avg,Count
+from django.db.models import Avg, Count, Subquery
+
 
 @api_view(['GET', 'POST', 'DELETE'])
 def movies(request):
@@ -63,3 +64,38 @@ def movies(request):
 
         return Response(status=status.HTTP_200_OK)
 
+
+@api_view(['GET'])
+def rank(request):
+    if request.method == 'GET':
+        order = request.GET.get('order')
+        if order == 'age':
+            rank = request.GET.get('rank')
+            movies = Movie.objects.all()
+            profile = Profile.objects.all()
+            if rank == '10':
+                profile = profile.values('id').filter(age__lt=18)
+            elif rank == '20':
+                profile = profile.values('id').filter(age__range=(19,28))
+            elif rank == '30':
+                profile = profile.values('id').filter(age__range=(29, 38))
+            elif rank == '40':
+                profile = profile.values('id').filter(age__range=(39, 48))
+            elif rank == '50':
+                profile = profile.values('id').filter(age__gt=49)
+            movies = Movie.objects.filter(rating__userid__in=profile).annotate(rate=Count('rating')).order_by('-rate')[:10]
+        elif order == 'gender':
+            gender = request.GET.get('gender')
+            profile = Profile.objects.all()
+            if gender == 'M':
+                profile = profile.values('id').filter(gender='M')
+            elif gender == 'F':
+                profile = profile.values('id').filter(gender='F')
+            movies = Movie.objects.filter(rating__userid__in=profile).annotate(rate=Count('rating')).order_by('-rate')[:10]
+        elif order == 'occupation':
+            occupation = request.GET.get('occupation')
+            profile = Profile.objects.all()
+            profile = profile.values('id').filter(occupation__icontains=occupation)
+            movies = Movie.objects.filter(rating__userid__in=profile).annotate(rate=Count('rating')).order_by('-rate')[:10]
+        serializer = RankSerializer(movies, many=True)
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
