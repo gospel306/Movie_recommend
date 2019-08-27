@@ -49,6 +49,18 @@ class MovieSerializer(serializers.ModelSerializer):
        return num
 
 
+class UserMovieSerializer(serializers.ModelSerializer):
+    rating = serializers.SerializerMethodField('get_rating')
+
+    class Meta:
+        model = Movie
+        fields = ('id', 'title', 'genres', 'rating')
+
+    def get_rating(self,obj):
+        rating = obj.rating
+        return rating
+
+
 class RankSerializer(serializers.ModelSerializer):
     genres_array = serializers.ReadOnlyField()
 
