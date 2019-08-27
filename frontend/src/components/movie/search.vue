@@ -7,13 +7,23 @@
           <v-form ref="form">
             <v-layout>
               <v-flex xs3>
-                <v-select v-model="T_option" :items="T_options" />
+                <v-select
+                  v-model="T_option"
+                  :items="T_options"
+                  item-text="text"
+                  item-value="value"
+                />
               </v-flex>
               <v-flex xs3>
-                <v-select v-model="G_option" :items="G_options" />
+                <v-select
+                  v-model="G_option"
+                  :items="G_options"
+                  item-text="text"
+                  item-value="value"
+                />
               </v-flex>
               <v-flex xs6>
-                <v-text-field v-model="value" :label="optionLabel" />
+                <v-text-field v-model="value" />
               </v-flex>
             </v-layout>
             <v-layout justify-center pa-10>
@@ -39,36 +49,24 @@ export default {
   },
   data: () => ({
     value: "",
-    T_options: ["제목", "장르"],
-    T_option: "제목",
-    G_options: ["조회수", "평점"],
-    G_option: "조회수",
+    T_options: [
+      { text: "제목", value: "title" },
+      { text: "장르", value: "genre" }
+    ],
+    T_option: "title",
+    G_options: [
+      { text: "조회수", value: "countrating" },
+      { text: "평점", value: "avgrating" }
+    ],
+    G_option: "countrating",
     movieLists: [],
-    params : ""
+    params: ""
   }),
-  computed: {
-    optionLabel() {
-      return "영화 " + this.T_option;
-    }
-  },
+  computed: {},
+  
   methods: {
     onSubmit() {
-      if(this.T_option == "제목" ){
-        if(this.G_option == "조회수"){
-          this.params = "title="+ this.value +"&order=countrating";
-        }
-        else{
-          this.params = "title="+ this.value +"&order=avgrating";
-        }
-      }
-      else{
-        if(this.G_option == "조회수"){
-          this.params = "genre="+ this.value +"&order=countrating";
-        }
-        else{
-          this.params = "genre="+ this.value +"&order=avgrating";
-        }
-      }
+      this.params = this.T_option +"="+ this.value + "&order="+ this.G_option;
       axios
         .get(this.$store.state.server + "/api/movies/?" + this.params)
         .then(res => {
