@@ -11,20 +11,29 @@
 <script>
 import Header from "@/components/common/Header";
 import Nav from "@/components/common/Nav";
+import router from "../router";
 
 export default {
   name: "mainpage",
   data() {
     return {
-        
+
     };
   },
   components: {
     Header,
     Nav
   },
-  methods: {},
-  mounted() {}
+  mounted() {
+    this.checkLoggedIn();
+  },
+  methods: {
+    checkLoggedIn(){
+      this.$session.start();
+      if (!this.$session.has("token")) {
+        router.push("/auth");
+      }    }
+  }
 };
 </script>
 
