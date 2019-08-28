@@ -3,7 +3,9 @@
     <v-layout justify-center wrap>
       <v-flex xs7>
         <h2>유저 리스트</h2>
+        
         <UserItem :UserItems="userLists" />
+        
       </v-flex>
     </v-layout>
   </v-container>
