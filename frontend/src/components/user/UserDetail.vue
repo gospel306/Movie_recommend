@@ -12,7 +12,7 @@
       >
         <v-card tile>
           <v-toolbar flat dark color="primary">
-            <v-toolbar-title>영화 상세정보</v-toolbar-title>
+            <v-toolbar-title>유저 상세정보</v-toolbar-title>
             <div class="flex-grow-1" />
             <v-toolbar-items>
               <v-btn icon dark @click="dialog = false">
@@ -48,9 +48,19 @@
               <v-list disabled dense sm5 md5 lg5>
                 <v-list-item v-for="(item, i) in items" :key="i" @click="() => {}">
                   <v-list-item-content>
-                    <v-list-item-title>{{ item.username }}</v-list-item-title>
-                    <v-list-item-subtitle>{{ item.gender }}, {{ item.age }}, {{ item.occupation }}</v-list-item-subtitle>
-                    <v-list-item-subtitle>{{ item.rating }}</v-list-item-subtitle>
+                    <v-list-item-title>{{ item.title }}</v-list-item-title>
+                    <v-list-item-subtitle>{{ item.genres }}</v-list-item-subtitle>
+                    <v-list-item-subtitle>
+                        <v-rating
+                            :value="item.rating"
+                            color="indigo"
+                            background-color="indigo"
+                            half-increments
+                            dense
+                            small
+                            readonly
+                            />
+                    </v-list-item-subtitle>
                   </v-list-item-content>
                 </v-list-item>
               </v-list>
@@ -101,14 +111,10 @@ export default {
     };
   },
   computed: {
-    // genreSplit() {
-    //   var str = this.genres;
-    //   return str.replace(/\|/g, " / ");
-    // },
-    // ratingRounds() {
-    //   var num = this.rating;
-    //   return num.toFixed(2);
-    // }
+    genreSplit(input) {
+        var str = input;
+        return str.replace(/\|/g, " / ");
+    }
   },
   methods: {
     searchMovie: function(id) {
