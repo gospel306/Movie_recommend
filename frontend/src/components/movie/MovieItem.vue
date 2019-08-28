@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import MovieDetail from "./MovieDetail"
+import MovieDetail from "@/components/movie/MovieDetail"
 
 export default {
   props: {
