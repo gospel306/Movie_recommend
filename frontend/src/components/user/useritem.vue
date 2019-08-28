@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import UserDetail from "./userdetail"
+import UserDetail from "@/components/user/UserDetail"
 
 export default {
   components: {
