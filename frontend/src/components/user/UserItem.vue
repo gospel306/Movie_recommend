@@ -1,78 +1,68 @@
 <template>
-  <v-hover v-slot:default="{ hover }">
-    <v-card :elevation="hover ? 8 : 2">
-      <v-layout align-center py-4 pl-4>
-        <v-flex text-center>
-          <v-container grid-list-lg pa-0>
-            <v-layout column>
-              <v-list-item>
-                <v-list-item-content>
-                  <v-list-item-title class="headline">
-                    {{ username }}
-                  </v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-              <v-card-text>
-                <v-layout justify-center>
-                  <div class="grey--text ml-4">{{ gender }}, {{ age }}</div>
-                </v-layout>
-              </v-card-text>
-            </v-layout>
-          </v-container>
-        </v-flex>
-      </v-layout>
-
-      <UserDetail
-        :id="id"
-        :age="age"
-        :gender="gender"
-        :is_staff="is_staff"
-        :occupation="occupation"
-        :username="username"
-      />
-
-    </v-card>
-  </v-hover>
+  <v-container>
+    <v-simple-table>
+      <thead>
+        <tr>
+          <th class="text-center">name</th>
+          <th class="text-center">gender</th>
+          <th class="text-center">age</th>
+          <th class="text-center">detail</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="card in userListCardsSliced" :key="card.id">
+          <td>{{ card.username }}</td>
+          <td>{{ card.gender }}</td>
+          <td>{{ card.age }}</td>
+          <td>
+            <UserDetail
+              :id="card.id"
+              :age="card.age"
+              :gender="card.gender"
+              :is_staff="card.is_staff"
+              :occupation="card.occupation"
+              :username="card.username"
+            />
+          </td>
+        </tr>
+      </tbody>
+    </v-simple-table>
+    <v-pagination v-if="maxPages > 1" v-model="page" :length="maxPages" />
+  </v-container>
 </template>
 
 <script>
-import UserDetail from "@/components/user/UserDetail"
+import UserDetail from "@/components/user/UserDetail";
 
 export default {
   components: {
-    UserDetail,
+    UserDetail
   },
   props: {
-    id: {
-      type: Number,
-      default: 0
+    UserItems: {
+      type: Array,
+      default: () => new Array(),
     },
-    username: {
-      type: String,
-      default: ""
-    },
-    occupation: {
-      type: String,
-      default: ""
-    },
-    gender: {
-      type: String,
-      default: ""
-    },
-    is_staff: {
-      type: Boolean,
-      default: false
-    },                                                                                                                                                                   
-    age: {
-      type: Number,
-      default: 0
-    }
   },
+  data: () => ({
+      cardsPerPage: 10,
+      page: 1,
+  }),
   computed: {
-    // genreSplit() {
-    //   var str = this.genres
-    //   return str.replace(/\|/g," / ")
-    // }
-  }
+    userListEmpty: function() {
+      return this.UserItems.length === 0;
+    },
+    maxPages: function() {
+      return Math.floor(
+        (this.UserItems.length + this.cardsPerPage - 1) / this.cardsPerPage
+      );
+    },
+    userListCardsSliced: function() {
+      return this.UserItems.slice(
+        this.cardsPerPage * (this.page - 1),
+        this.cardsPerPage * this.page
+      );
+    },
+  },
 };
 </script>
