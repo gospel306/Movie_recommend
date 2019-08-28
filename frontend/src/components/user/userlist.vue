@@ -24,7 +24,7 @@
 
 <script>
 import axios from "axios";
-import UserItem from "./useritem";
+import UserItem from "@/components/user/UserItem";
 
 export default {
   components: {

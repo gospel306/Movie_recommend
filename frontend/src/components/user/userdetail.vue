@@ -112,11 +112,11 @@ export default {
   },
   methods: {
     searchMovie: function(id) {
-    //   axios
-    //   .get(this.$store.state.server + "/api/auth/signup-many/?userid=" + id)
-    //   .then(res => {
-    //     this.items = res.data;
-    //   });
+      axios
+      .get(this.$store.state.server + "/api/auth/signup-many/?userid=" + id)
+      .then(res => {
+        this.items = res.data;
+      });
     }
   }
 };
