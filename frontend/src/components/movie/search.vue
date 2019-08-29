@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import MovieList from "./MovieList";
+import MovieList from "@/components/movie/MovieList"
 import axios from "axios";
 export default {
   components: {
