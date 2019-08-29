@@ -31,7 +31,7 @@ export default {
     checkLoggedIn(){
       this.$session.start();
       if (!this.$session.has("token")) {
-        router.push("/auth");
+        router.push("/login");
       }    }
   }
 };

@@ -1,9 +1,14 @@
-import AuthPage from '@/views/AuthPage'
-
+import LoginPage from '@/views/LoginPage'
+import SignUpPage from '@/views/SignUpPage'
 export default [
     {
-        path: '/auth',
-        name: 'Auth',
-        component: AuthPage
+        path: '/login',
+        name: 'Login',
+        component: LoginPage
+    },
+    {
+        path: '/sign-up',
+        name: 'SignUp',
+        component: SignUpPage
     }
 ]

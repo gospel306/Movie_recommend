@@ -65,7 +65,7 @@ import swal from 'sweetalert2';
 import router from '../router';
 
 export default {
-    name: 'Auth',
+    name: 'Login',
     data: () => ({
         credentials: {},
         valid:true,
@@ -80,6 +80,7 @@ export default {
                 this.$session.start();
                 this.$session.set('token', res.data.token);
                 router.push('/');
+                // eslint-disable-next-line
               }).catch(e => {
                 this.loading = false;
                 swal({
