@@ -83,6 +83,12 @@ export default {
       this.$session.clear();
       this.$router.push("/");
     },
+    loginForm(){
+      this.$router.push('/login');
+    },
+    signup(){
+      this.$router.push('/signup');
+    }
   },
 };
 </script>

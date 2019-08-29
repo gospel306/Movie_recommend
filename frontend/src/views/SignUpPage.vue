@@ -30,16 +30,16 @@
                 <v-container>
 
                   <v-text-field
-                    v-model="credentials.username"
+                    v-model="profile.username"
                     :counter="70"
-                    label="email address"
+                    label="your name"
                     maxlength="70"
                     required
                   />
 
                   <v-text-field
                     type="password"
-                    v-model="credentials.password"
+                    v-model="profile.password"
                     :counter="20"
                     label="password"
                     maxlength="20"
@@ -48,12 +48,35 @@
 
                   <v-text-field
                     type="password"
-                    v-model="credentials.password2"
+                    v-model="profile.password2"
                     :counter="20"
                     label="password check"
                     maxlength="20"
                     required
                   />
+
+                  <v-text-field
+                    type="number"
+                    v-model="profile.age"
+                    :counter="2"
+                    label="your age"
+                    maxlength="20"
+                    required
+                  />
+
+                  <v-text-field
+                    type="string"
+                    v-model="profile.occupation"
+                    :counter="20"
+                    label="your occupation"
+                    maxlength="20"
+                    required
+                  />
+
+                  <v-radio-group v-model="profile.gender" row>
+                    <v-radio label="Male" value="M"></v-radio>
+                    <v-radio label="Female" value="F"></v-radio>
+                  </v-radio-group>
 
                 </v-container>
                 <v-btn class="pink white--text" :disabled="!valid" @click="sign">Sign</v-btn>
@@ -70,45 +93,38 @@
 
 <script>
 import axios from 'axios';
-import swal from 'sweetalert2';
 import router from '../router';
 
 export default {
     name: 'SignUp',
     data: () => ({
-        credentials: {},
+        profile: {
+        },
         valid:true,
         loading:false
     }),
     methods: {
-        isCoincide(){
-          return (this.credentials.password === this.credentials.password2)
-        },
-        sign() {
-          if(isCoincide()){
-            alert("is correct");
+      sign() {
+        if(this.profile.password !== this.profile.password2){
+          alert("Your password is not corrected");
+        }else{
+          if (this.$refs.form.validate()) {
+            this.loading = true;
+            axios.post('http://localhost:8000/api/signup/',{
+              username: this.profile.username,
+              password: this.profile.password,
+              age : this.profile.age,
+              occupation : this.profile.occupation,
+              gender : this.profile.gender
+            }).then(function (response){
+              console.log(response);
+            }).catch(function(error){
+              console.log(error);
+            })
+            router.push('/');
           }
-          // checking if the input is valid
-            if (this.$refs.form.validate()) {
-              this.loading = true;
-              axios.post('http://localhost:8000/auth/', this.credentials).then(res => {
-                this.$session.start();
-                this.$session.set('token', res.data.token);
-                router.push('/');
-                // eslint-disable-next-line
-              }).catch(e => {
-                this.loading = false;
-                swal({
-                  type: 'warning',
-                  title: 'Error',
-                  text: 'Wrong username or password',
-                  showConfirmButton:false,
-                  showCloseButton:false,
-                  timer:3000
-                })
-              })
-            }
         }
+      }
     }
 }
 </script>
