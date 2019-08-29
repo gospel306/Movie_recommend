@@ -2,11 +2,13 @@ from .models import Profile, Movie, Rating
 from rest_framework import serializers
 from django.db.models import Avg,Count
 
+
 class ProfileSerializer(serializers.ModelSerializer):
     id = serializers.ReadOnlyField()
     username = serializers.SerializerMethodField('get_username')
     is_staff = serializers.SerializerMethodField('get_is_staff')
     rating = serializers.SerializerMethodField('get_rating')
+
     class Meta:
         model = Profile
         fields = ('id', 'username', 'is_staff', 'gender', 'age', 'occupation','rating')
@@ -24,19 +26,23 @@ class ProfileSerializer(serializers.ModelSerializer):
             a = ''
         return a
 
+
 class MovieSerializer(serializers.ModelSerializer):
    genres_array = serializers.ReadOnlyField()
    view_cnt = serializers.SerializerMethodField('get_view_cnt')
    average_rating = serializers.SerializerMethodField('get_average_rating')
+
    class Meta:
        model = Movie
        fields = ('id', 'title', 'genres_array','view_cnt','average_rating','genres')
+
    def get_view_cnt(self, obj):
        if 'view_cnt' in obj.keys():
            num = obj['view_cnt']
        else:
            num = ''
        return num
+
    def get_average_rating(self, obj):
        if 'average_rating' in obj.keys():
            num = obj['average_rating']
