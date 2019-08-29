@@ -7,6 +7,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     username = serializers.SerializerMethodField('get_username')
     is_staff = serializers.SerializerMethodField('get_is_staff')
     rating = serializers.SerializerMethodField('get_rating')
+
     class Meta:
         model = Profile
         fields = ('id', 'username', 'is_staff', 'gender', 'age', 'occupation','rating')
@@ -59,14 +60,6 @@ class UserMovieSerializer(serializers.ModelSerializer):
     def get_rating(self,obj):
         rating = obj.rating
         return rating
-
-
-class RankSerializer(serializers.ModelSerializer):
-    genres_array = serializers.ReadOnlyField()
-
-    class Meta:
-        model = Movie
-        fields = ('id', 'title', 'genres_array', 'genres')
 
 
 class RatingSerializer(serializers.ModelSerializer):
