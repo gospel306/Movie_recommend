@@ -122,7 +122,7 @@ export default {
       { text: "기타", value: "other" }
     ],
     O_option: "",
-    G_options: [{ text: "남자", value: "남" }, { text: "여자", value: "여" }],
+    G_options: [{ text: "남자", value: "M" }, { text: "여자", value: "F" }],
     G_option: "",
     V_options: [
       { text: "조회수", value: "countrating" },
@@ -153,7 +153,7 @@ export default {
           occupation: this.O_option,
           gender: this.G_option,
           order: this.V_option,
-          title: this.T_option
+          title: this.value
         };
       } else {
         this.params = {
@@ -161,11 +161,14 @@ export default {
           occupation: this.O_option,
           gender: this.G_option,
           order: this.V_option,
-          genre: this.T_option
+          genre: this.value
         };
       }
+      var params = this.params
       axios
-        .get(this.$store.state.server + "/api/movies/?params=", this.params)
+        .get(this.$store.state.server + "/api/movies/", {
+            params
+        })
         .then(res => {
           this.movieLists = res.data;
         });
