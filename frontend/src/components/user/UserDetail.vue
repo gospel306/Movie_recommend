@@ -46,6 +46,9 @@
             <v-list three-line subheader>
               <v-subheader>해당 유저가 본 영화</v-subheader>
               <v-list disabled dense sm5 md5 lg5>
+                <v-list-item v-if="!items.length">
+                  <v-list-item-title>본 영화가 없습니다</v-list-item-title>
+                </v-list-item>
                 <v-list-item v-for="(item, i) in items" :key="i" @click="() => {}">
                   <v-list-item-content>
                     <v-list-item-title>{{ item.title }}</v-list-item-title>
@@ -66,7 +69,6 @@
               </v-list>
             </v-list>
           </v-card-text>
-
           <div style="flex: 1 1 auto;" />
         </v-card>
       </v-dialog>
