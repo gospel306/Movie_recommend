@@ -1,6 +1,5 @@
 from .models import Profile, Movie, Rating
 from rest_framework import serializers
-from django.db.models import Avg,Count
 
 
 class ProfileSerializer(serializers.ModelSerializer):
@@ -49,6 +48,18 @@ class MovieSerializer(serializers.ModelSerializer):
        else:
            num = ''
        return num
+
+
+class UserMovieSerializer(serializers.ModelSerializer):
+    rating = serializers.SerializerMethodField('get_rating')
+
+    class Meta:
+        model = Movie
+        fields = ('id', 'title', 'genres', 'rating')
+
+    def get_rating(self,obj):
+        rating = obj.rating
+        return rating
 
 
 class RatingSerializer(serializers.ModelSerializer):

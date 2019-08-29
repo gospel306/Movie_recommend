@@ -2,7 +2,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from api.models import create_profile, Rating, Profile, Movie
-from api.serializers import ProfileSerializer,MovieSerializer
+from api.serializers import ProfileSerializer,MovieSerializer,UserMovieSerializer
 
 
 @api_view(['POST','GET'])
@@ -29,8 +29,8 @@ def signup_many(request):
             profiles = Profile.objects.raw('select api_profile.id, api_profile.user_id,api_profile.gender,api_profile.age,api_profile.occupation,api_rating.rating from api_movie,api_rating,api_profile where api_movie.id = api_rating.movieid_id and api_rating.userid_id = api_profile.user_id and api_movie.id = '+movieid)
             serializer = ProfileSerializer(profiles, many=True)
         elif userid:
-            movies = Movie.objects.raw('select api_movie.id, api_movie.title,api_movie.genres, count(api_rating.rating) as view_cnt from api_profile,api_rating,api_movie where api_profile.user_id = api_rating.userid_id and api_profile.user_id = '+userid+' group by api_movie.id')
-            serializer = MovieSerializer(movies, many=True)
+            movies = Movie.objects.raw('select api_movie.id, api_movie.title,api_movie.genres, api_rating.rating as rating from api_profile,api_rating,api_movie where api_profile.user_id = api_rating.userid_id and api_movie.id = api_rating.movieid_id and api_profile.user_id = '+userid+' group by api_movie.id')
+            serializer = UserMovieSerializer(movies, many=True)
         else:
             profiles = Profile.objects.all()
             serializer = ProfileSerializer(profiles, many=True)

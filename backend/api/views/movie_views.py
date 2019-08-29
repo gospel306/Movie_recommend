@@ -3,7 +3,7 @@ from rest_framework.decorators import api_view
 from api.models import Movie, Rating, Profile
 from api.serializers import MovieSerializer
 from rest_framework.response import Response
-from django.db.models import Avg, Count, Subquery
+from django.db.models import Avg, Count
 
 
 @api_view(['GET', 'POST', 'DELETE', 'PUT'])
@@ -54,7 +54,6 @@ def movies(request):
             elif order == 'countrating':
                 movies = movies.order_by('-view_cnt')
 
-
         serializer = MovieSerializer(movies, many=True)
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
@@ -66,7 +65,7 @@ def movies(request):
     if request.method == 'PUT':
         movie = request.PUT.get('movie',None)
         if movie:
-            Movie.objects.filter(pk=movie.get('id')).update(title=movie.get('title'),genres=movie.get('genres'))
+            Movie.objects.filter(pk=movie.get('id')).update(title=movie.get('title'), genres=movie.get('genres'))
         Response(status=status.HTTP_200_OK)
 
     if request.method == 'POST':
