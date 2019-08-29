@@ -1,13 +1,12 @@
 <template>
   <v-container grid-list-md text-center>
     <v-layout justify-center wrap>
-      <v-flex xs5>
+      <v-flex xs4>
         <v-container fluid row>
           <v-checkbox v-model="selected" label="연령대" value="1" @change="ShowBox"></v-checkbox>
           <v-checkbox v-model="selected" label="직업군" value="2" @change="ShowBox"></v-checkbox>
           <v-checkbox v-model="selected" label="성별" value="3" @change="ShowBox"></v-checkbox>
-          <v-checkbox v-model="selected" label="제목/장르" value="4" @change="ShowBox"></v-checkbox>
-          <v-checkbox v-model="selected" label="조회수/평점" value="5" @change="ShowBox"></v-checkbox>
+          <v-checkbox v-model="selected" label="조회수/평점" value="4" @change="ShowBox"></v-checkbox>
         </v-container>
       </v-flex>
     </v-layout>
@@ -23,6 +22,7 @@
                   :items="A_options"
                   item-text="text"
                   item-value="value"
+                  label="연령대"
                 />
               </v-flex>
               <v-flex xs12 v-if="_2">
@@ -31,6 +31,7 @@
                   :items="O_options"
                   item-text="text"
                   item-value="value"
+                  label="직업군"
                 />
               </v-flex>
               <v-flex xs12 v-if="_3">
@@ -39,9 +40,22 @@
                   :items="G_options"
                   item-text="text"
                   item-value="value"
+                  label="성별"
                 />
               </v-flex>
+
               <v-flex xs12 v-if="_4">
+                <v-select
+                  v-model="V_option"
+                  :items="V_options"
+                  item-text="text"
+                  item-value="value"
+                  label="조회수/평점순"
+                />
+              </v-flex>
+            </v-layout>
+            <v-layout justify-center wrap>
+              <v-flex xs3>
                 <v-select
                   v-model="T_option"
                   :items="T_options"
@@ -49,17 +63,7 @@
                   item-value="value"
                 />
               </v-flex>
-              <v-flex xs12 v-if="_5">
-                <v-select
-                  v-model="V_option"
-                  :items="V_options"
-                  item-text="text"
-                  item-value="value"
-                />
-              </v-flex>
-            </v-layout>
-            <v-layout justify-center wrap>
-              <v-flex xs12 v-if="_0">
+              <v-flex xs9>
                 <v-text-field label="검색어" v-model="value" />
               </v-flex>
             </v-layout>
@@ -93,9 +97,9 @@ export default {
       { text: "40대", value: "40" },
       { text: "50대", value: "50" }
     ],
-    A_option: "10",
+    A_option: "",
     O_options: [
-      { text: "고등학생 이하", value: "K-12 student" },
+      { text: "고등학생", value: "K-12 student" },
       { text: "자영업", value: "self-employed" },
       { text: "과학자", value: "scientist" },
       { text: "경영진", value: "executive/managerial" },
@@ -117,37 +121,51 @@ export default {
       { text: "무직", value: "unemployed" },
       { text: "기타", value: "other" }
     ],
-    O_option: "K-12 student",
+    O_option: "",
     G_options: [{ text: "남자", value: "남" }, { text: "여자", value: "여" }],
-    G_option: "남",
+    G_option: "",
+    V_options: [
+      { text: "조회수", value: "countrating" },
+      { text: "평점", value: "avgrating" }
+    ],
+    V_option: "",
     T_options: [
       { text: "제목", value: "title" },
       { text: "장르", value: "genre" }
     ],
     T_option: "title",
-    V_options: [
-      { text: "조회수", value: "countrating" },
-      { text: "평점", value: "avgrating" }
-    ],
-    V_option: "countrating",
     movieLists: [],
-    params: "",
+    params: {},
     selected: [],
     _0: false,
     _1: false,
     _2: false,
     _3: false,
-    _4: false,
-    _5: false
+    _4: false
   }),
   computed: {},
 
   methods: {
     onSubmit() {
-      this.params =
-        this.T_option + "=" + this.value + "&order=" + this.V_option;
+      if (this.T_option == "title") {
+        this.params = {
+          age: this.A_option,
+          occupation: this.O_option,
+          gender: this.G_option,
+          order: this.V_option,
+          title: this.T_option
+        };
+      } else {
+        this.params = {
+          age: this.A_option,
+          occupation: this.O_option,
+          gender: this.G_option,
+          order: this.V_option,
+          genre: this.T_option
+        };
+      }
       axios
-        .get(this.$store.state.server + "/api/movies/?" + this.params)
+        .get(this.$store.state.server + "/api/movies/?params=", this.params)
         .then(res => {
           this.movieLists = res.data;
         });
@@ -162,26 +180,25 @@ export default {
         this._1 = true;
       } else {
         this._1 = false;
+        this.A_option = "";
       }
       if (this.selected.indexOf("2") > -1) {
         this._2 = true;
       } else {
         this._2 = false;
+        this.O_option = "";
       }
       if (this.selected.indexOf("3") > -1) {
         this._3 = true;
       } else {
         this._3 = false;
+        this.G_option = "";
       }
       if (this.selected.indexOf("4") > -1) {
         this._4 = true;
       } else {
         this._4 = false;
-      }
-      if (this.selected.indexOf("5") > -1) {
-        this._5 = true;
-      } else {
-        this._5 = false;
+        this.V_option = "";
       }
     }
   }
