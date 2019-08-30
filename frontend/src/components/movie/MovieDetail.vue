@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-row justify="center">
-      <v-btn color="primary" class="ma-2" dark @click="dialog = true">상세보기</v-btn>
+      <v-btn color="primary" class="ma-2" dark @click="dialog = true; searchUser(id)">상세보기</v-btn>
 
       <v-dialog
         v-model="dialog"
@@ -65,8 +65,14 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   props: {
+    id: {
+      type: Number,
+      default: 0
+    },
     title: {
       type: String,
       default: ""
@@ -83,36 +89,7 @@ export default {
   data() {
     return {
       dialog: false,
-      items: [
-        {
-          username: "노현우",
-          age: "27",
-          occupation: "백수",
-          gender: "M",
-          rating: "2.7"
-        },
-        {
-          username: "김동욱",
-          age: "27",
-          occupation: "백수",
-          gender: "m",
-          rating: "3.1"
-        },
-        {
-          username: "김경태",
-          age: "26",
-          occupation: "백수",
-          gender: "M",
-          rating: "4.0"
-        },
-        {
-          username: "조수장",
-          age: "27",
-          occupation: "백수",
-          gender: "M",
-          rating: "3.9"
-        }
-      ]
+      items: []
     };
   },
   computed: {
@@ -123,6 +100,15 @@ export default {
     ratingRounds() {
       var num = this.rating;
       return num.toFixed(2);
+    }
+  },
+  methods: {
+    searchUser: function(id) {
+      axios
+      .get(this.$store.state.server + "/api/auth/signup-many/?movieid=" + id)
+      .then(res => {
+        this.items = res.data;
+      });
     }
   }
 };

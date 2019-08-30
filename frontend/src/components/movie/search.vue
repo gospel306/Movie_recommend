@@ -1,11 +1,60 @@
 <template>
   <v-container grid-list-md text-center>
     <v-layout justify-center wrap>
+      <v-flex xs4>
+        <v-container fluid row>
+          <v-checkbox v-model="selected" label="연령대" value="1" @change="ShowBox"></v-checkbox>
+          <v-checkbox v-model="selected" label="직업군" value="2" @change="ShowBox"></v-checkbox>
+          <v-checkbox v-model="selected" label="성별" value="3" @change="ShowBox"></v-checkbox>
+          <v-checkbox v-model="selected" label="조회수/평점" value="4" @change="ShowBox"></v-checkbox>
+        </v-container>
+      </v-flex>
+    </v-layout>
+    <v-layout justify-center wrap>
       <!-- 검색 폼 -->
       <v-flex xs6>
         <v-container>
           <v-form ref="form">
             <v-layout>
+              <v-flex xs12 v-if="_1">
+                <v-select
+                  v-model="A_option"
+                  :items="A_options"
+                  item-text="text"
+                  item-value="value"
+                  label="연령대"
+                />
+              </v-flex>
+              <v-flex xs12 v-if="_2">
+                <v-select
+                  v-model="O_option"
+                  :items="O_options"
+                  item-text="text"
+                  item-value="value"
+                  label="직업군"
+                />
+              </v-flex>
+              <v-flex xs12 v-if="_3">
+                <v-select
+                  v-model="G_option"
+                  :items="G_options"
+                  item-text="text"
+                  item-value="value"
+                  label="성별"
+                />
+              </v-flex>
+
+              <v-flex xs12 v-if="_4">
+                <v-select
+                  v-model="V_option"
+                  :items="V_options"
+                  item-text="text"
+                  item-value="value"
+                  label="조회수/평점순"
+                />
+              </v-flex>
+            </v-layout>
+            <v-layout justify-center wrap>
               <v-flex xs3>
                 <v-select
                   v-model="T_option"
@@ -14,16 +63,8 @@
                   item-value="value"
                 />
               </v-flex>
-              <v-flex xs3>
-                <v-select
-                  v-model="G_option"
-                  :items="G_options"
-                  item-text="text"
-                  item-value="value"
-                />
-              </v-flex>
-              <v-flex xs6>
-                <v-text-field v-model="value" />
+              <v-flex xs9>
+                <v-text-field label="검색어" v-model="value" />
               </v-flex>
             </v-layout>
             <v-layout justify-center pa-10>
@@ -41,7 +82,7 @@
 </template>
 
 <script>
-import MovieList from "./MovieList";
+import MovieList from "@/components/movie/MovieList";
 import axios from "axios";
 export default {
   components: {
@@ -49,29 +90,119 @@ export default {
   },
   data: () => ({
     value: "",
+    A_options: [
+      { text: "10대", value: "10" },
+      { text: "20대", value: "20" },
+      { text: "30대", value: "30" },
+      { text: "40대", value: "40" },
+      { text: "50대", value: "50" }
+    ],
+    A_option: "",
+    O_options: [
+      { text: "고등학생", value: "K-12 student" },
+      { text: "자영업", value: "self-employed" },
+      { text: "과학자", value: "scientist" },
+      { text: "경영진", value: "executive/managerial" },
+      { text: "작가", value: "writer" },
+      { text: "주부", value: "homemaker" },
+      { text: "교육자", value: "academic/educator" },
+      { text: "프로그래머", value: "programmer" },
+      { text: "엔지니어", value: "technician/engineer" },
+      { text: "목사", value: "clerical/admin" },
+      { text: "영업사원", value: "sales/marketing" },
+      { text: "대학생", value: "college/grad student" },
+      { text: "변호사", value: "lawyer" },
+      { text: "농부", value: "farmer" },
+      { text: "예술가", value: "artist" },
+      { text: "공예가", value: "tradesman/craftsman" },
+      { text: "서비스직", value: "customer service" },
+      { text: "은퇴", value: "retired" },
+      { text: "의사", value: "doctor/health care" },
+      { text: "무직", value: "unemployed" },
+      { text: "기타", value: "other" }
+    ],
+    O_option: "",
+    G_options: [{ text: "남자", value: "M" }, { text: "여자", value: "F" }],
+    G_option: "",
+    V_options: [
+      { text: "조회수", value: "countrating" },
+      { text: "평점", value: "avgrating" }
+    ],
+    V_option: "",
     T_options: [
       { text: "제목", value: "title" },
       { text: "장르", value: "genre" }
     ],
     T_option: "title",
-    G_options: [
-      { text: "조회수", value: "countrating" },
-      { text: "평점", value: "avgrating" }
-    ],
-    G_option: "countrating",
     movieLists: [],
-    params: ""
+    params: {},
+    selected: [],
+    _0: false,
+    _1: false,
+    _2: false,
+    _3: false,
+    _4: false
   }),
   computed: {},
-  
+
   methods: {
     onSubmit() {
-      this.params = this.T_option +"="+ this.value + "&order="+ this.G_option;
+      if (this.T_option == "title") {
+        this.params = {
+          age: this.A_option,
+          occupation: this.O_option,
+          gender: this.G_option,
+          order: this.V_option,
+          title: this.value
+        };
+      } else {
+        this.params = {
+          age: this.A_option,
+          occupation: this.O_option,
+          gender: this.G_option,
+          order: this.V_option,
+          genre: this.value
+        };
+      }
+      var params = this.params
       axios
-        .get(this.$store.state.server + "/api/movies/?" + this.params)
+        .get(this.$store.state.server + "/api/movies/", {
+            params
+        })
         .then(res => {
           this.movieLists = res.data;
         });
+    },
+    ShowBox() {
+      if (this.selected.length != 0) {
+        this._0 = true;
+      } else {
+        this._0 = false;
+      }
+      if (this.selected.indexOf("1") > -1) {
+        this._1 = true;
+      } else {
+        this._1 = false;
+        this.A_option = "";
+      }
+      if (this.selected.indexOf("2") > -1) {
+        this._2 = true;
+      } else {
+        this._2 = false;
+        this.O_option = "";
+      }
+      if (this.selected.indexOf("3") > -1) {
+        this._3 = true;
+      } else {
+        this._3 = false;
+        this.G_option = "";
+      }
+      if (this.selected.indexOf("4") > -1) {
+        this._4 = true;
+      } else {
+        this._4 = false;
+        this.V_option = "";
+      }
     }
   }
 };
