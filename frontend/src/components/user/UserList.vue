@@ -2,7 +2,7 @@
   <v-container grid-list-md text-center>
     <v-layout justify-center wrap>
       <v-flex xs7>
-        <h2>유저 리스트</h2>
+        <h2>유저 목록</h2>
         
         <UserItem :UserItems="userLists" />
         
