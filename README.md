@@ -31,7 +31,7 @@ python manage.py shell < create_admin.txt
 
 
 
-### 설치하기
+### 실행하기
 
 - Backend 서버 실행
   - /backend 디렉토리 진입 후, 다음 커맨드를 실행
