@@ -58,15 +58,19 @@ def movies(request):
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
     if request.method == 'DELETE':
-        movie = Movie.objects.all()
-        movie.delete()
+        movieid = request.GET.get('id', None)
+        if movieid:
+            movie = Movie.objects.get(pk=movieid)
+            movie.delete()
         return Response(status=status.HTTP_200_OK)
 
     if request.method == 'PUT':
-        movie = request.PUT.get('movie',None)
-        if movie:
-            Movie.objects.filter(pk=movie.get('id')).update(title=movie.get('title'), genres=movie.get('genres'))
-        Response(status=status.HTTP_200_OK)
+        id = request.GET.get('id', None)
+        title = request.GET.get('title', None)
+        genres = request.GET.get('genres', None)
+        if id:
+            Movie.objects.filter(pk=id).update(title=title, genres=genres)
+        return Response(status=status.HTTP_200_OK)
 
     if request.method == 'POST':
         movies = request.data.get('movies', None)

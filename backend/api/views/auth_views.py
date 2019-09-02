@@ -5,7 +5,7 @@ from api.models import create_profile, Rating, Profile, Movie
 from api.serializers import ProfileSerializer,MovieSerializer,UserMovieSerializer
 
 
-@api_view(['POST','GET'])
+@api_view(['POST', 'GET'])
 def signup_many(request):
 
     if request.method == 'POST':
@@ -35,4 +35,4 @@ def signup_many(request):
             profiles = Profile.objects.all()
             serializer = ProfileSerializer(profiles, many=True)
 
-    return Response(data=serializer.data, status=status.HTTP_200_OK)
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
