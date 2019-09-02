@@ -16,7 +16,7 @@
         <v-container>
           <v-form ref="form">
             <v-layout>
-              <v-flex xs12 v-if="_1">
+              <v-flex xs12 v-if="option_1">
                 <v-select
                   v-model="A_option"
                   :items="A_options"
@@ -25,7 +25,7 @@
                   label="연령대"
                 />
               </v-flex>
-              <v-flex xs12 v-if="_2">
+              <v-flex xs12 v-if="option_2">
                 <v-select
                   v-model="O_option"
                   :items="O_options"
@@ -34,7 +34,7 @@
                   label="직업군"
                 />
               </v-flex>
-              <v-flex xs12 v-if="_3">
+              <v-flex xs12 v-if="option_3">
                 <v-select
                   v-model="G_option"
                   :items="G_options"
@@ -44,7 +44,7 @@
                 />
               </v-flex>
 
-              <v-flex xs12 v-if="_4">
+              <v-flex xs12 v-if="option_4">
                 <v-select
                   v-model="V_option"
                   :items="V_options"
@@ -137,11 +137,11 @@ export default {
     movieLists: [],
     params: {},
     selected: [],
-    _0: false,
-    _1: false,
-    _2: false,
-    _3: false,
-    _4: false
+    option_0: false,
+    option_1: false,
+    option_2: false,
+    option_3: false,
+    option_4: false
   }),
   computed: {},
 
@@ -175,32 +175,32 @@ export default {
     },
     ShowBox() {
       if (this.selected.length != 0) {
-        this._0 = true;
+        this.option_0 = true;
       } else {
-        this._0 = false;
+        this.option_0 = false;
       }
       if (this.selected.indexOf("1") > -1) {
-        this._1 = true;
+        this.option_1 = true;
       } else {
-        this._1 = false;
+        this.option_1 = false;
         this.A_option = "";
       }
       if (this.selected.indexOf("2") > -1) {
-        this._2 = true;
+        this.option_2 = true;
       } else {
-        this._2 = false;
+        this.option_2 = false;
         this.O_option = "";
       }
       if (this.selected.indexOf("3") > -1) {
-        this._3 = true;
+        this.option_3 = true;
       } else {
-        this._3 = false;
+        this.option_3 = false;
         this.G_option = "";
       }
       if (this.selected.indexOf("4") > -1) {
-        this._4 = true;
+        this.option_4 = true;
       } else {
-        this._4 = false;
+        this.option_4 = false;
         this.V_option = "";
       }
     }
