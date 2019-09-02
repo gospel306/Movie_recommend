@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h1>영화 관리</h1>
+    <h1>유저 관리</h1>
     <v-layout justify-center text-xs-center row class="mb-5">
       <v-btn to="/adminuser" color="grey darken-2" class="white--text">유저관리</v-btn>
       <v-btn to="/adminmovie" color="grey darken-2" class="white--text">영화관리</v-btn>
