@@ -80,7 +80,10 @@ export default {
                 this.$store.state.login = true;
                 this.$session.start();
                 this.$session.set('token', res.data.token);
-                router.push('/');
+                this.$session.set('id', this.credentials.username);
+                alert("로그인 성공");
+                router.push('/search');
+                
                 // eslint-disable-next-line
               }).catch(e => {
                 this.loading = false;
