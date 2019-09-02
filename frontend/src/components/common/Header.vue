@@ -5,7 +5,7 @@
       <v-tooltip bottom>
         <template v-slot:activator="{ on }">
           <v-flex align-self-center>
-            <v-btn icon @click="signup" v-if="$store.state.login === false" v-on="on">
+            <v-btn icon @click="signup" v-if="$store.state.login === false " v-on="on">
               <v-icon class="toolbartext" color="black">mdi-account</v-icon>
             </v-btn>
           </v-flex>
@@ -16,7 +16,7 @@
       <v-tooltip bottom>
         <template v-slot:activator="{ on }">
           <v-flex align-self-center>
-            <v-btn icon to="/admin" v-if="$store.state.login === true" v-on="on">
+            <v-btn icon to="/admin" v-if="$store.state.login === true && $session.get('id') == 'admin'" v-on="on">
               <v-icon class="adminicon">mdi-settings</v-icon>
             </v-btn>
           </v-flex>
@@ -27,7 +27,7 @@
       <v-tooltip bottom>
         <template v-slot:activator="{ on }">
           <v-flex align-self-center>
-            <v-btn icon @click="loginForm" v-if="$store.state.login === false" v-on="on">
+            <v-btn icon @click="loginForm" v-if="$store.state.login === false " v-on="on">
               <v-icon class="toolbartext" color="black">mdi-exit-to-app</v-icon>
             </v-btn>
           </v-flex>
@@ -38,7 +38,7 @@
       <v-tooltip bottom>
         <template v-slot:activator="{ on }">
           <v-flex align-self-center>
-            <v-btn icon @click="logoutForm" v-if="$store.state.login === true" v-on="on">
+            <v-btn icon @click="logoutForm" v-if="$store.state.login === true " v-on="on">
               <v-icon class="toolbartext" color="black">mdi-exit-to-app</v-icon>
             </v-btn>
           </v-flex>
