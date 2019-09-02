@@ -9,7 +9,6 @@ urlpatterns = [
     url('auth/signup-many/$', auth_views.signup_many, name='sign_up_many'),
     url('movies/$', movie_views.movies, name='movie_list'),
     url('ratings/$', rating_views.ratings, name='rating_list'),
-    url('rank/$', movie_views.rank, name='movie_list'),
     url('login/$', obtain_jwt_token),
     url('signup/$',signUp_views.signup, name='sign_up_user'),
 ]
