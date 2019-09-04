@@ -23,7 +23,7 @@ def clustering(request):
             df = pd.read_csv('userParsing.dat')
             X = np.array(df.drop(['UserID'], 1).astype(float))
 
-        if type == 'Kmeans':
+        if type == 'K-Means':
             clf = KMeans(n_clusters=clusteringnum)
             clf.fit(X)
             result = clf.labels_
@@ -56,4 +56,3 @@ def getsimilar(request):
         if movieid:
             moviecluster = MovieCluster.objects.filter(movieid=movieid)
             movie = Movie.objects.filter(pk__in=moviecluster)
-            
