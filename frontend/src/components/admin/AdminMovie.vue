@@ -7,6 +7,7 @@
     <v-layout row>
       <v-btn to="/adminuser" color="grey darken-2" class="white--text">유저관리</v-btn>
       <v-btn to="/adminmovie" color="grey darken-2" class="white--text">영화관리</v-btn>
+      <v-btn to="/cluster" color="grey darken-2" class="white--text">클러스터</v-btn>
       <v-spacer></v-spacer>
       <v-btn @click="Dialog" color="grey darken-2" class="white--text">수정</v-btn>
       <v-btn @click="remove" color="grey darken-2" class="white--text">삭제</v-btn>

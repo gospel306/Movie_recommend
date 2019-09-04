@@ -1,6 +1,7 @@
 import AdminPage from '@/views/AdminPage'
 import AdminUser from '@/components/admin/AdminUser'
 import AdminMovie from '@/components/admin/AdminMovie'
+import AdminCluster from '@/components/admin/AdminCluster'
 
 export default [
     {
@@ -17,5 +18,10 @@ export default [
         path: '/adminmovie',
         name: 'adminmovie',
         component: AdminMovie
+    },
+    {
+        path: '/cluster',
+        name: 'cluster',
+        component: AdminCluster
     }
 ]
