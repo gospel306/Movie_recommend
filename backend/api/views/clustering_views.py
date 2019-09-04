@@ -16,6 +16,30 @@ def clustering(request):
         data = request.GET.get('data', None)
         clusteringnum = request.GET.get('clusteringnum', None)
         if data == 'movie':
+            movies = Movie.objects.all()
+            movies = movies.values('id', 'title', 'genres')
+            # movie data manufacturing
+            manufacturedMovieData = open("C:\\Users\\multicampus\\Desktop\\bigdataSub2\\bigdata-sub2\\backend\\api\\movieParsing.dat",'w')
+            manufacturedMovieData.write("MovieID,Action,Adventure,Animation,Children's,Comedy,Crime,Documentary,Drama,Fantasy,Film-Noir,Horror,Musical,Mystery,Romance,Sci-Fi,Thriller,War,Western\n")
+            
+            genreAll = ["Action","Adventure","Animation","Children's","Comedy","Crime","Documentary","Drama","Fantasy","Film-Noir","Horror","Musical","Mystery","Romance","Sci-Fi","Thriller","War","Western"]
+
+            for row in movies.values_list():
+                inputStr = str(row[0])
+                genreArr = row[2].split("|")
+
+                idx = 0
+                for genre in genreAll:
+                    if idx < len(genreArr) and genre == genreArr[idx]:
+                        inputStr += ",1"
+                        idx += 1
+                    else:
+                        inputStr += ",0"
+
+                inputStr += "\n"
+                manufacturedMovieData.write(inputStr)
+            manufacturedMovieData.close()
+
             df = pd.read_csv('movieParsing.dat')
             X = np.array(df.drop(['MovieID'], 1).astype(float))
             X = preprocessing.scale(X)
