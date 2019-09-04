@@ -44,3 +44,13 @@ class Rating(models.Model):
     rating = models.IntegerField()
     timestamp = models.IntegerField()
 
+
+class MovieCluster(models.Model):
+    movieid = models.ForeignKey(Movie, on_delete=models.CASCADE)
+    clusternum = models.IntegerField()
+
+
+class UserCluster(models.Model):
+    userid = models.ForeignKey(User, on_delete=models.CASCADE)
+    clusternum = models.IntegerField()
+
