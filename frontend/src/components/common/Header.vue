@@ -1,5 +1,5 @@
 <template>
-  <v-toolbar flat color="transparent" class="subtoolbar my-1">
+  <v-toolbar flat color="info" class="subtoolbar">
     <v-spacer />
     <v-toolbar-items>
       <v-tooltip bottom>
@@ -98,10 +98,10 @@ export default {
 }
 .toolbartext {
   text-shadow: 1px 1px 5px black;
-  color: white;
+  color: rgb(47, 97, 105);
 }
 .adminicon {
-  color: rgb(255, 142, 142) !important;
+  color: rgb(5, 5, 5) !important;
   text-shadow: 1px 1px 3px rgb(129, 129, 129);
 }
 </style>
