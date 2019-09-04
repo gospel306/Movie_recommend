@@ -74,7 +74,7 @@ def clustering(request):
                 MovieCluster(movieid=movieid, clusternum=dat).save()
                 count += 1
 
-    return Response(status=status.HTTP_200_OK)
+    return Response(data=True, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])

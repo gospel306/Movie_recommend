@@ -12,7 +12,7 @@
     <v-layout justify-center wrap>
       <v-flex xs6>
         <v-container fluid row>
-          <v-radio-group v-model="radio" row>
+          <v-radio-group v-model="selected" row>
             <v-radio label="K-Means" value="K-Means"></v-radio>
             <v-radio label="Hierarchical" value="Hierarchical"></v-radio>
             <v-radio label="EM" value="EM"></v-radio>
@@ -22,28 +22,56 @@
       </v-flex>
     </v-layout>
     <v-layout justify-center wrap>
-      <v-flex xs6>
-        <v-slider v-model="parameter" label="파라미터" max="100"></v-slider>
+      <v-flex xs6 row>
+        <v-slider v-model="parameter" label="파라미터" max="20"></v-slider>
+        <v-btn color="grey darken-2" class="white--text" @click="apply">적용</v-btn>
       </v-flex>
     </v-layout>
   </v-container>
 </template>
 
 <script>
+import axios from "axios";
 export default {
   data() {
     return {
-      radio: "",
+      selected: "K-Means",
+      loading: false,
       parameter: 10,
-      option: "user",
+      option: "movie",
       options: [
-        { text: "유저", value: "user" },
-        { text: "영화", value: "movie" }
+        { text: "영화", value: "movie" },
+        { text: "유저", value: "user" }
       ]
     };
   },
   mounted() {},
-  methods: {}
+  methods: {
+    apply() {
+      this.loading = true;
+      axios
+        .get(
+          this.$store.state.server +
+            "/api/cluster/?type=" +
+            this.selected +
+            "&data=" +
+            this.option +
+            "&clusteringnum=" +
+            this.parameter
+        )
+        .then(res => {
+          if (res.data) {
+            alert("적용되었습니다");
+          }
+        })
+        .catch(error => {
+          alert(error);
+        })
+        .finally(() => {
+          this.loading = false;
+        });
+    }
+  }
 };
 </script>
 
