@@ -18,6 +18,7 @@ def movies(request):
         occupation = request.GET.get('occupation', None)
         movies = Movie.objects.all()
         movies = movies.values('id', 'title', 'genres')
+
         if age or gender or occupation:
             profile = Profile.objects.all()
             profile = profile.values('id')
