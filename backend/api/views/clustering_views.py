@@ -46,6 +46,46 @@ def clustering(request):
             X = np.array(df.drop(['MovieID'], 1).astype(float))
             X = preprocessing.scale(X)
         elif data == 'user':
+            profiles = Profile.objects.all()
+            profiles = profiles.values('id','age','gender','occupation')
+
+            # user data manufacturing
+            # manufacturedUserData = open("C:\\Users\\multicampus\\Desktop\\bigdataSub2\\bigdata-sub2\\backend\\api\\userParsing.dat",'w')
+            # manufacturedUserData.write("id,age,gender,admin,other,academic/educator,artist,clerical/admin,college/grad student,customer service,doctor/health care,executive/managerial,farmer,homemaker,K-12 student,lawyer,programmer,retired,sales/marketing,scientist,self-employed,technician/engineer,tradesman/craftsman,unemployed,writer,clusterNum\n")
+            occupationAll = ["admin","other","academic/educator","artist","clerical/admin","college/grad student","customer service","doctor/health care","executive/managerial","farmer","homemaker","K-12 student","lawyer","programmer","retired","sales/marketing","scientist","self-employed","technician/engineer","tradesman/craftsman","unemployed","writer"]
+            
+            for row in profiles.values_list():
+                inputStr = str(row[1])+","+str(row[3])
+                if(row[2]=='M'):
+                    inputStr += ",1"
+                else:
+                    inputStr += ",2"
+
+                for occu in occupationAll:
+                    if occu == row[4]:
+                        inputStr += ",1"
+                    else:
+                        inputStr += ",0"
+
+                # 영화정보 불러와서 추가해주기
+                # 유저가 본 영화 중 클러스터링 맥스값 가져오기
+                userid = request.GET.get(row[1])
+                ratings = Rating.objects.all()
+                ratings = ratings.filter(userid=userid)
+                ratings = ratings.values('movieid_id')
+            
+                max = 0
+                for mid in ratings.values_list():
+                    movieid = request.GET.get(mid[1])
+                    moviecluster = MovieCluster.objects.all()
+                    moviecluster = moviecluster.filter(movieid=movieid)
+                    moviecluster = moviecluster.values('clusternum')
+                    if(max < moviecluster[0]):
+                        max = moviecluster[0]
+
+                inputStr += ","+str(max)
+                # manufacturedUserData.write(inputStr)
+
             df = pd.read_csv('userParsing.dat')
             X = np.array(df.drop(['UserID'], 1).astype(float))
         if type == 'K-Means':
