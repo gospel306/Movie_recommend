@@ -2,7 +2,7 @@ from django.conf.urls import url
 from api.views import movie_views
 from api.views import auth_views
 from api.views import rating_views
-from api.views import signUp_views
+from api.views import clustering_views
 from rest_framework_jwt.views import obtain_jwt_token
 
 urlpatterns = [
@@ -10,5 +10,7 @@ urlpatterns = [
     url('movies/$', movie_views.movies, name='movie_list'),
     url('ratings/$', rating_views.ratings, name='rating_list'),
     url('login/$', obtain_jwt_token),
-    url('signup/$',signUp_views.signup, name='sign_up_user'),
+    url('users/$',auth_views.users, name='users'),
+    url('cluster/$', clustering_views.clustering, name='cluster'),
+    url('similar/$', clustering_views.getsimilar, name='getsimilar')
 ]
