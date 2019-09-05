@@ -8,8 +8,8 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.db.models import Avg, Count
-from api.serializers import MovieSerializer
-from api.models import MovieCluster, Movie, Profile, Rating
+from api.serializers import MovieSerializer, ProfileSerializer
+from api.models import MovieCluster, Movie, Profile, Rating, UserCluster
 
 @api_view(['GET'])
 def clustering(request):
@@ -50,18 +50,20 @@ def clustering(request):
             profiles = Profile.objects.all()
             profiles = profiles.values('id','age','gender','occupation')
 
-            manufacturedUserData = open("C:\\Users\\multicampus\\Desktop\\bigdataSub2\\bigdata-sub2\\backend\\userParsing.dat",'w')
+            manufacturedUserData = open("userParsing.dat",'w')
             manufacturedUserData.write("UserID,age,gender,occupation,clusterNum\n")
             occupationAll = ["other","academic/educator","artist","clerical/admin","college/grad student","customer service","doctor/health care","executive/managerial","farmer","homemaker","K-12 student","lawyer","programmer","retired","sales/marketing","scientist","self-employed","technician/engineer","tradesman/craftsman","unemployed","writer"]
-            
+
             for row in profiles.values_list():
+                if row[1] == 1:
+                    continue
                 inputStr = str(row[1])+","+str(row[3])
                 if(row[2]=='M'):
                     inputStr += ",1"
                 else:
                     inputStr += ",2"
 
-                for i in range(0,21):
+                for i in range(0, 21):
                     if occupationAll[i] == row[4]:
                         inputStr += ","+str(i)
 
@@ -69,28 +71,26 @@ def clustering(request):
                 # 유저가 본 영화 중 클러스터링 맥스값 가져오기
                 ratings = Rating.objects.all()
                 ratings = ratings.filter(userid=row[1])
-                ratings = ratings.values('movieid_id')
-                
+                rates = ratings.values('movieid_id', 'rating').order_by('movieid_id')
+                checkrating = ratings.values('movieid_id')
+                moviecluster = MovieCluster.objects.filter(movieid_id__in=checkrating).values('clusternum')
                 max = 0
-                for mid in ratings.values_list():
-                    moviecluster = MovieCluster.objects.all()
-                    moviecluster = moviecluster.filter(movieid=mid[2])
-                    moviecluster = moviecluster.values('clusternum')
+                clusternum = 0
+                lst = [0.0] * 10
+                lst2 = [0] * 10
+                for i in range(0, len(moviecluster)):
+                    lst[moviecluster[i]['clusternum']] += rates[i]['rating']
+                    lst2[moviecluster[i]['clusternum']] += 1
 
-                    if len(moviecluster) <= 0:
-                        pass
-                    else:
-                        mcs = moviecluster[0]["clusternum"]
-                        if(max < mcs):
-                            max = mcs
-
-                inputStr += ","+str(max)+"\n"
-                
-                if row[1]==1 :
-                    continue
-                else :
-                    print(inputStr)
-                    manufacturedUserData.write(inputStr)
+                for i in range(0, len(lst)):
+                    if lst2[i] == 0:
+                        continue
+                    lst[i] = lst[i]/lst2[i]
+                    if max < lst[i]:
+                        max = lst[i]
+                        clusternum = i
+                inputStr += ","+str(clusternum)+"\n"
+                manufacturedUserData.write(inputStr)
             manufacturedUserData.close()
 
             df = pd.read_csv('userParsing.dat')
@@ -111,7 +111,6 @@ def clustering(request):
             moviecluster = MovieCluster.objects.all()
             count = 1
             moviecluster.delete()
-            print(result.size)
             for dat in result:
                 try:
                     movieid = Movie.objects.get(pk=count)
@@ -120,7 +119,15 @@ def clustering(request):
                     continue
                 MovieCluster(movieid=movieid, clusternum=dat).save()
                 count += 1
-
+        elif data == 'user':
+            print('=====')
+            usercluster = UserCluster.objects.all()
+            count = 1
+            usercluster.delete()
+            print(result)
+            for dat in result:
+                UserCluster(userid_id=count, clusternum=dat).save()
+                count += 1
     return Response(data=True, status=status.HTTP_200_OK)
 
 
@@ -128,11 +135,16 @@ def clustering(request):
 def getsimilar(request):
     if request.method == 'GET':
         movieid = request.GET.get('movieid', None)
+        userid = request.GET.get('userid', None)
         if movieid:
             num = MovieCluster.objects.values('clusternum').get(movieid=movieid)
             moviecluster = MovieCluster.objects.values('movieid').filter(clusternum=num['clusternum'])
             movies = Movie.objects.all().values('id', 'title', 'genres').annotate(view_cnt=Count('rating')).annotate(average_rating=Avg('rating__rating'))
             movies = movies.filter(pk__in=moviecluster)
-            print(movies)
             serializer = MovieSerializer(movies, many=True)
+        elif userid:
+            num = UserCluster.objects.values('clusternum').get(userid_id=userid)
+            usercluster = UserCluster.objects.values('userid_id').filter(clusternum=num['clusternum'])
+            users = Profile.objects.all().filter(user_id__in=usercluster)
+            serializer = ProfileSerializer(users, many=True)
         return Response(data=serializer.data, status=status.HTTP_200_OK)
