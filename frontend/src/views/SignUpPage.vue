@@ -110,7 +110,7 @@ export default {
         }else{
           if (this.$refs.form.validate()) {
             this.loading = true;
-            axios.post('http://localhost:8000/api/signup/',{
+            axios.post('http://localhost:8000/api/users/',{
               username: this.profile.username,
               password: this.profile.password,
               age : this.profile.age,
