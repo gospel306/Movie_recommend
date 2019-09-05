@@ -9,6 +9,7 @@
           :genres="card.genres"
           :rating="card.average_rating"
           :view-cnt="card.view_cnt"
+          :check="check"
         />
       </v-flex>
       <v-pagination v-if="maxPages > 1" v-model="page" :length="maxPages" />
@@ -27,6 +28,10 @@ export default {
       type: Array,
       default: () => new Array(),
     },
+    check:{
+      type: Boolean,
+      default : true,
+    }
   },
   data: () => ({
     cardsPerPage: 10,
