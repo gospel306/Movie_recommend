@@ -38,7 +38,6 @@ def signup_many(request):
 
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
-
 @api_view(['POST','PUT','DELETE'])
 def users(request):
 
@@ -66,10 +65,9 @@ def users(request):
 
     if request.method == 'DELETE':
         id = request.GET.get('id',None)
-        print(!!!!!!!)
         if id:
             user = User.objects.get(pk=id)
-            user.delete()
-        return Response(status=status.HTTP_201_CREATED)
+            if user:
+                user.delete()
 
-    return Response(data=serializer.data, status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_201_CREATED)
