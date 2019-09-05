@@ -90,29 +90,31 @@ export default {
     },
     update() {
       if (this.$session.get("id") == "admin") {
-        // axios
-        //   .put(
-        //     this.$store.state.server + "/api/auth/signup-many/?id=" + this.id
-        //   )
-        //   .then(() => {
-        //     this.updateDialog = false;
-        //     this.getUserList();
-        //   });
+         axios
+           .put(
+             this.$store.state.server + "/api/users/?id=" + this.id
+             +"&age="+this.age
+             +"&occupation="+this.occupation
+           )
+           .then(() => {
+             this.updateDialog = false;
+             this.getUserList();
+           });
       }
     },
     remove() {
       if (this.$session.get("id") === "admin") {
-        // for (let i = 0; i < this.selected.length; i++) {
-        //   axios
-        //     .delete(
-        //       this.$store.state.server +
-        //         "/api/auth/signup-many/?id=" +
-        //         this.selected[i].id
-        //     )
-        //     .then(() => {
-        //       this.getUserList();
-        //     });
-        //}
+         for (let i = 0; i < this.selected.length; i++) {
+           axios
+             .delete(
+               this.$store.state.server +
+                 "/api/users/?id=" +
+                 this.selected[i].id
+             )
+             .then(() => {
+               this.getUserList();
+             });
+        }
       }
     }
   }

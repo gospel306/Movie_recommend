@@ -54,7 +54,7 @@ def movies(request):
                 movies = movies.order_by('-average_rating')
             elif order == 'countrating':
                 movies = movies.order_by('-view_cnt')
-
+        print(movies)
         serializer = MovieSerializer(movies, many=True)
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
