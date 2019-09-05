@@ -51,8 +51,8 @@ def clustering(request):
             profiles = profiles.values('id','age','gender','occupation')
 
             manufacturedUserData = open("C:\\Users\\multicampus\\Desktop\\bigdataSub2\\bigdata-sub2\\backend\\userParsing.dat",'w')
-            manufacturedUserData.write("UserID,age,gender,admin,other,academic/educator,artist,clerical/admin,college/grad student,customer service,doctor/health care,executive/managerial,farmer,homemaker,K-12 student,lawyer,programmer,retired,sales/marketing,scientist,self-employed,technician/engineer,tradesman/craftsman,unemployed,writer,clusterNum\n")
-            occupationAll = ["admin","other","academic/educator","artist","clerical/admin","college/grad student","customer service","doctor/health care","executive/managerial","farmer","homemaker","K-12 student","lawyer","programmer","retired","sales/marketing","scientist","self-employed","technician/engineer","tradesman/craftsman","unemployed","writer"]
+            manufacturedUserData.write("UserID,age,gender,occupation,clusterNum\n")
+            occupationAll = ["other","academic/educator","artist","clerical/admin","college/grad student","customer service","doctor/health care","executive/managerial","farmer","homemaker","K-12 student","lawyer","programmer","retired","sales/marketing","scientist","self-employed","technician/engineer","tradesman/craftsman","unemployed","writer"]
             
             for row in profiles.values_list():
                 inputStr = str(row[1])+","+str(row[3])
@@ -61,11 +61,9 @@ def clustering(request):
                 else:
                     inputStr += ",2"
 
-                for occu in occupationAll:
-                    if occu == row[4]:
-                        inputStr += ",1"
-                    else:
-                        inputStr += ",0"
+                for i in range(0,21):
+                    if occupationAll[i] == row[4]:
+                        inputStr += ","+str(i)
 
                 # 영화정보 불러와서 추가해주기
                 # 유저가 본 영화 중 클러스터링 맥스값 가져오기
@@ -87,7 +85,12 @@ def clustering(request):
                             max = mcs
 
                 inputStr += ","+str(max)+"\n"
-                manufacturedUserData.write(inputStr)
+                
+                if row[1]==1 :
+                    continue
+                else :
+                    print(inputStr)
+                    manufacturedUserData.write(inputStr)
             manufacturedUserData.close()
 
             df = pd.read_csv('userParsing.dat')
