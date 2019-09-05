@@ -41,7 +41,8 @@
         :id="id"
         :title="title"
         :genres="genres"
-        :rating="rating"/>
+        :rating="rating"
+        :check="check"/>
 
     </v-card>
   </v-hover>
@@ -75,6 +76,10 @@ export default {
     viewCnt: {
       type: Number,
       default: 0
+    },
+    check:{
+      type: Boolean,
+      default : true,
     }
   },
   computed: {
