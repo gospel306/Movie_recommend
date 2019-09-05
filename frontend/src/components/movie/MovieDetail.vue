@@ -2,7 +2,7 @@
   <div>
     <v-row justify="center">
       <v-btn color="primary" class="ma-2" dark @click="dialog = true; searchUser(id)">상세보기</v-btn>
-
+      <v-btn v-if="check" color="primary" class="ma-2" dark @click="similarMovie(id)">유사영화</v-btn>
       <v-dialog
         v-model="dialog"
         hide-overlay
@@ -84,6 +84,10 @@ export default {
     rating: {
       type: Number,
       default: 0.0
+    },
+    check:{
+      type: Boolean,
+      default : true,
     }
   },
   data() {
@@ -105,11 +109,15 @@ export default {
   methods: {
     searchUser: function(id) {
       axios
-      .get(this.$store.state.server + "/api/auth/signup-many/?movieid=" + id)
-      .then(res => {
-        this.items = res.data;
-      });
+        .get(this.$store.state.server + "/api/auth/signup-many/?movieid=" + id)
+        .then(res => {
+          this.items = res.data;
+        });
+    },
+    similarMovie(id){
+      this.$router.push({name: 'moviesimilar', params:{'id': id}});
     }
-  }
+  },
+  
 };
 </script>
