@@ -75,6 +75,7 @@
       </v-flex>
       <!-- 검색 결과 -->
       <v-flex xs7>
+        <v-progress-circular :size="200" color="primary" indeterminate v-if="loading"/>
         <MovieList :MovieItems="movieLists" />
       </v-flex>
     </v-layout>
@@ -90,6 +91,7 @@ export default {
   },
   data: () => ({
     value: "",
+    loading: false,
     A_options: [
       { text: "10대", value: "10" },
       { text: "20대", value: "20" },
@@ -147,6 +149,7 @@ export default {
 
   methods: {
     onSubmit() {
+      this.loading = true;
       if (this.T_option == "title") {
         this.params = {
           age: this.A_option,
@@ -171,6 +174,7 @@ export default {
         })
         .then(res => {
           this.movieLists = res.data;
+          this.loading = false;
         });
     },
     ShowBox() {
