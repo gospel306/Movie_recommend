@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+from sklearn.cluster import KMeans
 from sklearn import preprocessing
 
 class K_Means:
@@ -45,12 +46,15 @@ class K_Means:
 
 
 df = pd.read_csv('movieParsing.dat')
-X = np.array(df.drop(['MovieID'], 1).astype(float))
-X = preprocessing.scale(X)
-Y = np.array(df['MovieID'])
+X = df[["Action","Adventure","Animation","Children's","Comedy","Crime","Documentary","Drama","Fantasy","Film-Noir","Horror","Musical","Mystery","Romance","Sci-Fi","Thriller","War","Western"]]
+Xs = np.array(df.drop(['MovieID'], 1).astype(float))
+Xs= preprocessing.scale(Xs)
 
-model1 = K_Means(3, X)
+clf = KMeans(n_clusters=10)
+clf.fit(Xs)
 
-print(model1.train_cluster())
 
-print(model1.train_cluster()[2])
+model1 = K_Means(10, X)
+
+print(model1.train_cluster()[1])
+print(clf.labels_)
