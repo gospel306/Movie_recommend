@@ -9,7 +9,6 @@ import math
 df = pd.read_csv('movieParsing.dat')
 X = np.array(df.drop(['MovieID'], 1).astype(float))
 X = preprocessing.scale(X)
-Y = np.array(df['MovieID'])
 
 clf = KMeans(n_clusters=10)
 clf.fit(X)
