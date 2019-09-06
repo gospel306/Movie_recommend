@@ -2,6 +2,7 @@
   <div>
     <v-row justify="center">
       <v-btn color="primary" class="ma-2" dark @click="dialog = true; searchMovie(id)">상세보기</v-btn>
+      <v-btn color="primary" class="ma-2" dark @click="dialog2 = true; searchUser(id)">관련유저</v-btn>
 
       <v-dialog
         v-model="dialog"
@@ -72,6 +73,66 @@
           <div style="flex: 1 1 auto;" />
         </v-card>
       </v-dialog>
+      <v-dialog
+        v-model="dialog2"
+        hide-overlay
+        transition="dialog-bottom-transition"
+        scrollable
+        max-width="500px"
+      >
+        <v-card tile>
+          <v-toolbar flat dark color="primary">
+            <v-toolbar-title>유저 상세정보</v-toolbar-title>
+            <div class="flex-grow-1" />
+            <v-toolbar-items>
+              <v-btn icon dark @click="dialog2 = false">
+                <v-icon>close</v-icon>
+              </v-btn>
+            </v-toolbar-items>
+          </v-toolbar>
+          <v-card-text>
+            <v-list three-line subheader>
+              <v-list-item>
+                <v-list-item-content>
+                  <v-list-item-title>유저 이름</v-list-item-title>
+                  <v-list-item-subtitle>{{ username }}</v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item>
+                <v-list-item-content>
+                  <v-list-item-title>성별, 나이</v-list-item-title>
+                  <v-list-item-subtitle>{{ gender }}, {{ age }}</v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item>
+                <v-list-item-content>
+                  <v-list-item-title>직업</v-list-item-title>
+                  <v-list-item-subtitle>{{ occupation }}</v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list>
+
+            <v-divider />
+            <v-list three-line subheader>
+              <v-subheader>관련 유저 목록</v-subheader>
+              <v-list disabled dense sm5 md5 lg5>
+                <v-list-item v-if="!items.length">
+                  <v-list-item-title>관련 유저가 없습니다</v-list-item-title>
+                </v-list-item>
+                <v-list-item v-for="(item, i) in items" :key="i" @click="() => {}">
+                  <v-list-item-content>
+                    <v-list-item-title>이름 : {{ item.username }}</v-list-item-title>
+                    <v-list-item-subtitle>성별, 나이 : {{item.gender}},{{item.age}}</v-list-item-subtitle>
+                    <v-list-item-subtitle>직업 : {{item.occupation}}</v-list-item-subtitle>
+                    
+                  </v-list-item-content>
+                </v-list-item>
+              </v-list>
+            </v-list>
+          </v-card-text>
+          <div style="flex: 1 1 auto;" />
+        </v-card>
+      </v-dialog>
     </v-row>
   </div>
 </template>
@@ -109,6 +170,7 @@ export default {
   data() {
     return {
       dialog: false,
+      dialog2: false,
       items: []
     };
   },
@@ -122,6 +184,13 @@ export default {
     searchMovie: function(id) {
       axios
       .get(this.$store.state.server + "/api/auth/signup-many/?userid=" + id)
+      .then(res => {
+        this.items = res.data;
+      });
+    },
+    searchUser: function(id) {
+      axios
+      .get(this.$store.state.server + "/api/similar/?userid=" + id)
       .then(res => {
         this.items = res.data;
       });
