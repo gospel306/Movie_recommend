@@ -46,7 +46,7 @@ def clustering(request):
             X = np.array(df.drop(['MovieID'], 1).astype(float))
             X = preprocessing.scale(X)
         elif data == 'user':
-            # user data manufacturing
+            #user data manufacturing
             profiles = Profile.objects.all()
             profiles = profiles.values('id','age','gender','occupation')
 
@@ -122,7 +122,7 @@ def clustering(request):
         elif data == 'user':
             print('=====')
             usercluster = UserCluster.objects.all()
-            count = 1
+            count = 2
             usercluster.delete()
             print(result)
             for dat in result:
