@@ -1,5 +1,7 @@
 import MoviePage from '@/views/MoviePage'
 import MovieSimilar from '@/components/movie/MovieSimilar'
+import MovieBest from '@/components/movie/MovieBest'
+
 export default [
     {
         path: '/search',
@@ -11,5 +13,10 @@ export default [
         name: 'moviesimilar',
         component: MovieSimilar,
         props: true
+    },
+    {
+        path: '/best',
+        name: 'moviebest',
+        component: MovieBest,
     }
 ]
