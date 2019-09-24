@@ -6,7 +6,7 @@
         <template v-slot:activator="{ on }">
           <v-flex align-self-center>
             <v-btn icon @click="signup" v-if="$store.state.login === false " v-on="on">
-              <v-icon class="toolbartext" color="black">mdi-account</v-icon>
+              <v-icon class="toolbartext" color="black">mdi-account-plus</v-icon>
             </v-btn>
           </v-flex>
         </template>
@@ -33,6 +33,17 @@
           </v-flex>
         </template>
         <span>로그인</span>
+      </v-tooltip>
+
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on }">
+          <v-flex align-self-center>
+            <v-btn icon @click="profilePage" v-if="$store.state.login === true && $session.get('id') != 'admin'" v-on="on">
+              <v-icon class="toolbartext" color="black">mdi-account</v-icon>
+            </v-btn>
+          </v-flex>
+        </template>
+        <span>회원정보</span>
       </v-tooltip>
 
       <v-tooltip bottom>
@@ -88,6 +99,9 @@ export default {
     },
     signup(){
       this.$router.push('/signup');
+    },
+    profilePage(){
+      this.$router.push('/profile');
     }
   },
 };

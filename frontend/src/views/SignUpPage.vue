@@ -121,7 +121,19 @@ export default {
             }).catch(function(error){
               console.log(error);
             })
-            router.push('/');
+
+            axios.post('http://localhost:8000/api/login/',{
+              username: this.profile.username,
+              password: this.profile.password
+            }).then(res => {
+              this.$store.state.login = true;
+              this.$session.start();
+              this.$session.set('token',res.data.token);
+              this.$session.set('id',this.profile.username);
+              console.log(response);
+            })
+            router.push('/profile');
+            alert("회원정보를 입력해주세요");
           }
         }
       }
