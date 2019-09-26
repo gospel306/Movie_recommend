@@ -3,6 +3,8 @@ from api.views import movie_views
 from api.views import auth_views
 from api.views import rating_views
 from api.views import clustering_views
+from api.views import KNN_views
+from api.views import MF_views
 from rest_framework_jwt.views import obtain_jwt_token
 
 urlpatterns = [
@@ -12,5 +14,7 @@ urlpatterns = [
     url('login/$', obtain_jwt_token),
     url('users/$',auth_views.users, name='users'),
     url('cluster/$', clustering_views.clustering, name='cluster'),
-    url('similar/$', clustering_views.getsimilar, name='getsimilar')
+    url('similar/$', clustering_views.getsimilar, name='getsimilar'),
+    url('KNN/$', KNN_views.communication, name='KNN')
+    # url('MF/', MF_views.communication, name='MF')
 ]
