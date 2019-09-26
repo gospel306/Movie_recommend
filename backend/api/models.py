@@ -11,31 +11,66 @@ class Profile(models.Model):
 
 #  wrapper for create user Profile
 def create_profile(**kwargs):
-
     user = User.objects.create_user(
         username=kwargs['username'],
         password=kwargs['password'],
         is_active=True,
     )
-
     profile = Profile.objects.create(
         user=user,
         gender=kwargs['gender'],
         age=kwargs['age'],
         occupation=kwargs['occupation']
     )
-
     return profile
+
+
+class Person(models.Model):
+    id = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=100)
+    height = models.CharField(max_length=20, blank=True)
+    spouse = models.TextField(blank=True)
+    biography = models.TextField(blank=True)
+    birth_date = models.DateTimeField(blank=True)
+    birch_notes = models.CharField(max_length=100, blank=True)
+    headshot = models.CharField(max_length=200, blank=True)
+
+    @property
+    def genres_array(self):
+        return self.spouse.strip().split('|')
 
 
 class Movie(models.Model):
     id = models.IntegerField(primary_key=True)
     title = models.CharField(max_length=200)
     genres = models.CharField(max_length=500)
+    writer = models.ManyToManyField(Person, through='Writers', related_name='writer')
+    director = models.ManyToManyField(Person, through='Directors', related_name='director')
+    cast = models.ManyToManyField(Person, through='Casts', related_name='cast')
+    poster = models.CharField(default='', max_length=200, blank=True)
+    video = models.CharField(default='', max_length=200, blank=True)
+    imdbrates = models.CharField(default='', max_length=10, blank=True)
+    plot = models.TextField(default='', blank=True)
+
 
     @property
     def genres_array(self):
-        return self.genres.strip().split('|')
+         return self.genres.strip().split('|')
+
+
+class Directors(models.Model):
+    movieid = models.ForeignKey(Movie, on_delete=models.CASCADE)
+    personid = models.ForeignKey(Person, on_delete=models.CASCADE)
+
+
+class Casts(models.Model):
+    movieid = models.ForeignKey(Movie, on_delete=models.CASCADE)
+    personid = models.ForeignKey(Person, on_delete=models.CASCADE)
+
+
+class Writers(models.Model):
+    movieid = models.ForeignKey(Movie, on_delete=models.CASCADE)
+    personid = models.ForeignKey(Person, on_delete=models.CASCADE)
 
 
 class Rating(models.Model):
@@ -54,3 +89,9 @@ class UserCluster(models.Model):
     userid = models.ForeignKey(User, on_delete=models.CASCADE)
     clusternum = models.IntegerField()
 
+
+class SubScribe(models.Model):
+    userid = models.ForeignKey(User, on_delete=models.CASCADE)
+    startdate = models.DateTimeField()
+    subscribedate = models.DateTimeField()
+    autoscribe = models.BooleanField()

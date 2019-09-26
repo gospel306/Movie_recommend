@@ -1,4 +1,4 @@
-from .models import Profile, Movie, Rating
+from .models import Profile, Movie, Rating, SubScribe
 from rest_framework import serializers
 
 
@@ -67,3 +67,10 @@ class RatingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Rating
         fields = ('userid', 'movieid', 'rating', 'timestamp')
+
+
+class SubScribeSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = SubScribe
+        fields = ('userid', 'startdate', 'subscribedate', 'autoscribe')
