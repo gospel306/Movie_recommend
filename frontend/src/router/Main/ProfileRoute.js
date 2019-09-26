@@ -1,6 +1,7 @@
 import ProfilePage from '@/views/ProfilePage'
 import ProfileInfo from '@/components/profile/ProfileInfo'
-import ProfileRatingList from '@/components/profile/ProfileRatingList'
+import NewRating from '@/components/profile/NewRating'
+import MyRatingList from '@/components/profile/MyRatingList'
 
 export default [
     {
@@ -14,9 +15,14 @@ export default [
         component: ProfileInfo
     },
     {
-        path: '/profileRatingList',
-        name: 'profileRatingsList',
-        component: ProfileRatingList
+        path: '/newRating',
+        name: 'newRating',
+        component: NewRating
+    },
+    {
+        path: '/myRatingList',
+        name: 'myRatingList',
+        component: MyRatingList
     },
 
 
