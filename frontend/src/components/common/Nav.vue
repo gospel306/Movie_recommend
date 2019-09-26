@@ -39,6 +39,16 @@ export default {
           icon: "mdi-account",
           text: "유저 정보",
           path: "userlist"
+        },
+        {
+          icon: "mdi-movie",
+          text: "추천 영화",
+          path: "best"
+        },
+        {
+          icon: "mdi-movie",
+          text: "상품 소개",
+          path: "productlist"
         }
       ]
     };
