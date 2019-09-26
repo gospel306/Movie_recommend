@@ -47,10 +47,9 @@
             </v-card-text>
           <v-layout justify-center>
           <v-rating
-            :value="rating2"
+            v-model="newRating.rating"
             color="indigo"
             background-color="indigo"
-            half-increments            
           />
           </v-layout>
           <v-card-actions>
@@ -65,18 +64,20 @@
 </template>
 
 <script>
+import axios from "axios";
+import router from '@/router';
 
 export default {
   data(){
-      return {
-            ratings:{
-                userid:this.$session.get('id'),
-                movieid:this.id,
-                rating:this.rating2,
-                timestamp:123456789
-            },
-            dialog:false
-      }
+    return {
+      newRating:{
+          userid:this.$session.get('id'),
+          movieid:this.id,
+          rating:"",
+          timestamp:"123456789"
+      },
+      dialog:false
+    }
   },
   props: {
     id: {
@@ -98,11 +99,7 @@ export default {
     rating: {
       type: Number,
       default: 0.0
-    },
-    rating2: {
-      type: Number,
-      default: 0.0
-    },                                                                                                                                                                        
+    },                                                                                                                                                                   
     viewCnt: {
       type: Number,
       default: 0
@@ -122,29 +119,9 @@ export default {
     
   },
   methods:{
-    submit: function(rating){
-        alert(this.ratings.userid);
-        alert(this.ratings.movieid);
-        alert(this.ratings.rating);
-        axios.post(
-            this.$stroe.server + "/api/ratings/"
-            +"&movieid="+this.id
-            +"&rating="+rating
-        )
-        this.dialog = false;
-    },
-
-    modifyInfo: function(id){
-        axios.put(
-            this.$store.state.server + "/api/users/?id=" + id
-            +"&gender="+this.items.gender
-            +"&age="+this.items.age
-            +"&occupation="+this.items.occupation
-        )
-        .then(() => {
-            this.updateDialog = false;
-            router.push("/profileInfo");
-        });
+    submit(){
+      axios.post(this.$store.state.server + "/api/ratings/", this.newRating);
+      this.dialog = false;
     }
   }
 };

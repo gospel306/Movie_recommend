@@ -61,7 +61,6 @@
 
 <script>
 import axios from 'axios';
-import swal from 'sweetalert2';
 import router from '../router';
 
 export default {
@@ -87,15 +86,7 @@ export default {
                 // eslint-disable-next-line
               }).catch(e => {
                 this.loading = false;
-                swal({
-                  type: 'warning',
-                  title: 'Error',
-                  text: 'Wrong username or password',
-                  showConfirmButton:false,
-                  showCloseButton:false,
-                  timer:3000
-                })
-              })
+              });
             }
         }
     }

@@ -67,3 +67,20 @@ class RatingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Rating
         fields = ('userid', 'movieid', 'rating', 'timestamp')
+
+
+class UserRatingSerializer(serializers.ModelSerializer):
+    title = serializers.SerializerMethodField('get_title')
+    genres = serializers.SerializerMethodField('get_genres')
+
+    class Meta:
+        model = Rating
+        fields = ('userid', 'movieid', 'rating', 'timestamp', 'title','genres',)
+
+    def get_title(self,obj):
+        title = obj.movieid.title
+        return title
+    
+    def get_genres(self,obj):
+        genres = obj.movieid.genres
+        return genres
