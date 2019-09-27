@@ -1,4 +1,4 @@
-from .models import Profile, Movie, Rating, SubScribe
+from .models import Profile, Movie, Rating, SubScribe, Person
 from rest_framework import serializers
 
 
@@ -33,7 +33,7 @@ class MovieSerializer(serializers.ModelSerializer):
 
    class Meta:
        model = Movie
-       fields = ('id', 'title', 'genres_array','view_cnt','average_rating','genres')
+       fields = ('id', 'title', 'genres_array', 'view_cnt', 'average_rating', 'genres')
 
    def get_view_cnt(self, obj):
        if 'view_cnt' in obj.keys():
@@ -74,3 +74,17 @@ class SubScribeSerializer(serializers.ModelSerializer):
     class Meta:
         model = SubScribe
         fields = ('userid', 'startdate', 'subscribedate', 'autoscribe')
+
+
+class MovieDetailSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Movie
+        fields = ('id', 'title', 'genres', 'writer', 'director', 'cast', 'poster', 'video', 'plot')
+
+
+class PersonSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Person
+        fields = ('id', 'name', 'height', 'spouse', 'biography', 'birth_date', 'birch_notes', 'headshot')
