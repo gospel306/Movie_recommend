@@ -41,8 +41,18 @@ def signup_many(request):
 
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
-@api_view(['POST','PUT','DELETE'])
+@api_view(['GET','POST','PUT','DELETE'])
 def users(request):
+    if request.method == 'GET':
+        id = request.GET.get('id',None)
+        '''해당 id를 갖는 profile의 pk값을 가져온다 '''
+        if id :
+            user = User.objects.get(username = id)
+            if user :
+                profile = Profile.objects.get(user = user)
+        
+        serializer = ProfileSerializer(profile)        
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
 
     if request.method == 'POST':
         username = request.data.get('username', None)
@@ -58,12 +68,15 @@ def users(request):
         return Response(status=status.HTTP_201_CREATED)
 
     if request.method == 'PUT':
-        id = request.GET.get('id', None)
-        age = request.GET.get('age', None)
-        occupation = request.GET.get('occupation', None)
-        if id and age and occupation:
-            user = User.objects.get(pk=id)
-            Profile.objects.filter(user=user).update(age=age, occupation=occupation)
+        id = request.GET.get('id',None)
+        gender = request.GET.get('gender',None)
+        age = request.GET.get('age',None)
+        occupation = request.GET.get('occupation',None)
+
+        if id :
+            user = User.objects.get(username = id)
+            if user and gender and age and occupation :
+                Profile.objects.filter(user=user).update(gender=gender, age=age, occupation=occupation)
         return Response(status=status.HTTP_201_CREATED)
 
     if request.method == 'DELETE':
