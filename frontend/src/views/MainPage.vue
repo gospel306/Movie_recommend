@@ -2,7 +2,7 @@
   <v-content>
     <Header></Header>
     <Nav></Nav>
-    <v-container fluid class="grey lighten-4">
+    <v-container fluid class="background">
       <router-view></router-view>
     </v-container>
   </v-content>
@@ -27,4 +27,8 @@ export default {
 </script>
 
 <style>
+/* .background{
+  background: url("http://image.downloadwap.co.uk/wallpapers/p2ls/new/38/wallp_hVnXsXu8uw.jpg");
+} */
 </style>
+
