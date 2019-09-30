@@ -56,5 +56,5 @@ clf.fit(Xs)
 
 model1 = K_Means(10, X)
 
-print(model1.train_cluster()[1])
+print(model1.train_cluster())
 print(clf.labels_)

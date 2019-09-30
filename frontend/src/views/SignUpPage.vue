@@ -48,7 +48,7 @@
 
                   <v-text-field
                     type="password"
-                    v-model="profile.password2"
+                    v-model="checkPass"
                     :counter="20"
                     label="password check"
                     maxlength="20"
@@ -98,43 +98,39 @@ import router from '../router';
 export default {
     name: 'SignUp',
     data: () => ({
-        profile: {
-        },
+        profile: {},
+        checkPass: "",
         valid:true,
         loading:false
     }),
     methods: {
       sign() {
-        if(this.profile.password !== this.profile.password2){
+        if(this.profile.password !== this.checkPass){
           alert("Your password is not corrected");
+        }else if(this.profile.age.length > 2){
+          alert("your age is too much");
         }else{
           if (this.$refs.form.validate()) {
             this.loading = true;
-            axios.post('http://localhost:8000/api/users/',{
-              username: this.profile.username,
-              password: this.profile.password,
-              age : this.profile.age,
-              occupation : this.profile.occupation,
-              gender : this.profile.gender
-            }).then(function (response){
-              console.log(response);
-            }).catch(function(error){
-              console.log(error);
-            })
+            axios.post('http://localhost:8000/api/users/', this.profile).then(res => {
+              alert("회원가입 되었습니다");
+            }).catch( res =>{
+              this.loading = false;
+             }
+            );
 
-            axios.post('http://localhost:8000/api/login/',{
+            axios.post('http://localhost:8000/api/login/', {
               username: this.profile.username,
               password: this.profile.password
             }).then(res => {
               this.$store.state.login = true;
               this.$session.start();
-              this.$session.set('token',res.data.token);
-              this.$session.set('id',this.profile.username);
-              console.log(response);
-            })
-            router.push('/profile');
-            alert("회원정보를 입력해주세요");
-          }
+              this.$session.set('token', res.data.token);
+              this.$session.set('id', this.profile.username);
+              alert("회원의 정보를 입력해주세요");
+              router.push('/newRating');
+            });
+          }           
         }
       }
     }
