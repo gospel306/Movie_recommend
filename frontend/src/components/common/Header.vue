@@ -16,7 +16,7 @@
       <v-tooltip bottom>
         <template v-slot:activator="{ on }">
           <v-flex align-self-center>
-            <v-btn icon to="/admin" v-if="$store.state.login === true && $session.get('id') == 'admin'" v-on="on">
+            <v-btn icon to="/admin" v-if="$store.state.login === true && $session.get('idg') == 'admin'" v-on="on">
               <v-icon class="adminicon">mdi-settings</v-icon>
             </v-btn>
           </v-flex>
