@@ -7,108 +7,83 @@
     class="black"
   >
     <v-list>
-      <template v-for="(choice, i) in btns">
-        <v-list-item
-          :key="i"
-          @click="() => {
-              if (choice.path) {
-                goTo(choice.path)
-              }
-          }"
-        >
+      <v-list-item @click="goTo('profile')">
+        <v-list-item-action>
+          <v-icon color="white">mdi-account</v-icon>
+        </v-list-item-action>
+        <v-list-item-content>
+          <v-list-item-title class="subtitle-2 font-weight-bold white--text"></v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+      <v-list-item @click="goTo('search')">
+        <v-list-item-action>
+          <v-icon color="white">mdi-magnify</v-icon>
+        </v-list-item-action>
+        <v-list-item-content>
+          <v-list-item-title class="subtitle-2 font-weight-bold white--text"></v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+      <v-list-item @click="goTo('best')">
+        <v-list-item-action>
+          <v-icon color="white">mdi-movie</v-icon>
+        </v-list-item-action>
+        <v-list-item-content>
+          <v-list-item-title class="subtitle-2 font-weight-bold white--text"></v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+      <v-list-item @click="goTo('mdi-checkbox-blank')">
+        <v-list-item-action>
+          <v-icon color="white">mdi-checkbox-blank</v-icon>
+        </v-list-item-action>
+        <v-list-item-content>
+          <v-list-item-title class="subtitle-2 font-weight-bold white--text"></v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+      <template v-for="(choice, i) in btnss">
+        <v-list-item :key="i">
           <v-list-item-action>
-            <v-icon color="white">{{ choice.icon }}</v-icon>
+            <v-icon color="white">mdi-checkbox-blank</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title class="subtitle-2 font-weight-bold white--text">{{ choice.text }}</v-list-item-title>
+            <v-list-item-title class="subtitle-2 font-weight-bold white--text"></v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-      </template>
-      
-      <template v-for="(choice, i) in temp">
-        <v-list-item
-          :key="i"
-          @click="() => {
-              if (choice.path) {
-                goTo(choice.path)
-              }
-            }"
-        >
-          <v-list-item-action>
-            <v-icon color="white">{{ choice.icon }}</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title class="subtitle-2 font-weight-bold white--text">{{ choice.text }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </template>
+      </template>      
     </v-list>
   </v-navigation-drawer>
 </template>
 
 <script>
 export default {
-  name: "Nav",
+  name: "LeftNav",
   components: {},
+  created:{
+    cal(){
+      alert("start");
+      var height = this.$store.state.window.height;
+      var num = height / 49 - leftNavNum;
+      for(var i = 0; i < num; i++){
+        this.temp.push({
+          icon: "mdi-checkbox-blank"
+        });
+      }
+    },
+  },
+  mounted: {
+
+  },
   data() {
     return {
       drawer: null,
-      btns: [
-        {
-          icon: "mdi-account",
-          path: "profile"
-        },
-        {
-          icon: "mdi-magnify",
-          path: "search"
-        },
-        {
-          icon: "mdi-movie",
-          path: "best"
-        },
-        {
-          icon: "mdi-checkbox-blank",
-          path: "productlist"
-        },
-      ],
-      temp: [
-        {
-          icon: "mdi-checkbox-blank",
-        },  
-        {
-          icon: "mdi-checkbox-blank",
-        },  
-        {
-          icon: "mdi-checkbox-blank",
-        },  
-        {
-          icon: "mdi-checkbox-blank",
-        },  
-        {
-          icon: "mdi-checkbox-blank",
-        },  
-        {
-          icon: "mdi-checkbox-blank",
-        },
-        {
-          icon: "mdi-checkbox-blank",
-        },  
-        {
-          icon: "mdi-checkbox-blank",
-        },  
-        {
-          icon: "mdi-checkbox-blank",
-        },  
-        {
-          icon: "mdi-checkbox-blank",
-        },                
-      ], 
+      leftNavNum: 3,
+      temp: [],
     };
   },
   methods: {
     goTo(path) {
       this.$router.push(path);
-    }
+      alert(this.temp[0]);
+    },
   }
 };
 </script>

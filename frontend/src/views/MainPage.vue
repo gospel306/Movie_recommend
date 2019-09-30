@@ -1,11 +1,14 @@
 <template>
   <v-content>
-    <Header></Header>
     <LeftNav></LeftNav>
     <RightNav></RightNav>
     <v-container fluid fill-height class="background">
       <router-view></router-view>
     </v-container>
+    <h2 class="title is-2">
+      Width: {{this.$store.state.window.width}},
+      Height: {{this.$store.state.window.height}}
+    </h2>
   </v-content>
 </template>
 
@@ -15,15 +18,28 @@ import RightNav from "@/components/common/RightNav";
 
 export default {
   name: "mainpage",
-  data() {
-    return {};
-  },
+  data: () => ({
+
+  }),
   components: {
     LeftNav,
     RightNav
   },
-  mounted() {},
-  methods: {}
+  created() {
+    window.addEventListener('resize', this.handleResize)
+    this.handleResize();
+  },
+  destroyed() {
+    window.removeEventListener('resize', this.handleResize)
+  },
+  methods: {
+    handleResize() {
+      this.$store.state.window.width = window.innerWidth;
+      this.$store.state.window.height = window.innerHeight;
+    }
+  },
+  mounted() {
+  },
 };
 </script>
 
