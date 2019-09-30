@@ -1,4 +1,4 @@
-from .models import Profile, Movie, Rating, SubScribe, Person
+from .models import Profile, Movie, Rating, SubScribe, Person, Directors, Writers, Casts
 from rest_framework import serializers
 
 
@@ -33,21 +33,13 @@ class MovieSerializer(serializers.ModelSerializer):
 
    class Meta:
        model = Movie
-       fields = ('id', 'title', 'genres_array', 'view_cnt', 'average_rating', 'genres')
+       fields = ('id', 'title', 'genres_array', 'poster', 'view_cnt', 'average_rating', 'genres')
 
    def get_view_cnt(self, obj):
-       if 'view_cnt' in obj.keys():
-           num = obj['view_cnt']
-       else:
-           num = ''
-       return num
+       return obj.view_cnt
 
    def get_average_rating(self, obj):
-       if 'average_rating' in obj.keys():
-           num = obj['average_rating']
-       else:
-           num = ''
-       return num
+       return obj.average_rating
 
 
 class UserMovieSerializer(serializers.ModelSerializer):
@@ -57,7 +49,7 @@ class UserMovieSerializer(serializers.ModelSerializer):
         model = Movie
         fields = ('id', 'title', 'genres', 'rating')
 
-    def get_rating(self,obj):
+    def get_rating(self, obj):
         rating = obj.rating
         return rating
 
@@ -73,14 +65,38 @@ class SubScribeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SubScribe
-        fields = ('userid', 'startdate', 'subscribedate', 'autoscribe')
+        fields = ('userid', 'startdate', 'subscribedate', 'autoscribe', 'cluster')
 
 
 class MovieDetailSerializer(serializers.ModelSerializer):
+    writerlist = serializers.SerializerMethodField('get_writerlist')
+    directorlist = serializers.SerializerMethodField('get_directorlist')
+    castlist = serializers.SerializerMethodField('get_castlist')
 
     class Meta:
         model = Movie
-        fields = ('id', 'title', 'genres', 'writer', 'director', 'cast', 'poster', 'video', 'plot')
+        fields = ('id', 'title', 'genres', 'writerlist', 'directorlist', 'castlist', 'poster', 'video', 'plot')
+
+    def get_writerlist(self, obj):
+        writerlist = []
+        writers = Writers.objects.filter(movieid=obj.id)
+        for writer in writers:
+            writerlist.append(str(writer.personid_id) + ": " + Person.objects.get(id=writer.personid_id).name)
+        return writerlist
+
+    def get_directorlist(self, obj):
+        directorlist = []
+        directors = Directors.objects.filter(movieid=obj.id)
+        for director in directors:
+            directorlist.append(str(director.personid_id) + ": " + Person.objects.get(id=director.personid_id).name)
+        return directorlist
+
+    def get_castlist(self, obj):
+        castlist = []
+        casts = Casts.objects.filter(movieid=obj.id)
+        for cast in casts:
+            castlist.append(str(cast.personid_id) + ": " + Person.objects.get(id=cast.personid_id).name)
+        return castlist
 
 
 class PersonSerializer(serializers.ModelSerializer):
@@ -96,13 +112,13 @@ class UserRatingSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Rating
-        fields = ('userid', 'movieid', 'rating', 'timestamp', 'title','genres',)
+        fields = ('userid', 'movieid', 'rating', 'timestamp', 'title', 'genres',)
 
-    def get_title(self,obj):
+    def get_title(self, obj):
         title = obj.movieid.title
         return title
     
-    def get_genres(self,obj):
+    def get_genres(self, obj):
         genres = obj.movieid.genres
         return genres
 

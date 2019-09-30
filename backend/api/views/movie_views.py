@@ -1,13 +1,9 @@
 from rest_framework import status
 from rest_framework.decorators import api_view
-from api.models import Movie, Rating, Profile, Person
-from api.serializers import MovieSerializer
+from api.models import Movie, Rating, Profile, Person, Directors, Writers, Casts
+from api.serializers import MovieSerializer, MovieDetailSerializer
 from rest_framework.response import Response
 from django.db.models import Avg, Count
-from imdb import IMDb
-from datetime import datetime, timedelta
-import requests
-from bs4 import BeautifulSoup
 
 
 @api_view(['GET', 'POST', 'DELETE', 'PUT'])
@@ -21,7 +17,6 @@ def movies(request):
         gender = request.GET.get('gender', None)
         occupation = request.GET.get('occupation', None)
         movies = Movie.objects.all()
-        movies = movies.values('id', 'title', 'genres')
 
         if age or gender or occupation:
             profile = Profile.objects.all()
@@ -98,3 +93,11 @@ def movies(request):
             Movie(id=id, title=title, genres='|'.join(genres)).save()
 
         return Response(status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+def moviedetail(request):
+    id = request.GET.get('id')
+    movie = Movie.objects.filter(pk=id)
+    serializer = MovieDetailSerializer(movie, many=True)
+    return Response(data=serializer.data, status=status.HTTP_200_OK)

@@ -17,6 +17,7 @@ urlpatterns = [
     url('similar/$', clustering_views.getsimilar, name='getsimilar'),
     url('subscribe/$', auth_views.subscribe, name='subscribe'),
     url('KNN/$', KNN_views.communication, name='KNN'),
-    url('update/$', update_view.update, name='update')
+    url('update/$', update_view.update, name='update'),
+    url('moviedetail/$', movie_views.moviedetail, name='moviedetail'),
     # url('MF/', MF_views.communication, name='MF')
 ]

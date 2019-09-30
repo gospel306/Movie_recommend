@@ -95,3 +95,4 @@ class SubScribe(models.Model):
     startdate = models.DateTimeField()
     subscribedate = models.DateTimeField()
     autoscribe = models.BooleanField()
+    cluster = models.CharField(max_length=20, default="")
