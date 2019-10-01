@@ -1,10 +1,10 @@
 <template>
   <v-content>
-    <LeftNav></LeftNav>
-    <RightNav></RightNav>
     <v-container fluid fill-height class="background">
       <router-view></router-view>
     </v-container>
+    <LeftNav></LeftNav>
+    <RightNav></RightNav>
   </v-content>
 </template>
 
