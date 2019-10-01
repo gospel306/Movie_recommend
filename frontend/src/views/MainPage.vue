@@ -5,13 +5,6 @@
     <v-container fluid fill-height class="background">
       <router-view></router-view>
     </v-container>
-    <h2 class="title is-2">
-      Width: {{this.window.width}},
-      Height: {{this.window.height}}
-      leftSize: {{this.$store.state.leftTemp.length}}
-      rightSize: {{this.$store.state.rightTemp.length}}
-
-    </h2>
   </v-content>
 </template>
 
@@ -62,9 +55,16 @@ export default {
 /* .background{
   background: url("http://image.downloadwap.co.uk/wallpapers/p2ls/new/38/wallp_hVnXsXu8uw.jpg");
 } */
-
+/*
  .background{
   background: black
+} */
+ .background{
+  background: url("../images/back1.png");
+  background-repeat: no-repeat;
+  background-size: 104% 100%;
+  background-position: center;
 } 
+
 </style>
 
