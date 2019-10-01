@@ -41,7 +41,12 @@ def movies(request):
             if occupation:
                 profile = profile.filter(occupation__icontains=occupation)
             movies = movies.filter(rating__userid__in=profile)
-
+        if not (id and title and genre and order and age and gender and occupation):
+            movienum = []
+            for movie in movies:
+                movienum.append(movie.id)
+            rand = random.sample(movienum, 10)
+            movies = movies.filter(pk__in=rand)
         movies = movies.annotate(view_cnt=Count('rating')).annotate(average_rating=Avg('rating__rating'))
         if id:
             movies = movies.filter(pk=id)
@@ -54,13 +59,7 @@ def movies(request):
                 movies = movies.order_by('-average_rating')
             elif order == 'countrating':
                 movies = movies.order_by('-view_cnt')
-        if not (id and title and genre and order and age and gender and occupation):
-            movienum = []
-            for movie in movies:
-                movienum.append(movie.id)
-            rand = random.sample(movienum, 10)
-            print(rand)
-            movies = movies.filter(pk__in=rand)
+
         serializer = MovieSerializer(movies, many=True)
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
