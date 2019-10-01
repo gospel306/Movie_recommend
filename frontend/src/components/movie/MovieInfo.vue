@@ -27,14 +27,18 @@
         <v-flex>
           <v-layout>
             <h3>감독 :</h3>
-            <v-flex v-for="director in directorlist" :key="director.id"><a @click="PersonInfo(director.id)">{{director.name}}</a></v-flex>
+            <v-flex v-for="director in directorlist" :key="director.id">
+              <a @click="PersonInfo(director.id)">{{director.name}}</a>
+            </v-flex>
           </v-layout>
         </v-flex>
 
         <v-flex>
           <v-layout>
             <h3>작가 :</h3>
-            <v-flex v-for="writer in writerlist" :key="writer.id"><a @click="PersonInfo(writer.id)">{{writer.name}}</a></v-flex>
+            <v-flex v-for="writer in writerlist" :key="writer.id">
+              <a @click="PersonInfo(writer.id)">{{writer.name}}</a>
+            </v-flex>
           </v-layout>
         </v-flex>
 
@@ -43,7 +47,9 @@
             <h3>출연진 :</h3>
           </v-layout>
           <v-layout row>
-            <v-flex v-for="cast in castlist" :key="cast.id" pa-2><a @click="PersonInfo(cast.id)">{{cast.name}}</a></v-flex>
+            <v-flex v-for="cast in castlist" :key="cast.id" pa-2>
+              <a @click="PersonInfo(cast.id)">{{cast.name}}</a>
+            </v-flex>
           </v-layout>
         </v-flex>
       </v-flex>
@@ -72,6 +78,28 @@
         allowfullscreen
       ></iframe>
     </v-layout>
+
+    <v-dialog v-model="dialog" max-width="30%">
+      <v-card>
+        <v-card-title>인물 소개</v-card-title>
+        <v-card-text>
+          <v-layout>
+            <v-flex xs3>
+              <v-img :src="photo" height="100%" width="100%"></v-img>
+            </v-flex>
+            <v-flex xs9>
+              <v-layout column pl-4>
+                <v-flex title>{{name}}</v-flex>
+                <v-flex >출생 : {{birthday}}</v-flex>
+                <v-flex >신장 : {{tall}}</v-flex>
+                <v-flex >배우자 : {{wife}}</v-flex>
+                <v-flex >{{career}}</v-flex>
+              </v-layout>
+            </v-flex>
+          </v-layout>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -85,7 +113,14 @@ export default {
       video: "https://www.youtube.com/embed/",
       directorlist: [],
       writerlist: [],
-      castlist: []
+      castlist: [],
+      dialog: false,
+      photo: "",
+      name: "유재석",
+      birthday: "1972-08-14",
+      tall: "172cm",
+      wife: "나경은",
+      career: "1991년 제1회 KBS 대학개그제 , 서울예술대학교 방송연예학 중퇴"
     };
   },
   mounted() {
@@ -115,8 +150,8 @@ export default {
         this.castlist.push({ id: c[0], name: c[1] });
       }
     },
-    PersonInfo(id){
-      alert(id);
+    PersonInfo(id) {
+      this.dialog = true;
     }
   }
 };
