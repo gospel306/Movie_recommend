@@ -5,7 +5,7 @@
         <h1>{{movie.title}}</h1>
         <v-flex>
           <v-layout>
-            <h3>평점 :</h3>
+            <h3>평점 -</h3>
             <v-rating
               :value="rating"
               color="indigo"
@@ -19,14 +19,14 @@
         </v-flex>
         <v-flex>
           <v-layout>
-            <h3>장르 :</h3>
+            <h3>장르 -</h3>
             {{movie.genres}}
           </v-layout>
         </v-flex>
 
         <v-flex>
           <v-layout>
-            <h3>감독 :</h3>
+            <h3>감독 -</h3>
             <v-flex v-for="director in directorlist" :key="director.id">
               <a @click="PersonInfo(director.id)">{{director.name}}</a>
             </v-flex>
@@ -35,7 +35,7 @@
 
         <v-flex>
           <v-layout>
-            <h3>작가 :</h3>
+            <h3>작가 -</h3>
             <v-flex v-for="writer in writerlist" :key="writer.id">
               <a @click="PersonInfo(writer.id)">{{writer.name}}</a>
             </v-flex>
@@ -44,11 +44,19 @@
 
         <v-flex>
           <v-layout>
-            <h3>출연진 :</h3>
+            <h3>출연진</h3>
+            <a v-if="more" @click="CastMore" pl-4>더 보기</a>
           </v-layout>
           <v-layout row>
-            <v-flex v-for="cast in castlist" :key="cast.id" pa-2>
-              <a @click="PersonInfo(cast.id)">{{cast.name}}</a>
+            <v-flex v-if="more" row pl-4>
+              <v-flex v-for="cast in main_actor" :key="cast.id" pa-2>
+                <a @click="PersonInfo(cast.id)">{{cast.name}}</a>
+              </v-flex>
+            </v-flex>
+            <v-flex v-else row>
+              <v-flex v-for="cast in castlist" :key="cast.id" pa-2>
+                <a @click="PersonInfo(cast.id)">{{cast.name}}</a>
+              </v-flex>
             </v-flex>
           </v-layout>
         </v-flex>
@@ -79,21 +87,27 @@
       ></iframe>
     </v-layout>
 
-    <v-dialog v-model="dialog" max-width="30%">
+    <v-dialog v-model="dialog" dark max-width="60%">
       <v-card>
         <v-card-title>인물 소개</v-card-title>
         <v-card-text>
           <v-layout>
             <v-flex xs3>
-              <v-img :src="photo" height="100%" width="100%"></v-img>
+              <v-img :src="person.headshot" height="100%" width="100%"></v-img>
             </v-flex>
             <v-flex xs9>
               <v-layout column pl-4>
-                <v-flex title>{{name}}</v-flex>
-                <v-flex >출생 : {{birthday}}</v-flex>
-                <v-flex >신장 : {{tall}}</v-flex>
-                <v-flex >배우자 : {{wife}}</v-flex>
-                <v-flex >{{career}}</v-flex>
+                <v-flex title>{{person.name}}</v-flex>
+                <v-flex>출생 : {{person.birth_date}}</v-flex>
+                <v-flex>신장 : {{person.height}}</v-flex>
+                <v-flex>
+                  - 가족관계 -
+                  <v-flex v-for="family in family_member" :key="family">{{family}}</v-flex>
+                </v-flex>
+                <v-flex>
+                  - 이력사항 -
+                  <p class="font-weight-thin">{{career}}</p>
+                </v-flex>
               </v-layout>
             </v-flex>
           </v-layout>
@@ -114,13 +128,19 @@ export default {
       directorlist: [],
       writerlist: [],
       castlist: [],
+      main_actor: [],
+      more: true,
       dialog: false,
-      photo: "",
-      name: "유재석",
-      birthday: "1972-08-14",
-      tall: "172cm",
-      wife: "나경은",
-      career: "1991년 제1회 KBS 대학개그제 , 서울예술대학교 방송연예학 중퇴"
+      person: {
+        headshot: "",
+        name: "",
+        birth_date: "",
+        height: "",
+        spouse: "",
+        biography: ""
+      },
+      family_member: [],
+      career: []
     };
   },
   mounted() {
@@ -149,10 +169,37 @@ export default {
         var c = this.movie.castlist[k].split(":");
         this.castlist.push({ id: c[0], name: c[1] });
       }
+      for (var k2 = 0; k2 < 5; k2++) {
+        var main = this.movie.castlist[k2].split(":");
+        this.main_actor.push({ id: main[0], name: main[1] });
+      }
     },
     PersonInfo(id) {
       this.dialog = true;
+      axios
+        .get(this.$store.state.server + "/api/person/?id=" + id)
+        .then(res => {
+          this.person = res.data[0];
+          this.Manufacture(this.person.spouse, this.person.biography);
+        });
+    },
+    Manufacture(family, biography) {
+      this.family_member = family.split("|");
+      this.career = biography.substring(2, biography.length - 2);
+      this.person.birth_date = this.person.birth_date.substring(0, 10);
+    },
+    CastMore() {
+      this.more = false;
     }
   }
 };
 </script>
+
+<style>
+p {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+}
+</style>
