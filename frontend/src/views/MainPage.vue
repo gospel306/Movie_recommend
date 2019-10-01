@@ -6,8 +6,11 @@
       <router-view></router-view>
     </v-container>
     <h2 class="title is-2">
-      Width: {{this.$store.state.window.width}},
-      Height: {{this.$store.state.window.height}}
+      Width: {{this.window.width}},
+      Height: {{this.window.height}}
+      leftSize: {{this.$store.state.leftTemp.length}}
+      rightSize: {{this.$store.state.rightTemp.length}}
+
     </h2>
   </v-content>
 </template>
@@ -19,7 +22,10 @@ import RightNav from "@/components/common/RightNav";
 export default {
   name: "mainpage",
   data: () => ({
-
+    window:{
+      width: 0,
+      height: 0,
+    }
   }),
   components: {
     LeftNav,
@@ -34,11 +40,20 @@ export default {
   },
   methods: {
     handleResize() {
-      this.$store.state.window.width = window.innerWidth;
-      this.$store.state.window.height = window.innerHeight;
+      this.window.width = window.innerWidth;
+      this.window.height = window.innerHeight;
+      var leftNum = this.window.height / 49 - this.$store.state.leftNum;
+      var rightNum = this.window.height / 49 - this.$store.state.rightNum;
+      this.$store.state.leftTemp.length = 0;
+      this.$store.state.rightTemp.length = 0;
+
+      for(var i = 1; i <= leftNum; i++){
+        this.$store.state.leftTemp.push(i);
+      };
+      for(var i = 1; i <= rightNum; i++){
+        this.$store.state.rightTemp.push(i);
+      };
     }
-  },
-  mounted() {
   },
 };
 </script>

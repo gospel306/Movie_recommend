@@ -10,6 +10,10 @@ export default new Vuex.Store({
       width:0,
       height:0
     },
+    leftNum:4,
+    rightNum:1,
+    leftTemp:[],
+    rightTemp:[],
     server: 'http://localhost:8000',
   }
 })

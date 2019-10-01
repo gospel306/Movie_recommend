@@ -1,110 +1,48 @@
-<template>
+<template >
   <v-navigation-drawer
-    v-model="drawer_right"
+    v-model="drawer"
     width="4%"
     app
     right
     class="black"
   >
-    <v-list >
-      <template v-for="(choice, i) in btns">
-        <v-list-item 
-          :key="i"
-          @click="() => {
-              if (choice.path) {
-                goTo(choice.path)
-              }
-          }"
-        >
+    <v-list>
+      <v-list-item @click="goTo('login')">
+        <v-list-item-action>
+          <v-icon color="white">mdi-account</v-icon>
+        </v-list-item-action>
+        <v-list-item-content>
+          <v-list-item-title class="subtitle-2 font-weight-bold white--text"></v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+      <template v-for="(choice, i) in this.$store.state.rightTemp">
+        <v-list-item :key="i">
           <v-list-item-action>
-            <v-icon color="white">{{ choice.icon }}</v-icon>
+            <v-icon color="white">mdi-checkbox-blank</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title class="subtitle-2 font-weight-bold white--text">{{ choice.text }}</v-list-item-title>
+            <v-list-item-title class="subtitle-2 font-weight-bold white--text"></v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-      </template>
-      <template v-for="(choice, i) in temp">
-        <v-list-item 
-          :key="i"
-          @click="() => {
-              if (choice.path) {
-                goTo(choice.path)
-              }
-          }"
-        >
-          <v-list-item-action>
-            <v-icon color="white">{{ choice.icon }}</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title class="subtitle-2 font-weight-bold white--text">{{ choice.text }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </template>
+      </template>      
     </v-list>
   </v-navigation-drawer>
 </template>
 
 <script>
 export default {
-  name: "Nav",
-  components: {},
-  data() {
-    return {
-      drawer_right: null,
-      btns: [
-        {
-          icon: "mdi-login",
-          path: "login",
-        },
-      ],
-      temp: [
-        {
-          icon: "mdi-checkbox-blank",
-        },
-        {
-          icon: "mdi-checkbox-blank",
-        },
-        {
-          icon: "mdi-checkbox-blank",
-        },  
-        {
-          icon: "mdi-checkbox-blank",
-        },  
-        {
-          icon: "mdi-checkbox-blank",
-        },  
-        {
-          icon: "mdi-checkbox-blank",
-        },  
-        {
-          icon: "mdi-checkbox-blank",
-        },  
-        {
-          icon: "mdi-checkbox-blank",
-        },  
-        {
-          icon: "mdi-checkbox-blank",
-        },
-        {
-          icon: "mdi-checkbox-blank",
-        },  
-        {
-          icon: "mdi-checkbox-blank",
-        },  
-        {
-          icon: "mdi-checkbox-blank",
-        },  
-        {
-          icon: "mdi-checkbox-blank",
-        },                
-      ], 
-    };
+  name: "LeftNav",
+  data(){
+    return{
+      drawer: null,
+      leftNavNum: 3,
+      temp: [],
+    }
   },
   methods: {
     goTo(path) {
       this.$router.push(path);
-    }
+    },
   }
 };
 </script>
@@ -113,5 +51,8 @@ export default {
 #keep .v-navigation-drawer__border {
   display: none;
 }
+.background{
+  background: black
+} 
 </style>
 

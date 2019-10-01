@@ -39,7 +39,7 @@
           <v-list-item-title class="subtitle-2 font-weight-bold white--text"></v-list-item-title>
         </v-list-item-content>
       </v-list-item>
-      <template v-for="(choice, i) in btnss">
+      <template v-for="(choice, i) in this.$store.state.leftTemp">
         <v-list-item :key="i">
           <v-list-item-action>
             <v-icon color="white">mdi-checkbox-blank</v-icon>
@@ -56,33 +56,16 @@
 <script>
 export default {
   name: "LeftNav",
-  components: {},
-  created:{
-    cal(){
-      alert("start");
-      var height = this.$store.state.window.height;
-      var num = height / 49 - leftNavNum;
-      for(var i = 0; i < num; i++){
-        this.temp.push({
-          icon: "mdi-checkbox-blank"
-        });
-      }
-    },
-  },
-  mounted: {
-
-  },
-  data() {
-    return {
+  data(){
+    return{
       drawer: null,
       leftNavNum: 3,
       temp: [],
-    };
+    }
   },
   methods: {
     goTo(path) {
       this.$router.push(path);
-      alert(this.temp[0]);
     },
   }
 };
