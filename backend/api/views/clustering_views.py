@@ -139,7 +139,7 @@ def getsimilar(request):
         if movieid:
             num = MovieCluster.objects.values('clusternum').get(movieid=movieid)
             moviecluster = MovieCluster.objects.values('movieid').filter(clusternum=num['clusternum'])
-            movies = Movie.objects.all().values('id', 'title', 'genres').annotate(view_cnt=Count('rating')).annotate(average_rating=Avg('rating__rating'))
+            movies = Movie.objects.all().annotate(view_cnt=Count('rating')).annotate(average_rating=Avg('rating__rating'))
             movies = movies.filter(pk__in=moviecluster)
             serializer = MovieSerializer(movies, many=True)
         elif userid:

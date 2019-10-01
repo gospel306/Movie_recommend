@@ -4,6 +4,7 @@ from api.models import Movie, Rating, Profile, Person, Directors, Writers, Casts
 from api.serializers import MovieSerializer, MovieDetailSerializer
 from rest_framework.response import Response
 from django.db.models import Avg, Count
+import random
 
 
 @api_view(['GET', 'POST', 'DELETE', 'PUT'])
@@ -53,7 +54,13 @@ def movies(request):
                 movies = movies.order_by('-average_rating')
             elif order == 'countrating':
                 movies = movies.order_by('-view_cnt')
-        print(movies)
+        if not (id and title and genre and order and age and gender and occupation):
+            movienum = []
+            for movie in movies:
+                movienum.append(movie.id)
+            rand = random.sample(movienum, 10)
+            print(rand)
+            movies = movies.filter(pk__in=rand)
         serializer = MovieSerializer(movies, many=True)
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
