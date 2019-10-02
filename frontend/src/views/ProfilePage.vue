@@ -1,37 +1,39 @@
 <template>
     <v-container class="profile">
         <v-layout row wrap>
-            <v-flex xs12 sm6 md4 lg3 xl2 class="board">
-                <h1>회원 정보</h1>
-                <v-btn to="/profileInfo" color="grey darken-2" class="white--text">개인 정보</v-btn>
-                <v-btn to="/myRatingList" color="grey darken-2" class="white--text">내 평점 목록</v-btn>
+            <v-flex xs12 sm6 md12 lg4 xl2 class="board">
+                <ProfileInfo></ProfileInfo>
             </v-flex>
-            <v-flex xs12 sm6 md4 lg3 xl2>
-                <h1>평점 정보</h1>
-                <v-btn to="/profileInfo" color="grey darken-2" class="white--text">개인 정보</v-btn>
-                <v-btn to="/myRatingList" color="grey darken-2" class="white--text">내 평점 목록</v-btn>
+            <v-flex xs12 sm6 md12 lg7 xl2 class="board">
+                <MyRatingList></MyRatingList>
             </v-flex>
         </v-layout>
-
     </v-container>
 </template>
 
 <script>
-export default {
+import ProfileInfo from "@/components/profile/ProfileInfo";
+import MyRatingList from "@/components/profile/MyRatingList";
 
+export default {
+    components:{
+        ProfileInfo,
+        MyRatingList
+    }
 }
 </script>
 
 <style>
     .profile{
-        background-color:tomato;
+        /*background-color:tomato;*/
         height: 83%;
-        width : 99%;
+        width : 100%;
         border-radius: 50px;
     }
-    .profile .board{
-        background-color:violet;
-        height : 5%;
+    .board{
+        /*background-color:violet;*/
+        margin-left : 20px;
+        height: 580px;
 
     }
 </style>

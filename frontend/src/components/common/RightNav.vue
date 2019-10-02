@@ -7,9 +7,9 @@
     class="black"
   >
     <v-list>
-      <v-list-item @click="goTo('login')">
+      <v-list-item @click="goTo('login')" v-if="$store.state.login == false">
         <v-list-item-action>
-          <v-icon color="white">mdi-account</v-icon>
+          <v-icon color="white">mdi-login</v-icon>
         </v-list-item-action>
         <v-list-item-content>
           <v-list-item-title class="subtitle-2 font-weight-bold white--text"></v-list-item-title>

@@ -1,8 +1,8 @@
 <template>
-  <v-container grid-list-md text-center>
-    <v-layout justify-center wrap>
+  <v-container grid-list-md >
+    <v-layout justify-center wrap>  
       <v-flex xs7>
-        <h2>내 평점 목록</h2>
+        <h3>평점 목록</h3>
         <MyRatingItem :MyRatingItems="ratingList"/>
         <v-progress-circular :size="50" color="primary" indeterminate v-if="loading"/>
       </v-flex>
