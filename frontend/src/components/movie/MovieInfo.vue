@@ -78,6 +78,7 @@
       <h2>줄거리</h2>
       {{movie.plot}}
       <iframe
+        v-if="video.length > 0"
         width="100%"
         height="600"
         :src="video"
@@ -124,7 +125,7 @@ export default {
     return {
       movie: {},
       rating: 0,
-      video: "https://www.youtube.com/embed/",
+      video: "",
       directorlist: [],
       writerlist: [],
       castlist: [],
@@ -153,6 +154,11 @@ export default {
         .get(this.$store.state.server + "/api/moviedetail/?id=" + id)
         .then(res => {
           this.movie = res.data[0];
+          if (this.movie.video == "") {
+            this.video = "";
+          } else {
+            this.video = "https://www.youtube.com/embed/" + this.movie.video;
+          }
           this.PeopleData();
         });
     },
