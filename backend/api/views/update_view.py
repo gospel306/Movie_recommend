@@ -21,7 +21,7 @@ YOUTUBE_API_VERSION = "v3"
 
 
 def youtube_search(title, id):
-    youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION, developerKey=DEVELOPER_KEY5)
+    youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION, developerKey=DEVELOPER_KEY7)
 
     search_response = youtube.search().list(
         q=title+" trailer",
@@ -41,7 +41,7 @@ def update(request):
         ia = IMDb()
         for movie in movies:
             print(movie.title)
-            if movie.id < 406:
+            if movie.id < 557:
                 continue
             try:
                 imovie = ia.search_movie(movie.title)
@@ -50,15 +50,6 @@ def update(request):
             mid = imovie[0].getID()
             imovie = ia.get_movie(mid)
             m = Movie.objects.get(pk=movie.id)
-            if m.poster == '' and 'full-size cover url' in imovie.keys():
-                Movie.objects.filter(pk=movie.id).update(poster=imovie['full-size cover url'])
-            try:
-                youtube_search(movie.title, movie.id)
-            except HttpError:
-                print("An HTTP error %d occurred:\n%s")
-            if m.plot == '' and 'plot' in imovie.keys():
-                Movie.objects.filter(pk=movie.id).update(plot=imovie['plot'])
-
             for cast in imovie['cast']:
                 people = Person.objects.filter(pk=cast.personID)
                 if not people:
@@ -162,3 +153,12 @@ def update(request):
                     m = Movie.objects.get(pk=movie.id)
                     p = Person.objects.get(pk=cast.personID)
                     m.writer.add(p)
+            if m.poster == '' and 'full-size cover url' in imovie.keys():
+                Movie.objects.filter(pk=movie.id).update(poster=imovie['full-size cover url'])
+            try:
+                youtube_search(movie.title, movie.id)
+            except HttpError:
+                print("An HTTP error %d occurred:\n%s")
+                return
+            if m.plot == '' and 'plot' in imovie.keys():
+                Movie.objects.filter(pk=movie.id).update(plot=imovie['plot'])
