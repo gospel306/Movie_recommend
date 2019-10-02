@@ -1,10 +1,5 @@
 from django.conf.urls import url
-from api.views import movie_views
-from api.views import auth_views
-from api.views import rating_views
-from api.views import clustering_views
-from api.views import KNN_views, update_view
-from api.views import MF_views
+from api.views import movie_views, auth_views, rating_views, clustering_views, person_view, KNN_views, update_view, MF_views
 from rest_framework_jwt.views import obtain_jwt_token
 
 urlpatterns = [
@@ -19,5 +14,6 @@ urlpatterns = [
     url('KNN/$', KNN_views.communication, name='KNN'),
     url('update/$', update_view.update, name='update'),
     url('moviedetail/$', movie_views.moviedetail, name='moviedetail'),
+    url('person/$', person_view.person, name='person'),
     # url('MF/', MF_views.communication, name='MF')
 ]
