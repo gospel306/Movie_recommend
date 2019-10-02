@@ -1,13 +1,38 @@
 from rest_framework import status
 from rest_framework.decorators import api_view
 from api.models import Movie, Rating, Profile, Person
-from api.serializers import MovieSerializer
 from rest_framework.response import Response
-from django.db.models import Avg, Count
 from imdb import IMDb
 from datetime import datetime, timedelta
-import requests
-from bs4 import BeautifulSoup
+from apiclient.discovery import build
+from apiclient.errors import HttpError
+from oauth2client.tools import argparser
+
+DEVELOPER_KEY1 = "AIzaSyBUKiqE4FOE9bJZ7HCoh715DDz3SytoGGg"
+DEVELOPER_KEY2 = "AIzaSyAt6i9G_OmPMASU3VqRVYyMYhhqlxn3V5s"
+DEVELOPER_KEY3 = "AIzaSyAiFgPB8Qdi_VQ_ZSWwYgdgWM3A8rg8DCE"
+DEVELOPER_KEY4 = "AIzaSyDPITG2gLYni_kAn4BZjnDfOh1-olhtVzA"
+DEVELOPER_KEY5 = "AIzaSyBQZVbyEzMHGGOxhgq4v0Gz7Sp5t1Wy8KQ"
+DEVELOPER_KEY6 = "AIzaSyBZUjPgA_m3adkk-7YGgomuqHCEuNjHuzw"
+DEVELOPER_KEY7 = "AIzaSyCEWiR5RUpfyHZzjnqWozyINuzEypAroRc"
+
+YOUTUBE_API_SERVICE_NAME = "youtube"
+YOUTUBE_API_VERSION = "v3"
+
+
+def youtube_search(title, id):
+    youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION, developerKey=DEVELOPER_KEY5)
+
+    search_response = youtube.search().list(
+        q=title+" trailer",
+        part="id",
+        maxResults=1
+    ).execute()
+
+    for search_result in search_response.get("items", []):
+        if search_result["id"]["kind"] == "youtube#video":
+            Movie.objects.filter(pk=id).update(video=search_result["id"]["videoId"])
+
 
 @api_view(['GET'])
 def update(request):
@@ -16,7 +41,7 @@ def update(request):
         ia = IMDb()
         for movie in movies:
             print(movie.title)
-            if movie.id < 1293:
+            if movie.id < 406:
                 continue
             try:
                 imovie = ia.search_movie(movie.title)
@@ -25,18 +50,12 @@ def update(request):
             mid = imovie[0].getID()
             imovie = ia.get_movie(mid)
             m = Movie.objects.get(pk=movie.id)
-
             if m.poster == '' and 'full-size cover url' in imovie.keys():
                 Movie.objects.filter(pk=movie.id).update(poster=imovie['full-size cover url'])
-            if m.video == '':
-                req = requests.get('https://www.imdb.com/title/tt'+mid)
-                html = req.text
-                soup = BeautifulSoup(html, 'lxml')
-                titles = soup.select('#title-overview-widget > div.vital > div.slate_wrapper > div.slate > a')
-                link = ''
-                for title in titles:
-                    link = 'https://www.imdb.com' + title.get('href')
-                Movie.objects.filter(pk=movie.id).update(video=link)
+            try:
+                youtube_search(movie.title, movie.id)
+            except HttpError:
+                print("An HTTP error %d occurred:\n%s")
             if m.plot == '' and 'plot' in imovie.keys():
                 Movie.objects.filter(pk=movie.id).update(plot=imovie['plot'])
 
