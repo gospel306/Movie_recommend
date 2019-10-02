@@ -42,7 +42,7 @@ def ratings(request):
     if request.method == 'POST':
         ratings = request.data.get('ratings', None)
 
-        if ratings :
+        if ratings:
             for ratingg in ratings:
                 userid = int(ratingg.get('userid', None))
                 movieid = int(ratingg.get('movieid', None))
@@ -54,19 +54,19 @@ def ratings(request):
                 if not (userid and movieid and rating and timestamp):
                     continue
                 Rating(userid=userid, movieid=movieid, rating=rating, timestamp=timestamp).save()
-        else :
-            userid = User.objects.get(username=request.data.get('userid',None)).id            
-            movieid = request.data.get('movieid',None)
-            rating = request.data.get('rating',None)
-            timestamp = request.data.get('timestamp',None)
+        else:
+            userid = User.objects.get(username=request.data.get('userid', None)).id
+            movieid = request.data.get('movieid', None)
+            rating = request.data.get('rating', None)
+            timestamp = request.data.get('timestamp', None)
             userid = User.objects.get(pk=userid)
             movieid = Movie.objects.get(pk=movieid)
-            check = Rating.objects.filter(userid = userid).filter(movieid=movieid)
+            check = Rating.objects.filter(userid=userid).filter(movieid=movieid)
             
-            if userid and movieid and rating and timestamp :
-                if not check :
-                    Rating(userid = userid, movieid = movieid, rating = rating, timestamp = timestamp).save()
-                else :
-                    Rating.objects.filter(userid=userid,movieid=movieid).update(rating=rating,timestamp=timestamp)
+            if userid and movieid and rating and timestamp:
+                if not check:
+                    Rating(userid=userid, movieid=movieid, rating=rating, timestamp=timestamp).save()
+                else:
+                    Rating.objects.filter(userid=userid, movieid=movieid).update(rating=rating, timestamp=timestamp)
 
         return Response(status=status.HTTP_200_OK)

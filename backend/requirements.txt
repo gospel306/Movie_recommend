@@ -13,3 +13,5 @@ djangorestframework-jwt
 imdbpy
 requests
 beautifulsoup4
+google-api-python-client
+oauth2client
