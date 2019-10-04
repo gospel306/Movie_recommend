@@ -41,7 +41,7 @@ def update(request):
         ia = IMDb()
         for movie in movies:
             print(movie.title)
-            if movie.id < 1369:
+            if movie.id < 1433:
                 continue
             try:
                 imovie = ia.search_movie(movie.title)
@@ -155,10 +155,10 @@ def update(request):
                     m.writer.add(p)
             if m.poster == '' and 'full-size cover url' in imovie.keys():
                 Movie.objects.filter(pk=movie.id).update(poster=imovie['full-size cover url'])
-            try:
-                youtube_search(movie.title, movie.id)
-            except HttpError:
-                print("An HTTP error %d occurred:\n%s")
-                return
+            # try:
+            #     youtube_search(movie.title, movie.id)
+            # except HttpError:
+            #     print("An HTTP error %d occurred:\n%s")
+            #     return
             if m.plot == '' and 'plot' in imovie.keys():
                 Movie.objects.filter(pk=movie.id).update(plot=imovie['plot'])
