@@ -55,11 +55,10 @@ def ratings(request):
                     continue
                 Rating(userid=userid, movieid=movieid, rating=rating, timestamp=timestamp).save()
         else :
-            userid = User.objects.get(username=request.data.get('userid',None)).id            
+            userid = User.objects.get(username=request.data.get('userid',None))
             movieid = request.data.get('movieid',None)
             rating = request.data.get('rating',None)
             timestamp = request.data.get('timestamp',None)
-            userid = User.objects.get(pk=userid)
             movieid = Movie.objects.get(pk=movieid)
             check = Rating.objects.filter(userid = userid).filter(movieid=movieid)
             

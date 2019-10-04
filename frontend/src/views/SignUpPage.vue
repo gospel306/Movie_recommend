@@ -92,6 +92,7 @@
 </template>
 
 <script>
+ /*jslint devel: true */
 import axios from 'axios';
 import router from '../router';
 

@@ -14,13 +14,13 @@
               <v-flex>
                 <v-row>
                   <v-col>
-                    <v-text-field v-model = "items.username"  label="Name" class="purple-input"/>
+                    <v-text-field v-model = "items.username"  label="Name" class="purple-input" readonly/>
                     <v-text-field v-model = "items.gender"  label="Gender" class="purple-input"/>
                     <v-text-field v-model = "items.age"  label="Age" class="purple-input"/>
-                    <v-text-field v-model = "items.occupation"  label="Job  " class="purple-input"/>                
-                  </v-col>
+                    <v-text-field v-model = "items.occupation"  label="Job  " class="purple-input"/>       
+                    <v-btn color="black white--text" @click="modifyInfo($session.get('id'))">Update</v-btn>                 
+                 </v-col>                  
                 </v-row>
-
               </v-flex>  
             </v-layout>
           </v-flex>
@@ -59,7 +59,7 @@ export default {
         )
         .then(() => {
           this.updateDialog = false;
-          router.push("/profileInfo");
+          router.push("/profile");
         });
     }
   }

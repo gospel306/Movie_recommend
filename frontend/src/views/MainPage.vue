@@ -42,10 +42,10 @@ export default {
 
       for(var i = 1; i <= leftNum; i++){
         this.$store.state.leftTemp.push(i);
-      };
+      }
       for(var i = 1; i <= rightNum; i++){
         this.$store.state.rightTemp.push(i);
-      };
+      }
     }
   },
 };

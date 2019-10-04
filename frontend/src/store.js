@@ -11,7 +11,7 @@ export default new Vuex.Store({
       height:0
     },
     leftNum:4,
-    rightNum:1,
+    rightNum:2,
     leftTemp:[],
     rightTemp:[],
     server: 'http://localhost:8000',

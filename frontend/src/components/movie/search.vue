@@ -4,15 +4,16 @@
       <v-sheet width="100%">
         <v-slide-group v-model="model" class="pa-4" active-class="success" show-arrows>
           <v-slide-item v-for="movie in movies" :key="movie.id" v-slot:default="{ active, toggle }">
-            <v-card class="ma-4" height="400" width="250" @click="information(movie.id)">
-              <v-img :src="movie.img" height="300"></v-img>
-              <v-flex>
+            <v-card class="ma-4" height="400" width="250" @click="showDetail(movie.id)">
+              <v-img :src="movie.poster" max-height="300"></v-img>
+              <v-flex class="ca">
                 <h3>{{movie.title}}</h3>
                 <h5>{{movie.genres}}</h5>
                 <v-rating
                   :value="movie.average_rating"
                   color="black"
                   background-color="black"
+                  half-increments
                   dense
                   readonly
                 />
@@ -37,43 +38,14 @@
 </template>
 
 <script>
-import MovieList from "@/components/movie/MovieList";
 import axios from "axios";
 export default {
   components: {
-    MovieList
+    
   },
   data: () => ({
     model: null,
-    movies: [
-      {
-        id: 1,
-        title: "부산행",
-        genre: "재난/야반도주/좀비",
-        rating: 4.0,
-        img:
-          "https://t1.daumcdn.net/movie/fe9da43b455db93228b5bfa74dacc78107f1eb40",
-        story: "클라이밍 가르쳐드립니다"
-      },
-      {
-        id: 3,
-        title: "액시트",
-        genre: "재난/윤아예쁨",
-        rating: 3.0,
-        img:
-          "http://mblogthumb4.phinf.naver.net/MjAxOTA3MTlfMjQ2/MDAxNTYzNDk2MTQzNDc5.I4LTFPPrFk0SH2OD-6dCxIaOlV8A0jHE8P7h3gJG5awg.ikimN4bDf-PbBEp1gPVvkQ6CY0fL109KRYMGOk0_hEgg.JPEG.hyun0707/%EC%9D%B4%EB%AF%B8%EC%A7%80.jpg?type=w800",
-        story: "마귀 죽음"
-      },
-      {
-        id: 4,
-        title: "타짜3",
-        genre: "도박/사행성",
-        rating: 3.0,
-        img:
-          "http://www.ohfarmstory.co.kr/ohfarm/contents/grow/ugiapple/img/apple001.jpg",
-        story: "마귀 죽음"
-      }
-    ],
+    movies: [],
     value: "",
     loading: false,
     A_options: [
@@ -132,6 +104,10 @@ export default {
   computed: {},
 
   methods: {
+    showDetail(id){
+      this.$router.push({ name: "movieinfo", params:{id: id}
+      });
+    },
     onSubmit() {
       this.loading = true;
       if (this.T_option == "title") {
@@ -202,6 +178,9 @@ export default {
     height:400px;
   }
   .under{
+    margin-top: 10px;
+  }
+  .ca{
     margin-top: 10px;
   }
 </style>
