@@ -3,6 +3,7 @@
     <v-row justify="center">
       <v-btn color="primary" class="ma-2" dark @click="dialog = true; searchUser(id)">상세보기</v-btn>
       <v-btn v-if="check" color="primary" class="ma-2" dark @click="similarMovie(id)">유사영화</v-btn>
+      <v-btn v-if="$store.state.login==true && $session.get('id')!='admin'" v-on="on" color="primary" class="ma-2" dark @click="dialog2 = true">평점부여</v-btn>
       <v-dialog
         v-model="dialog"
         hide-overlay
@@ -60,6 +61,28 @@
           <div style="flex: 1 1 auto;" />
         </v-card>
       </v-dialog>
+      <v-dialog v-model="dialog2" persistent max-width="300">
+        <v-card>
+          <v-layout justify-center>
+            <v-card-title class="headline">이 영화의 점수는?</v-card-title>
+          </v-layout>
+            <v-card-text>
+                <v-layout justify-center>별점을 매겨주세요!</v-layout>
+            </v-card-text>
+          <v-layout justify-center>
+          <v-rating
+            v-model="newRating.rating"
+            color="indigo"
+            background-color="indigo"
+          />
+          </v-layout>
+          <v-card-actions>
+            <div class="flex-grow-1"></div>
+            <v-btn color="green darken-1" text @click="submit()">완료</v-btn>
+            <v-btn color="green darken-1" text @click="dialog2 = false">취소</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </v-row>
   </div>
 </template>
@@ -93,6 +116,13 @@ export default {
   data() {
     return {
       dialog: false,
+      dialog2: false,
+      newRating:{
+        userid:this.$session.get('id'),
+        movieid:this.id,
+        rating:"",
+        timestamp:"123456789"
+      },
       items: []
     };
   },
@@ -116,6 +146,13 @@ export default {
     },
     similarMovie(id){
       this.$router.push({name: 'moviesimilar', params:{'id': id}});
+    },
+    postRating(){
+      newRating.movieid = item.id;
+    },
+    submit(){
+      axios.post(this.$store.state.server + "/api/ratings/", this.newRating);
+      this.dialog2 = false;
     }
   },
   

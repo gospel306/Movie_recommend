@@ -128,7 +128,7 @@ export default {
               this.$session.set('token', res.data.token);
               this.$session.set('id', this.profile.username);
               alert("회원의 정보를 입력해주세요");
-              router.push('/newRating');
+              router.push('/search');
             });
           }           
         }

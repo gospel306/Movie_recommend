@@ -1,12 +1,12 @@
 <template>
-  <v-toolbar flat color="info" class="subtoolbar">
+  <v-toolbar flat class="subtoolbar black">
     <v-spacer />
     <v-toolbar-items>
       <v-tooltip bottom>
         <template v-slot:activator="{ on }">
           <v-flex align-self-center>
             <v-btn icon @click="signup" v-if="$store.state.login === false " v-on="on">
-              <v-icon class="toolbartext" color="black">mdi-account-plus</v-icon>
+              <v-icon class="toolbartext" color="white">mdi-account-plus</v-icon>
             </v-btn>
           </v-flex>
         </template>
@@ -16,8 +16,8 @@
       <v-tooltip bottom>
         <template v-slot:activator="{ on }">
           <v-flex align-self-center>
-            <v-btn icon to="/admin" v-if="$store.state.login === true && $session.get('username') == 'admin'" v-on="on">
-              <v-icon class="adminicon">mdi-settings</v-icon>
+            <v-btn icon to="/admin" v-if="$store.state.login === true && $session.get('idg') == 'admin'" v-on="on">
+              <v-icon class="adminicon" color="white">mdi-settings</v-icon>
             </v-btn>
           </v-flex>
         </template>
@@ -28,7 +28,7 @@
         <template v-slot:activator="{ on }">
           <v-flex align-self-center>
             <v-btn icon @click="loginForm" v-if="$store.state.login === false " v-on="on">
-              <v-icon class="toolbartext" color="black">mdi-open-in-app</v-icon>
+              <v-icon class="toolbartext" color="white">mdi-login</v-icon>
             </v-btn>
           </v-flex>
         </template>
@@ -38,8 +38,8 @@
       <v-tooltip bottom>
         <template v-slot:activator="{ on }">
           <v-flex align-self-center>
-            <v-btn icon @click="profilePage" v-if="$store.state.login === true && $session.get('username') != 'admin'" v-on="on">
-              <v-icon class="toolbartext" color="black">mdi-account</v-icon>
+            <v-btn icon @click="profilePage" v-if="$store.state.login === true && $session.get('id') != 'admin'" v-on="on">
+              <v-icon class="toolbartext" color="white">mdi-account</v-icon>
             </v-btn>
           </v-flex>
         </template>
@@ -50,7 +50,7 @@
         <template v-slot:activator="{ on }">
           <v-flex align-self-center>
             <v-btn icon @click="logoutForm" v-if="$store.state.login === true " v-on="on">
-              <v-icon class="toolbartext" color="black">mdi-exit-to-app</v-icon>
+              <v-icon class="toolbartext" color="white">mdi-logout</v-icon>
             </v-btn>
           </v-flex>
         </template>

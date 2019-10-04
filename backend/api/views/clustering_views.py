@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import random
 from sklearn.cluster import AgglomerativeClustering, KMeans
 from sklearn import preprocessing
 from sklearn.mixture import GaussianMixture
@@ -138,13 +139,16 @@ def getsimilar(request):
         userid = request.GET.get('userid', None)
         if movieid:
             num = MovieCluster.objects.values('clusternum').get(movieid=movieid)
-            moviecluster = MovieCluster.objects.values('movieid').filter(clusternum=num['clusternum'])
-            movies = Movie.objects.all().values('id', 'title', 'genres').annotate(view_cnt=Count('rating')).annotate(average_rating=Avg('rating__rating'))
-            movies = movies.filter(pk__in=moviecluster)
+            moviecluster = MovieCluster.objects.filter(clusternum=num['clusternum'])
+            movienum = []
+            for use in moviecluster:
+                movienum.append(use.movieid.id)
+            rand = random.sample(movienum, 10)
+            movies = Movie.objects.filter(pk__in=rand).annotate(view_cnt=Count('rating')).annotate(average_rating=Avg('rating__rating'))
             serializer = MovieSerializer(movies, many=True)
         elif userid:
             num = UserCluster.objects.values('clusternum').get(userid_id=userid)
             usercluster = UserCluster.objects.values('userid_id').filter(clusternum=num['clusternum'])
-            users = Profile.objects.all().filter(user_id__in=usercluster)
+            users = Profile.objects.filter(user_id__in=usercluster)
             serializer = ProfileSerializer(users, many=True)
         return Response(data=serializer.data, status=status.HTTP_200_OK)

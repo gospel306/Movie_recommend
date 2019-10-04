@@ -10,3 +10,8 @@ sqlparse==0.3.0
 pandas==0.25.1
 django-cors-headers
 djangorestframework-jwt
+imdbpy
+requests
+beautifulsoup4
+google-api-python-client
+oauth2client

@@ -45,7 +45,7 @@ def create_movies():
             'genres': genres
         })
 
-    response = requests.post(API_URL + 'movies/', data=json.dumps(request_data), headers=headers)
+    response = requests.put(API_URL + 'movies/', data=json.dumps(request_data), headers=headers)
     print(response.text)
 
 
@@ -62,11 +62,11 @@ def create_ratings():
             'rating': rating,
             'timestamp': timestamp
         })
-    response = requests.post(API_URL + 'ratings/', data=json.dumps(request_data), headers=headers)
+    response = requests.put(API_URL + 'ratings/', data=json.dumps(request_data), headers=headers)
     print(response.text)
 
 
 if __name__ == '__main__':
     create_movies()
-    create_users()
-    create_ratings()
+    # create_users()
+    # create_ratings()
