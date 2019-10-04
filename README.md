@@ -60,7 +60,6 @@ http://127.0.0.1:8000/api/KNN/?exe=1
 http://127.0.0.1:8000/api/KNN/?user_id={userid}
 
 2-1) 리턴형식: movie는 항상 10개가 들어있음. (rating,movieid)형식
-
 ```json
 [
     {
@@ -74,6 +73,7 @@ http://127.0.0.1:8000/api/KNN/?user_id={userid}
 
 3) 해당 영화를 추천할만한 유저
 http://127.0.0.1:8000/api/KNN/?movie_id={movieid}
+
 3-1) 리턴형식: user는 항상 10개가 들어있음. (rating,userid)형식
 
 ```json
@@ -94,8 +94,8 @@ http://127.0.0.1:8000/api/MF/?exe=1
 
 2) 추천 영화 목록(중복제거)
 http://127.0.0.1:8000/api/MF/?user_id={userid}
-2-1) 리턴 형식: 영화는 항상 10개가 들어있음
 
+2-1) 리턴 형식: 영화는 항상 10개가 들어있음
 ```json
 [
     {
