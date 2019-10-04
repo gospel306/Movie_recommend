@@ -1,83 +1,37 @@
 <template>
-  <v-container grid-list-md text-center>
-    <v-layout justify-center wrap>
-      <v-flex xs4>
-        <v-container fluid row>
-          <v-checkbox v-model="selected" label="연령대" value="1" @change="ShowBox"></v-checkbox>
-          <v-checkbox v-model="selected" label="직업군" value="2" @change="ShowBox"></v-checkbox>
-          <v-checkbox v-model="selected" label="성별" value="3" @change="ShowBox"></v-checkbox>
-          <v-checkbox v-model="selected" label="조회수/평점" value="4" @change="ShowBox"></v-checkbox>
-        </v-container>
-      </v-flex>
-    </v-layout>
-    <v-layout justify-center wrap>
-      <!-- 검색 폼 -->
-      <v-flex xs6>
-        <v-container>
-          <v-form ref="form">
-            <v-layout>
-              <v-flex xs12 v-if="option_1">
-                <v-select
-                  v-model="A_option"
-                  :items="A_options"
-                  item-text="text"
-                  item-value="value"
-                  label="연령대"
+  <v-container text-center>
+    <v-layout row fill-height>
+      <v-sheet width="100%">
+        <v-slide-group v-model="model" class="pa-4" active-class="success" show-arrows>
+          <v-slide-item v-for="movie in movies" :key="movie.id" v-slot:default="{ active, toggle }">
+            <v-card class="ma-4" height="400" width="250" @click="information(movie.id)">
+              <v-img :src="movie.img" height="300"></v-img>
+              <v-flex>
+                <h3>{{movie.title}}</h3>
+                <h5>{{movie.genres}}</h5>
+                <v-rating
+                  :value="movie.average_rating"
+                  color="black"
+                  background-color="black"
+                  dense
+                  readonly
                 />
               </v-flex>
-              <v-flex xs12 v-if="option_2">
-                <v-select
-                  v-model="O_option"
-                  :items="O_options"
-                  item-text="text"
-                  item-value="value"
-                  label="직업군"
-                />
-              </v-flex>
-              <v-flex xs12 v-if="option_3">
-                <v-select
-                  v-model="G_option"
-                  :items="G_options"
-                  item-text="text"
-                  item-value="value"
-                  label="성별"
-                />
-              </v-flex>
-
-              <v-flex xs12 v-if="option_4">
-                <v-select
-                  v-model="V_option"
-                  :items="V_options"
-                  item-text="text"
-                  item-value="value"
-                  label="조회수/평점순"
-                />
-              </v-flex>
-            </v-layout>
-            <v-layout justify-center wrap>
-              <v-flex xs3>
-                <v-select
-                  v-model="T_option"
-                  :items="T_options"
-                  item-text="text"
-                  item-value="value"
-                />
-              </v-flex>
-              <v-flex xs9>
-                <v-text-field label="검색어" v-model="value" />
-              </v-flex>
-            </v-layout>
-            <v-layout justify-center pa-10>
-              <v-btn large color="indigo white--text" @click="onSubmit">Search</v-btn>
-            </v-layout>
-          </v-form>
-        </v-container>
-      </v-flex>
-      <!-- 검색 결과 -->
-      <v-flex xs7>
-        <v-progress-circular :size="200" color="primary" indeterminate v-if="loading"/>
-        <MovieList :MovieItems="movieLists" />
-      </v-flex>
+            </v-card>            
+          </v-slide-item>
+        </v-slide-group>
+        <v-layout justify-center wrap class="under">
+          <v-flex xs2> 
+            <v-checkbox v-model="selected" label="조회수/평점" value="4" @change="ShowBox"></v-checkbox>
+          </v-flex>
+          <v-flex xs2> 
+            <v-text-field color="black" label="검색어" v-model="value" />
+          </v-flex>
+          <v-flex xs2> 
+            <v-btn large color="black white--text" @click="onSubmit">Search</v-btn>
+          </v-flex>
+        </v-layout>
+      </v-sheet>
     </v-layout>
   </v-container>
 </template>
@@ -90,6 +44,36 @@ export default {
     MovieList
   },
   data: () => ({
+    model: null,
+    movies: [
+      {
+        id: 1,
+        title: "부산행",
+        genre: "재난/야반도주/좀비",
+        rating: 4.0,
+        img:
+          "https://t1.daumcdn.net/movie/fe9da43b455db93228b5bfa74dacc78107f1eb40",
+        story: "클라이밍 가르쳐드립니다"
+      },
+      {
+        id: 3,
+        title: "액시트",
+        genre: "재난/윤아예쁨",
+        rating: 3.0,
+        img:
+          "http://mblogthumb4.phinf.naver.net/MjAxOTA3MTlfMjQ2/MDAxNTYzNDk2MTQzNDc5.I4LTFPPrFk0SH2OD-6dCxIaOlV8A0jHE8P7h3gJG5awg.ikimN4bDf-PbBEp1gPVvkQ6CY0fL109KRYMGOk0_hEgg.JPEG.hyun0707/%EC%9D%B4%EB%AF%B8%EC%A7%80.jpg?type=w800",
+        story: "마귀 죽음"
+      },
+      {
+        id: 4,
+        title: "타짜3",
+        genre: "도박/사행성",
+        rating: 3.0,
+        img:
+          "http://www.ohfarmstory.co.kr/ohfarm/contents/grow/ugiapple/img/apple001.jpg",
+        story: "마귀 죽음"
+      }
+    ],
     value: "",
     loading: false,
     A_options: [
@@ -173,7 +157,7 @@ export default {
             params
         })
         .then(res => {
-          this.movieLists = res.data;
+          this.movies = res.data;
           this.loading = false;
         });
     },
@@ -211,3 +195,13 @@ export default {
   }
 };
 </script>
+
+<style>
+  .sheet{
+    width: 1000px;
+    height:400px;
+  }
+  .under{
+    margin-top: 10px;
+  }
+</style>

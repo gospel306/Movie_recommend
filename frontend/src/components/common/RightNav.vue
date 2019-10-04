@@ -15,6 +15,38 @@
           <v-list-item-title class="subtitle-2 font-weight-bold white--text"></v-list-item-title>
         </v-list-item-content>
       </v-list-item>
+      <v-list-item @click="logout()" v-if="$store.state.login == true">
+        <v-list-item-action>
+          <v-icon color="white">mdi-logout</v-icon>
+        </v-list-item-action>
+        <v-list-item-content>
+          <v-list-item-title class="subtitle-2 font-weight-bold white--text"></v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+      <v-list-item @click="goTo('signup')" v-if="$store.state.login == false">
+        <v-list-item-action>
+          <v-icon color="white">mdi-account-plus</v-icon>
+        </v-list-item-action>
+        <v-list-item-content>
+          <v-list-item-title class="subtitle-2 font-weight-bold white--text"></v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+      <v-list-item @click="goTo('admin')" v-if="$store.state.login == true && $session.get('id')=='admin'">
+        <v-list-item-action>
+          <v-icon color="white">mdi-settings</v-icon>
+        </v-list-item-action>
+        <v-list-item-content>
+          <v-list-item-title class="subtitle-2 font-weight-bold white--text"></v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+      <v-list-item @click="goTo('profile')" v-if="$store.state.login == true && $session.get('id')!='admin'">
+        <v-list-item-action>
+          <v-icon color="white">mdi-account</v-icon>
+        </v-list-item-action>
+        <v-list-item-content>
+          <v-list-item-title class="subtitle-2 font-weight-bold white--text"></v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
       <template v-for="(choice, i) in this.$store.state.rightTemp">
         <v-list-item :key="i">
           <v-list-item-action>
@@ -31,11 +63,10 @@
 
 <script>
 export default {
-  name: "LeftNav",
+  name: "RightNav",
   data(){
     return{
       drawer: null,
-      leftNavNum: 3,
       temp: [],
     }
   },
@@ -43,6 +74,12 @@ export default {
     goTo(path) {
       this.$router.push(path);
     },
+    logout(){
+      this.$store.state.login = false;
+      this.$session.clear();
+      this.$router.push("/");
+      alert("성공적으로 로그아웃되었습니다.");
+    }
   }
 };
 </script>

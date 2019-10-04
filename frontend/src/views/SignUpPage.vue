@@ -79,7 +79,7 @@
                   </v-radio-group>
 
                 </v-container>
-                <v-btn class="pink white--text" :disabled="!valid" @click="sign">Sign</v-btn>
+                <v-btn class="black white--text" :disabled="!valid" @click="sign">Sign</v-btn>
 
               </v-form>
 
@@ -114,22 +114,23 @@ export default {
             this.loading = true;
             axios.post('http://localhost:8000/api/users/', this.profile).then(res => {
               alert("회원가입 되었습니다");
+              axios.post('http://localhost:8000/api/login/', {
+                username : this.profile.username,
+                password : this.profile.password
+              }).then(res => {
+                this.$store.state.login = true;
+                this.$session.start();
+                this.$session.set('token', res.data.token);
+                this.$session.set('id', this.profile.username);
+                alert("회원님께서 보셨던 영화의 평점을 등록해주세요!");
+                router.push('/search');
+              }).catch( e => {
+                console.log(e);
+              });
             }).catch( res =>{
-              this.loading = false;
-             }
-            );
-
-            axios.post('http://localhost:8000/api/login/', {
-              username: this.profile.username,
-              password: this.profile.password
-            }).then(res => {
-              this.$store.state.login = true;
-              this.$session.start();
-              this.$session.set('token', res.data.token);
-              this.$session.set('id', this.profile.username);
-              alert("회원의 정보를 입력해주세요");
-              router.push('/search');
-            });
+              console.log(res);
+             });
+            this.loading = false;
           }           
         }
       }

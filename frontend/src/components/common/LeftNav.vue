@@ -7,14 +7,6 @@
     class="black"
   >
     <v-list>
-      <v-list-item @click="goTo('profile')">
-        <v-list-item-action>
-          <v-icon color="white">mdi-account</v-icon>
-        </v-list-item-action>
-        <v-list-item-content>
-          <v-list-item-title class="subtitle-2 font-weight-bold white--text"></v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
       <v-list-item @click="goTo('search')">
         <v-list-item-action>
           <v-icon color="white">mdi-magnify</v-icon>
