@@ -41,7 +41,7 @@ def movies(request):
             if occupation:
                 profile = profile.filter(occupation__icontains=occupation)
             movies = movies.filter(rating__userid__in=profile)
-        if not (id and title and genre and order and age and gender and occupation):
+        if not (id or title or genre or order or age or gender or occupation):
             movienum = []
             for movie in movies:
                 movienum.append(movie.id)
