@@ -1,60 +1,42 @@
 <template >
   <v-navigation-drawer
     v-model="drawer"
-    width="4%"
+    width="3%"
     app
     right
     class="black"
   >
     <v-list>
-      <v-list-item @click="goTo('login')" v-if="$store.state.login == false">
-        <v-list-item-action>
+      <v-list-item class="pa-0" @click="goTo('login')" v-if="$store.state.login == false">
+        <v-list-item-action class="ma-0">
           <v-icon color="white">mdi-login</v-icon>
         </v-list-item-action>
-        <v-list-item-content>
-          <v-list-item-title class="subtitle-2 font-weight-bold white--text"></v-list-item-title>
-        </v-list-item-content>
       </v-list-item>
-      <v-list-item @click="logout()" v-if="$store.state.login == true">
-        <v-list-item-action>
+      <v-list-item class="pa-0" @click="logout()" v-if="$store.state.login == true">
+        <v-list-item-action class="ma-0">
           <v-icon color="white">mdi-logout</v-icon>
         </v-list-item-action>
-        <v-list-item-content>
-          <v-list-item-title class="subtitle-2 font-weight-bold white--text"></v-list-item-title>
-        </v-list-item-content>
       </v-list-item>
-      <v-list-item @click="goTo('signup')" v-if="$store.state.login == false">
-        <v-list-item-action>
+      <v-list-item class="pa-0" @click="goTo('signup')" v-if="$store.state.login == false">
+        <v-list-item-action class="ma-0">
           <v-icon color="white">mdi-account-plus</v-icon>
         </v-list-item-action>
-        <v-list-item-content>
-          <v-list-item-title class="subtitle-2 font-weight-bold white--text"></v-list-item-title>
-        </v-list-item-content>
       </v-list-item>
-      <v-list-item @click="goTo('admin')" v-if="$store.state.login == true && $session.get('id')=='admin'">
-        <v-list-item-action>
+      <v-list-item class="pa-0" @click="goTo('admin')" v-if="$store.state.login == true && $session.get('id')=='admin'">
+        <v-list-item-action class="ma-0">
           <v-icon color="white">mdi-settings</v-icon>
         </v-list-item-action>
-        <v-list-item-content>
-          <v-list-item-title class="subtitle-2 font-weight-bold white--text"></v-list-item-title>
-        </v-list-item-content>
       </v-list-item>
-      <v-list-item @click="goTo('profile')" v-if="$store.state.login == true && $session.get('id')!='admin'">
-        <v-list-item-action>
+      <v-list-item class="pa-0" @click="goTo('profile')" v-if="$store.state.login == true && $session.get('id')!='admin'">
+        <v-list-item-action class="ma-0">
           <v-icon color="white">mdi-account</v-icon>
         </v-list-item-action>
-        <v-list-item-content>
-          <v-list-item-title class="subtitle-2 font-weight-bold white--text"></v-list-item-title>
-        </v-list-item-content>
       </v-list-item>
       <template v-for="(choice, i) in this.$store.state.rightTemp">
-        <v-list-item :key="i">
-          <v-list-item-action>
+        <v-list-item class="pa-0" :key="i">
+          <v-list-item-action class="ma-0">
             <v-icon color="white">mdi-checkbox-blank</v-icon>
           </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title class="subtitle-2 font-weight-bold white--text"></v-list-item-title>
-          </v-list-item-content>
         </v-list-item>
       </template>      
     </v-list>

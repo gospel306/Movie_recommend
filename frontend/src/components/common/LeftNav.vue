@@ -1,46 +1,34 @@
 <template >
   <v-navigation-drawer
     v-model="drawer"
-    width="4%"
+    width="3%"
     app
     left
-    class="black"
+    class="black"    
   >
-    <v-list>
-      <v-list-item @click="goTo('search')">
-        <v-list-item-action>
+    <v-list class="li">
+      <v-list-item class="pa-0" @click="goTo('search')">
+        <v-list-item-action class="ma-0">
           <v-icon color="white">mdi-magnify</v-icon>
         </v-list-item-action>
-        <v-list-item-content>
-          <v-list-item-title class="subtitle-2 font-weight-bold white--text"></v-list-item-title>
-        </v-list-item-content>
       </v-list-item>
-      <v-list-item @click="goTo('best')">
-        <v-list-item-action>
+      <v-list-item class="pa-0" @click="goTo('best')">
+        <v-list-item-action class="ma-0">
           <v-icon color="white">mdi-movie</v-icon>
         </v-list-item-action>
-        <v-list-item-content>
-          <v-list-item-title class="subtitle-2 font-weight-bold white--text"></v-list-item-title>
-        </v-list-item-content>
       </v-list-item>
-      <v-list-item @click="goTo('mdi-checkbox-blank')">
-        <v-list-item-action>
+      <v-list-item class="pa-0" @click="goTo('null')">
+        <v-list-item-action class="ma-0">
           <v-icon color="white">mdi-checkbox-blank</v-icon>
         </v-list-item-action>
-        <v-list-item-content>
-          <v-list-item-title class="subtitle-2 font-weight-bold white--text"></v-list-item-title>
-        </v-list-item-content>
       </v-list-item>
       <template v-for="(choice, i) in this.$store.state.leftTemp">
-        <v-list-item :key="i">
-          <v-list-item-action>
+        <v-list-item class="pa-0" :key="i">
+          <v-list-item-action class="ma-0">
             <v-icon color="white">mdi-checkbox-blank</v-icon>
           </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title class="subtitle-2 font-weight-bold white--text"></v-list-item-title>
-          </v-list-item-content>
         </v-list-item>
-      </template>      
+      </template>   
     </v-list>
   </v-navigation-drawer>
 </template>
@@ -70,5 +58,9 @@ export default {
 .background{
   background: black
 } 
+.li{
+  float: right;
+}
+
 </style>
 

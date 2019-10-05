@@ -1,14 +1,22 @@
 <template>
   <v-content>
-    <v-container fluid fill-height class="background">
-      <router-view></router-view>
+    <v-container fluid fill-height class="back">
+     <v-layout align-center justify-center>
+        <v-flex class="main-board">
+          <router-view></router-view>
+        </v-flex>
+      </v-layout>
     </v-container>
-    <LeftNav></LeftNav>
-    <RightNav></RightNav>
+        <LeftNav class="nav"></LeftNav>
+    <RightNav class="nav"></RightNav>
   </v-content>
 </template>
 
 <script>
+/*
+    <LeftNav class="nav"></LeftNav>
+    <RightNav class="nav"></RightNav>
+*/
 import LeftNav from "@/components/common/LeftNav";
 import RightNav from "@/components/common/RightNav";
 
@@ -42,29 +50,43 @@ export default {
 
       for(var i = 1; i <= leftNum; i++){
         this.$store.state.leftTemp.push(i);
-      }
+      };
       for(var i = 1; i <= rightNum; i++){
         this.$store.state.rightTemp.push(i);
-      }
+      };
     }
   },
 };
 </script>
 
 <style>
-/* .background{
-  background: url("http://image.downloadwap.co.uk/wallpapers/p2ls/new/38/wallp_hVnXsXu8uw.jpg");
-} */
-/*
- .background{
-  background: black
-} */
- .background{
+.back{
+  background-color : black;
+
+  }
+  /*
+    border-width: 1px;
+  border-color: blue;
+  border-style : solid;
+
+    border-width: 5px;
+  border-color: aqua;
+  border-style : solid;
+  margin : 10px;
+
+   */
+.main-board{
+  background-color: white;
+
+  border-radius: 30px;
+  height: 85%;
+
+
+}
+.background{
   background: url("../images/back1.png");
   background-repeat: no-repeat;
   background-size: 104% 100%;
-  background-position: center;
 } 
-
 </style>
 
