@@ -5,42 +5,33 @@
     app
     left
     class="black"    
-  >
-    <v-list class="li">
-      <v-list-item class="pa-0" @click="goTo('search')">
-        <v-list-item-action class="ma-0">
-          <v-icon color="white">mdi-magnify</v-icon>
-        </v-list-item-action>
-      </v-list-item>
-      <v-list-item class="pa-0" @click="goTo('best')">
-        <v-list-item-action class="ma-0">
-          <v-icon color="white">mdi-movie</v-icon>
-        </v-list-item-action>
-      </v-list-item>
-      <v-list-item class="pa-0" @click="goTo('null')">
-        <v-list-item-action class="ma-0">
+    >
+    <v-layout column justify-center >
+      <v-flex id="fir" class="bt" text-sm-right>
+        <v-icon color="white" @click="goTo('search')" >mdi-magnify</v-icon>
+      </v-flex>
+      <v-flex class="bt" text-sm-right>
+        <v-icon color="white" @click="goTo('best')">mdi-movie</v-icon>
+      </v-flex>
+      <v-flex class="bt" text-sm-right>
+        <v-icon color="white" @click="goTo('null')">mdi-checkbox-blank</v-icon>
+      </v-flex>
+      <template v-for="i in this.$store.state.leftNavNum">
+        <v-flex class="bt" text-sm-right :key="i">
           <v-icon color="white">mdi-checkbox-blank</v-icon>
-        </v-list-item-action>
-      </v-list-item>
-      <template v-for="(choice, i) in this.$store.state.leftTemp">
-        <v-list-item class="pa-0" :key="i">
-          <v-list-item-action class="ma-0">
-            <v-icon color="white">mdi-checkbox-blank</v-icon>
-          </v-list-item-action>
-        </v-list-item>
+        </v-flex>
       </template>   
-    </v-list>
+    </v-layout>
   </v-navigation-drawer>
 </template>
 
 <script>
+
 export default {
   name: "LeftNav",
   data(){
     return{
       drawer: null,
-      leftNavNum: 3,
-      temp: [],
     }
   },
   methods: {
@@ -61,6 +52,11 @@ export default {
 .li{
   float: right;
 }
-
+.bt{
+  margin: 11px 0px;
+}
+#fir{
+  margin-top:20px;
+}
 </style>
 

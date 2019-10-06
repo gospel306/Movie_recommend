@@ -10,8 +10,8 @@ export default new Vuex.Store({
       width:0,
       height:0
     },
-    leftNum:4,
-    rightNum:2,
+    leftNavNum:17,
+    rightNavNum:18,
     leftTemp:[],
     rightTemp:[],
     server: 'http://localhost:8000',

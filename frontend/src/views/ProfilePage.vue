@@ -1,10 +1,10 @@
 <template>
     <v-container class="profile">
         <v-layout row wrap>
-            <v-flex xs12 sm6 md12 lg4 xl2 class="board">
+            <v-flex sm5 class="board">
                 <ProfileInfo></ProfileInfo>
             </v-flex>
-            <v-flex xs12 sm6 md12 lg7 xl2 class="board">
+            <v-flex sm5 class="board">
                 <MyRatingList></MyRatingList>
             </v-flex>
         </v-layout>
@@ -26,9 +26,9 @@ export default {
 <style>
     .profile{
         /*background-color:tomato;*/
-        height: 83%;
-        width : 100%;
-        border-radius: 50px;
+        height: 80%;
+        width : 80%;
+
     }
     .board{
         /*background-color:violet;*/

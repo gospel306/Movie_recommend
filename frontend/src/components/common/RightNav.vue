@@ -6,40 +6,28 @@
     right
     class="black"
   >
-    <v-list>
-      <v-list-item class="pa-0" @click="goTo('login')" v-if="$store.state.login == false">
-        <v-list-item-action class="ma-0">
-          <v-icon color="white">mdi-login</v-icon>
-        </v-list-item-action>
-      </v-list-item>
-      <v-list-item class="pa-0" @click="logout()" v-if="$store.state.login == true">
-        <v-list-item-action class="ma-0">
-          <v-icon color="white">mdi-logout</v-icon>
-        </v-list-item-action>
-      </v-list-item>
-      <v-list-item class="pa-0" @click="goTo('signup')" v-if="$store.state.login == false">
-        <v-list-item-action class="ma-0">
-          <v-icon color="white">mdi-account-plus</v-icon>
-        </v-list-item-action>
-      </v-list-item>
-      <v-list-item class="pa-0" @click="goTo('admin')" v-if="$store.state.login == true && $session.get('id')=='admin'">
-        <v-list-item-action class="ma-0">
-          <v-icon color="white">mdi-settings</v-icon>
-        </v-list-item-action>
-      </v-list-item>
-      <v-list-item class="pa-0" @click="goTo('profile')" v-if="$store.state.login == true && $session.get('id')!='admin'">
-        <v-list-item-action class="ma-0">
-          <v-icon color="white">mdi-account</v-icon>
-        </v-list-item-action>
-      </v-list-item>
-      <template v-for="(choice, i) in this.$store.state.rightTemp">
-        <v-list-item class="pa-0" :key="i">
-          <v-list-item-action class="ma-0">
-            <v-icon color="white">mdi-checkbox-blank</v-icon>
-          </v-list-item-action>
-        </v-list-item>
-      </template>      
-    </v-list>
+    <v-layout column justify-center >
+      <v-flex id="fir" class="bt" text-sm-left v-if="$store.state.login == false">
+        <v-icon color="white" @click="goTo('login')" >mdi-login</v-icon>
+      </v-flex>
+      <v-flex class="bt" text-sm-left v-if="$store.state.login == true">
+        <v-icon color="white" @click="logout()">mdi-logout</v-icon>
+      </v-flex>
+      <v-flex class="bt" text-sm-left v-if="$store.state.login == false">
+        <v-icon color="white" @click="goTo('signup')">mdi-account-plus</v-icon>
+      </v-flex>
+      <v-flex class="bt" text-sm-left v-if="$store.state.login == true && $session.get('id')=='admin'">
+        <v-icon color="white" @click="goTo('signup')">mdi-settings</v-icon>
+      </v-flex>
+      <v-flex class="bt" text-sm-left v-if="$store.state.login == true && $session.get('id')!='admin'">
+        <v-icon color="white" @click="goTo('profile')">mdi-account</v-icon>
+      </v-flex>
+      <template v-for="i in this.$store.state.rightNavNum">
+        <v-flex class="bt" text-sm-left :key="i">
+          <v-icon color="white">mdi-checkbox-blank</v-icon>
+        </v-flex>
+      </template>   
+    </v-layout>
   </v-navigation-drawer>
 </template>
 
@@ -49,7 +37,6 @@ export default {
   data(){
     return{
       drawer: null,
-      temp: [],
     }
   },
   methods: {
@@ -73,5 +60,11 @@ export default {
 .background{
   background: black
 } 
+.bt{
+  margin: 11px 0px;
+}
+#fir{
+  margin-top:20px;
+}
 </style>
 

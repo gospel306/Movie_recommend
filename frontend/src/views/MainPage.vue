@@ -7,7 +7,7 @@
         </v-flex>
       </v-layout>
     </v-container>
-        <LeftNav class="nav"></LeftNav>
+    <LeftNav class="nav"></LeftNav>
     <RightNav class="nav"></RightNav>
   </v-content>
 </template>
@@ -62,7 +62,6 @@ export default {
 <style>
 .back{
   background-color : black;
-
   }
   /*
     border-width: 1px;
@@ -77,16 +76,12 @@ export default {
    */
 .main-board{
   background-color: white;
-
   border-radius: 30px;
   height: 85%;
-
-
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.background{
-  background: url("../images/back1.png");
-  background-repeat: no-repeat;
-  background-size: 104% 100%;
-} 
+
 </style>
 

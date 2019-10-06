@@ -1,7 +1,7 @@
 <template>
     <v-container grid-list-md>
-      <v-layout row wrap align-center justify-center fill-height>
-        <v-flex xs12 sm8 lg4 md5>
+      <v-layout row wrap align-center text-center justify-center fill-height>
+        <v-flex xs2>
           <v-card class="login-card">
             <v-card-title>
               <span class="headline">Login</span>
@@ -17,8 +17,8 @@
               >
                 <v-progress-circular
                   :size="50"
-                  color="primary"
-                  indeterminate
+                  indeterminate color="black"
+
                 />
               </v-layout>
 
@@ -27,16 +27,15 @@
                 <v-container>
                   <v-text-field
                     v-model="credentials.username"
-                    :counter="70"
-                    label="email address"
-                    maxlength="70"
+                    label="E-mail"
+                    color="black"
                     required
                   />
                   <v-text-field
                     type="password"
                     v-model="credentials.password"
-                    :counter="20"
-                    label="password"
+                    color="black"
+                    label="Password"
                     maxlength="20"
                     required
                   />
@@ -83,3 +82,8 @@ export default {
     }
 }
 </script>
+<style>
+
+
+
+</style>

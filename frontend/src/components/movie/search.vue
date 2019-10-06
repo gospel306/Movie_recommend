@@ -1,26 +1,27 @@
 <template>
   <v-container text-center>
-    <v-layout row fill-height>
-      <v-sheet width="100%">
-        <v-slide-group v-model="model" class="pa-4" active-class="success" show-arrows>
+    <v-layout row align-center class="sh">
+      <v-flex class="fir">
+        <v-slide-group v-model="model" class="pa-0" active-class="success" show-arrows>
           <v-slide-item v-for="movie in movies" :key="movie.id" v-slot:default="{ active, toggle }">
-            <v-card class="ma-4" height="400" width="250" @click="showDetail(movie.id)">
-              <v-img :src="movie.poster" max-height="300"></v-img>
-              <v-flex class="ca">
-                <h3>{{movie.title}}</h3>
-                <h5>{{movie.genres}}</h5>
-                <v-rating
-                  :value="movie.average_rating"
-                  color="black"
-                  background-color="black"
-                  half-increments
-                  dense
-                  readonly
-                />
-              </v-flex>
+            <v-card class="ma-2" height="400" width="250" @click="showDetail(movie.id)">
+              <v-layout column>
+                <v-flex class="top">
+                  <v-img 
+                  :src="movie.poster" 
+                  width="100%"
+                  height="100%"
+                  ></v-img>
+                </v-flex>
+                <v-flex class="ca">
+                  <h3>{{movie.title}}</h3>
+                </v-flex>
+              </v-layout>
             </v-card>            
           </v-slide-item>
         </v-slide-group>
+      </v-flex>
+      <v-flex>
         <v-layout justify-center wrap class="under">
           <v-flex xs2> 
             <v-checkbox v-model="selected" label="조회수/평점" value="4" @change="ShowBox"></v-checkbox>
@@ -32,7 +33,7 @@
             <v-btn large color="black white--text" @click="onSubmit">Search</v-btn>
           </v-flex>
         </v-layout>
-      </v-sheet>
+      </v-flex>
     </v-layout>
   </v-container>
 </template>
@@ -134,6 +135,10 @@ export default {
         })
         .then(res => {
           this.movies = res.data;
+          for(var i = 0; i<this.movies.length;i++){
+            if(this.movies[i].title.length > 25)
+              this.movies[i].title = this.movies[i].title.substring(0,23)+"..";
+          }
           this.loading = false;
         });
     },
@@ -173,14 +178,33 @@ export default {
 </script>
 
 <style>
-  .sheet{
-    width: 1000px;
-    height:400px;
-  }
   .under{
     margin-top: 10px;
   }
   .ca{
     margin-top: 10px;
   }
+  .sh{
+
+    height : 600px;
+
+  }
+
+  .fir{
+    width:100%;
+    height:70%;
+  }
+  .top{
+    width:250px;
+    height:350px;
+  }
+/*
+    border-style: solid;
+    border-width: 5px;
+    border-color: chartreuse;
+
+
+ */
+
+
 </style>
