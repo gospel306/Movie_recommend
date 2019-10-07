@@ -99,8 +99,9 @@ def subscribe(request):
             subscribe = SubScribe.objects.filter(userid=user)
             autoscribe = request.GET.get('auto')
             date = datetime.now(koreadate)
+            cluster = request.GET.get('cluster', None)
             if not subscribe:
-                SubScribe(userid=user, startdate=date, subscribedate=date, autoscribe=autoscribe).save()
+                SubScribe(userid=user, startdate=date, subscribedate=date, autoscribe=autoscribe, cluster=cluster).save()
                 return Response(status=status.HTTP_201_CREATED)
             else:
                 scribedate = subscribe.order_by("subscribedate")[0]
@@ -108,7 +109,7 @@ def subscribe(request):
                 if scribekor + timedelta(days=30) > date > scribekor:
                     SubScribe.objects.filter(pk=scribedate.id).update(subscribedate=scribekor+timedelta(days=30), autoscribe=autoscribe)
                 else:
-                    SubScribe(userid=user, startdate=date, subscribedate=date, autoscribe=autoscribe).save()
+                    SubScribe(userid=user, startdate=date, subscribedate=date, autoscribe=autoscribe, cluster=cluster).save()
                 return Response(status=status.HTTP_200_OK)
     if request.method == 'GET':
         id = request.GET.get('id', None)
