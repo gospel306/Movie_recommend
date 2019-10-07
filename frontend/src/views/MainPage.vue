@@ -54,7 +54,7 @@ export default {
 .main-board{
   background-color: white;
   border-radius: 15px;
-  height: 85%;
+  height: 90%;
   display: flex;
   align-items: center;
   justify-content: center;

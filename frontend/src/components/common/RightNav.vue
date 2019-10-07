@@ -1,17 +1,18 @@
 <template >
   <v-navigation-drawer
     v-model="drawer"
-    width="3%"
+    width="4%"
     app
     right
     class="black"
   >
-    <v-layout column justify-center >
+    <v-layout column justify-center text-sm-left>
+      <v-flex class="ma-1"/>
       <v-flex  class="ma-2"  v-if="$store.state.login == false">
         <v-tooltip left>
           <template v-slot:activator="{ on }">
             <v-btn icon @click="goTo('login')" class="toolbartext" v-on="on">
-              <v-icon color="white"  >mdi-login</v-icon>
+              <v-icon large color="white"  >mdi-login</v-icon>
             </v-btn>
           </template>
           <span>로그인</span>
@@ -21,7 +22,7 @@
         <v-tooltip left>
           <template v-slot:activator="{ on }">
             <v-btn icon @click="logout()" class="toolbartext" v-on="on">
-              <v-icon color="white"  >mdi-logout</v-icon>
+              <v-icon large color="white"  >mdi-logout</v-icon>
             </v-btn>
           </template>
           <span>로그아웃</span>
@@ -31,7 +32,7 @@
         <v-tooltip left>
           <template v-slot:activator="{ on }">
             <v-btn icon @click="goTo('signup')" class="toolbartext" v-on="on">
-              <v-icon color="white"  >mdi-account-plus</v-icon>
+              <v-icon large color="white"  >mdi-account-plus</v-icon>
             </v-btn>
           </template>
           <span>회원가입</span>
@@ -41,7 +42,7 @@
         <v-tooltip left>
           <template v-slot:activator="{ on }">
             <v-btn icon @click="goTo('admin')" class="toolbartext" v-on="on">
-              <v-icon color="white"  >mdi-settings</v-icon>
+              <v-icon large color="white"  >mdi-settings</v-icon>
             </v-btn>
           </template>
           <span>관리자정보</span>
@@ -51,7 +52,7 @@
         <v-tooltip left>
           <template v-slot:activator="{ on }">
             <v-btn icon @click="goTo('profile')" class="toolbartext" v-on="on">
-              <v-icon color="white"  >mdi-account</v-icon>
+              <v-icon large color="white"  >mdi-account</v-icon>
             </v-btn>
           </template>
           <span>회원정보</span>
@@ -62,7 +63,7 @@
           <v-tooltip left>
             <template v-slot:activator="{ off }">
               <v-btn icon class="toolbartext" v-on="on">
-                <v-icon color="white">mdi-checkbox-blank</v-icon>
+                <v-icon large color="white">mdi-checkbox-blank</v-icon>
               </v-btn>
             </template>            
           </v-tooltip>

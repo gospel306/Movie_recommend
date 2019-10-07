@@ -2,7 +2,7 @@
   <v-container text-center>
     <v-layout row align-center class="sh">
       <v-flex class="fir">
-        <v-slide-group v-model="model" class="pa-0" active-class="success" show-arrows>
+        <v-slide-group v-model="model" class="pa-4" active-class="success" show-arrows>
           <v-slide-item v-for="movie in movies" :key="movie.id" v-slot:default="{ active, toggle }">
             <v-card class="ma-2" height="400" width="250" @click="showDetail(movie.id)">
               <v-layout column>
@@ -136,7 +136,7 @@ export default {
         .then(res => {
           this.movies = res.data;
           for(var i = 0; i<this.movies.length;i++){
-            if(this.movies[i].title.length > 25)
+            if(this.movies[i].title.length > 20)
               this.movies[i].title = this.movies[i].title.substring(0,23)+"..";
           }
           this.loading = false;
@@ -198,13 +198,4 @@ export default {
     width:250px;
     height:350px;
   }
-/*
-    border-style: solid;
-    border-width: 5px;
-    border-color: chartreuse;
-
-
- */
-
-
 </style>
