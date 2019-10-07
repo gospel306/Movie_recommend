@@ -41,6 +41,7 @@ def signup_many(request):
 
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
+
 @api_view(['GET','POST','PUT','DELETE'])
 def users(request):
     if request.method == 'GET':
@@ -50,8 +51,8 @@ def users(request):
             user = User.objects.get(username = id)
             if user :
                 profile = Profile.objects.get(user = user)
-        
-        serializer = ProfileSerializer(profile)        
+
+        serializer = ProfileSerializer(profile)
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
     if request.method == 'POST':
@@ -97,38 +98,49 @@ def subscribe(request):
         if id:
             user = User.objects.get(pk=id)
             subscribe = SubScribe.objects.filter(userid=user)
-            autoscribe = request.GET.get('auto')
+            autoscribe = request.GET.get('auto', False)
             date = datetime.now(koreadate)
             cluster = request.GET.get('cluster', None)
             if not subscribe:
-                SubScribe(userid=user, startdate=date, subscribedate=date, autoscribe=autoscribe, cluster=cluster).save()
+                enddate = date + timedelta(days=30)
+                SubScribe(userid=user, startdate=date, subscribedate=date, enddate=enddate, autoscribe=autoscribe, cluster=cluster).save()
                 return Response(status=status.HTTP_201_CREATED)
             else:
                 scribedate = subscribe.order_by("subscribedate")[0]
                 scribekor = datetime.astimezone(scribedate.subscribedate, koreadate)
-                if scribekor + timedelta(days=30) > date > scribekor:
-                    SubScribe.objects.filter(pk=scribedate.id).update(subscribedate=scribekor+timedelta(days=30), autoscribe=autoscribe)
+                enddate = datetime.astimezone(scribedate.enddate, koreadate)
+                if enddate > date > scribekor:
+                    adate = date.strftime('%Y-%m-%d')
+                    bdate = enddate.strftime('%Y-%m-%d')
+                    print(adate)
+                    print(bdate)
+                    if adate == bdate:
+                        SubScribe.objects.filter(pk=scribedate.id).update(subscribedate=date, enddate=date+timedelta(days=30), autoscribe=autoscribe, cluster=cluster)
+                    else:
+                        SubScribe.objects.filter(pk=scribedate.id).update(autoscribe=autoscribe, cluster=cluster)
                 else:
-                    SubScribe(userid=user, startdate=date, subscribedate=date, autoscribe=autoscribe, cluster=cluster).save()
+                    enddate = date + timedelta(days=30)
+                    SubScribe(userid=user, startdate=date, subscribedate=date, enddate=enddate, autoscribe=autoscribe, cluster=cluster).save()
                 return Response(status=status.HTTP_200_OK)
     if request.method == 'GET':
         id = request.GET.get('id', None)
         user = User.objects.get(pk=id)
         option = request.GET.get('option')
         date = request.GET.get('firstdate')
-        firstdate = datetime.strptime(date, "%Y-%m-%d %H:%M")
-        date = request.GET.get('lastdate')
-        lastdate = datetime.strptime(date, "%Y-%m-%d %H:%M", None)
+        firstdate = datetime.strptime(date, "%Y-%m-%d")
+        ldate = request.GET.get('lastdate', None)
+        if ldate:
+            lastdate = datetime.strptime(ldate, "%Y-%m-%d")
         scribedate = SubScribe.objects.filter(userid=user)
         if option == "list":
             scribedate = scribedate.filter(startdate__range=(firstdate, lastdate))
         elif option == "isscribe":
-            scribedate = scribedate.filter(subscribedate__range=(firstdate, lastdate))
-        elif option == "isauto":
-            scribedate = scribedate.order_by("subscribedate")[0]
-            if scribedate and scribedate.autoscribe:
-                date = datetime.now(koreadate)
-                SubScribe.objects.filter(pk=scribedate.id).update(subscribedate=date)
+            scribedate = scribedate.filter(subscribedate__gt=firstdate)
+        # elif option == "isauto":
+        #     scribedate = scribedate.order_by("subscribedate")[0]
+        #     if scribedate and scribedate.autoscribe:
+        #         date = datetime.now(koreadate)
+        #         SubScribe.objects.filter(pk=scribedate.id).update(subscribedate=date)
         scribedate = scribedate.order_by("subscribedate")
         serializer = SubScribeSerializer(scribedate, many=True)
         return Response(data=serializer.data, status=status.HTTP_200_OK)

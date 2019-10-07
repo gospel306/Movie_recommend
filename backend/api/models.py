@@ -110,5 +110,6 @@ class SubScribe(models.Model):
     userid = models.ForeignKey(User, on_delete=models.CASCADE)
     startdate = models.DateTimeField()
     subscribedate = models.DateTimeField()
+    enddate = models.DateTimeField()
     autoscribe = models.BooleanField()
-    cluster = models.CharField(max_length=20, default="")
+    cluster = models.CharField(max_length=20)
