@@ -1,125 +1,84 @@
 <template>
-  <v-container column justify-content="space-between">
-    <v-layout>
+  <v-container fluid class="base" grid-list-md text-xs-center>
+    <v-layout row wrap >
       <v-flex xs9>
-        <h1>{{movie.title}}</h1>
-        <v-flex>
-          <v-layout>
-            <h3>평점 -</h3>
-            <v-rating
-              :value="rating"
-              color="indigo"
-              background-color="indigo"
-              half-increments
-              dense
-              readonly
-            />
-            <div class="grey--text ml-4">{{ rating.toFixed(1) }}</div>
-          </v-layout>
-        </v-flex>
-        <v-flex>
-          <v-layout>
-            <h3>장르 -</h3>
-            {{movie.genres}}
-          </v-layout>
-        </v-flex>
-
-        <v-flex>
-          <v-layout>
-            <h3>감독 -</h3>
-            <v-flex v-for="director in directorlist" :key="director.id">
-              <a @click="PersonInfo(director.id)">{{director.name}}</a>
-            </v-flex>
-          </v-layout>
-        </v-flex>
-
-        <v-flex>
-          <v-layout>
-            <h3>작가 -</h3>
-            <v-flex v-for="writer in writerlist" :key="writer.id">
-              <a @click="PersonInfo(writer.id)">{{writer.name}}</a>
-            </v-flex>
-          </v-layout>
-        </v-flex>
-
-        <v-flex>
-          <v-layout>
-            <h3>출연진</h3>
-            <a v-if="more" @click="CastMore" pl-4>더 보기</a>
-          </v-layout>
-          <v-layout row>
-            <v-flex v-if="more" row pl-4>
-              <v-flex v-for="cast in main_actor" :key="cast.id" pa-2>
-                <a @click="PersonInfo(cast.id)">{{cast.name}}</a>
-              </v-flex>
-            </v-flex>
-            <v-flex v-else row>
-              <v-flex v-for="cast in castlist" :key="cast.id" pa-2>
-                <a @click="PersonInfo(cast.id)">{{cast.name}}</a>
-              </v-flex>
-            </v-flex>
-          </v-layout>
-        </v-flex>
-      </v-flex>
-
-      <v-flex xs3>
-        <v-card
-          :color="active ? undefined : 'grey lighten-1'"
-          class="ma-4"
-          height="400"
-          width="300"
-        >
-          <v-img :src="movie.poster" height="450"></v-img>
-        </v-card>
+        <v-layout row>
+          <v-flex xs11>
+           <v-layout row wrap>
+             <v-flex class="ck" xs12>
+               <h1>{{this.info.title}}</h1>
+             </v-flex>
+             <v-flex class="ck" xs12>
+               <h3>{{this.info.genres}}</h3>
+             </v-flex>
+             <v-flex class="ck" xs12>
+               <v-layout row>
+                 <v-flex class="ck" xs2>
+                  <v-rating
+                    :value="this.info.average_rating"
+                    color="black"
+                    background-color="black"
+                    half-increments
+                    dense
+                    readonly
+                  />
+                 </v-flex>
+                 <v-flex class="ck" xs2 >
+                  <v-dialog v-model="dialog" persistent max-width="290">
+                    <template v-slot:activator="{ on }">
+                      <v-btn color="black white--text" dark v-on="on">평점 작성</v-btn>
+                    </template>
+                    <v-card>
+                      <v-layout justify-center>
+                        <v-card-title class="headline">이 영화의 점수는?</v-card-title>
+                      </v-layout>
+                      <v-card-text>
+                          <v-layout justify-center>별점을 매겨주세요!</v-layout>
+                      </v-card-text>
+                      <v-layout justify-center>
+                        <v-rating
+                          v-model="rating"
+                          color="black"
+                          dense
+                          background-color="black"
+                        />
+                      </v-layout>
+                      <v-card-actions>
+                        <div class="flex-grow-1"></div>
+                        <v-btn color="black" text @click="dialog = false; submit()">등록</v-btn>
+                        <v-btn color="black" text @click="dialog = false">취소</v-btn>
+                      </v-card-actions>
+                    </v-card>
+                  </v-dialog>
+                 </v-flex>
+               </v-layout>
+             </v-flex>
+             <v-flex class="ck" xs12>
+              {{movie.plot}}                
+             </v-flex>
+           </v-layout>
+          </v-flex>          
+        </v-layout>
+      </v-flex>      
+      <v-flex class="ck" xs3>
+        <v-layout align-center >
+          <v-flex>
+            <v-img
+              float:right
+              height="100%"
+              width="100%"
+              v-bind:src="this.info.poster"
+            ></v-img>
+          </v-flex>
+        </v-layout>
       </v-flex>
     </v-layout>
-
-    <v-layout column>
-      <h2>줄거리</h2>
-      {{movie.plot}}
-      <iframe
-        v-if="video.length > 0"
-        width="100%"
-        height="600"
-        :src="video"
-        frameborder="0"
-        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen
-      ></iframe>
-    </v-layout>
-
-    <v-dialog v-model="dialog" dark max-width="60%">
-      <v-card>
-        <v-card-title>인물 소개</v-card-title>
-        <v-card-text>
-          <v-layout>
-            <v-flex xs3>
-              <v-img :src="person.headshot" height="100%" width="100%"></v-img>
-            </v-flex>
-            <v-flex xs9>
-              <v-layout column pl-4>
-                <v-flex title>{{person.name}}</v-flex>
-                <v-flex>출생 : {{person.birth_date}}</v-flex>
-                <v-flex>신장 : {{person.height}}</v-flex>
-                <v-flex>
-                  - 가족관계 -
-                  <v-flex v-for="family in family_member" :key="family">{{family}}</v-flex>
-                </v-flex>
-                <v-flex>
-                  - 이력사항 -
-                  <p class="font-weight-thin">{{career}}</p>
-                </v-flex>
-              </v-layout>
-            </v-flex>
-          </v-layout>
-        </v-card-text>
-      </v-card>
-    </v-dialog>
   </v-container>
 </template>
 
 <script>
 import axios from "axios";
+
 export default {
   data() {
     return {
@@ -141,12 +100,26 @@ export default {
         biography: ""
       },
       family_member: [],
-      career: []
+      career: [],
+      info:{
+        id: 0,
+        title: "",
+        average_rating: 0,
+        genres: "genres",
+        contents: "null",
+        poster: ""
+      },
     };
   },
   mounted() {
     this.MovieInfomation(this.$route.params.id);
     this.rating = this.$route.params.rating;
+    axios.get(this.$store.state.server+"/api/movies/?id="+this.$route.params.id).then(res=>{
+      console.log(res)
+      this.info = res.data[0]
+    }).catch(e=>{
+      console.log(e)
+    })
   },
   methods: {
     MovieInfomation(id) {
@@ -154,6 +127,13 @@ export default {
         .get(this.$store.state.server + "/api/moviedetail/?id=" + id)
         .then(res => {
           this.movie = res.data[0];
+
+          // 영화 줄거리 내용을 100자이내로 가공
+          if(this.movie.plot.length > 600)
+            this.movie.plot = this.movie.plot.substring(1,600)+"...";
+          else if(this.movie.plot.length == 0)
+            this.movie.plot = "죄송합니다. 영화 줄거리가 아직 등록되지 않았습니다.";
+
           if (this.movie.video == "") {
             this.video = "";
           } else {
@@ -196,6 +176,16 @@ export default {
     },
     CastMore() {
       this.more = false;
+    },
+    submit(){
+      axios.post(this.$store.state.server + "/api/ratings/", {
+        userid: this.$session.get('id'),
+        movieid: this.info.id,
+        rating: this.rating,
+        timestamp:"123456789"
+      }).catch(e=>{
+        console.log(e)
+      });
     }
   }
 };
@@ -207,5 +197,19 @@ p {
   text-overflow: ellipsis;
   white-space: nowrap;
   width: 100%;
+}
+.base{
+  width:95%;
+  height: 90%;
+}
+
+.ck{
+  /**
+    border-color: black;
+  border-width: 1px;
+  border-style: solid;
+   */
+
+
 }
 </style>

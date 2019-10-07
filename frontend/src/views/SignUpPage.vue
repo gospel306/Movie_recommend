@@ -1,16 +1,13 @@
 <template>
     <v-container grid-list-md>
-      <v-layout row wrap align-center justify-center fill-height>
-        <v-flex xs12 sm8 lg4 md5>
+      <v-layout row wrap align-center text-center justify-center fill-height>
+        <v-flex xs3>
           <v-card class="login-card">
             <v-card-title>
               <span class="headline">Sign up</span>
             </v-card-title>
-
             <v-spacer/>
-
             <v-card-text>
-
               <v-layout
                 row
                 fill-height
@@ -20,19 +17,16 @@
               >
                 <v-progress-circular
                   :size="50"
-                  color="primary"
-                  indeterminate
+                  indeterminate color="black"
                 />
               </v-layout>
-
-
               <v-form v-else ref="form" v-model="valid" lazy-validation>
                 <v-container>
-
                   <v-text-field
                     v-model="profile.username"
                     :counter="70"
-                    label="your name"
+                    color="black"
+                    label="Name"
                     maxlength="70"
                     required
                   />
@@ -41,16 +35,18 @@
                     type="password"
                     v-model="profile.password"
                     :counter="20"
-                    label="password"
+                    color="black"
+                    label="Password"
                     maxlength="20"
                     required
                   />
 
                   <v-text-field
                     type="password"
-                    v-model="checkPass"
+                    v-model="checkPass"              
                     :counter="20"
-                    label="password check"
+                    color="black"
+                    label="Password Check"
                     maxlength="20"
                     required
                   />
@@ -59,7 +55,8 @@
                     type="number"
                     v-model="profile.age"
                     :counter="2"
-                    label="your age"
+                    color="black"
+                    label="Age"
                     maxlength="20"
                     required
                   />
@@ -68,18 +65,19 @@
                     type="string"
                     v-model="profile.occupation"
                     :counter="20"
-                    label="your occupation"
+                    color="black"
+                    label="Occupation"
                     maxlength="20"
                     required
                   />
 
-                  <v-radio-group v-model="profile.gender" row>
-                    <v-radio label="Male" value="M"></v-radio>
-                    <v-radio label="Female" value="F"></v-radio>
+                  <v-radio-group v-model="profile.gender" row >
+                    <v-radio color="black" label="Male" value="M"></v-radio>
+                    <v-radio color="black" label="Female" value="F"></v-radio>
                   </v-radio-group>
 
                 </v-container>
-                <v-btn class="pink white--text" :disabled="!valid" @click="sign">Sign</v-btn>
+                <v-btn class="black white--text" :disabled="!valid" @click="sign">Sign</v-btn>
 
               </v-form>
 
@@ -92,6 +90,7 @@
 </template>
 
 <script>
+ /*jslint devel: true */
 import axios from 'axios';
 import router from '../router';
 
@@ -114,22 +113,23 @@ export default {
             this.loading = true;
             axios.post('http://localhost:8000/api/users/', this.profile).then(res => {
               alert("회원가입 되었습니다");
+              axios.post('http://localhost:8000/api/login/', {
+                username : this.profile.username,
+                password : this.profile.password
+              }).then(res => {
+                this.$store.state.login = true;
+                this.$session.start();
+                this.$session.set('token', res.data.token);
+                this.$session.set('id', this.profile.username);
+                alert("회원님께서 보셨던 영화의 평점을 등록해주세요!");
+                router.push('/search');
+              }).catch( e => {
+                console.log(e);
+              });
             }).catch( res =>{
-              this.loading = false;
-             }
-            );
-
-            axios.post('http://localhost:8000/api/login/', {
-              username: this.profile.username,
-              password: this.profile.password
-            }).then(res => {
-              this.$store.state.login = true;
-              this.$session.start();
-              this.$session.set('token', res.data.token);
-              this.$session.set('id', this.profile.username);
-              alert("회원의 정보를 입력해주세요");
-              router.push('/search');
-            });
+              console.log(res);
+             });
+            this.loading = false;
           }           
         }
       }

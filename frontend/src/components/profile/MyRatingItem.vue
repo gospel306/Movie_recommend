@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-simple-table>
+    <v-simple-table class="tab" >
       <thead>
         <tr>
           <th class="text-center">제목</th>
@@ -13,8 +13,8 @@
           <td>
             <v-rating
               v-model="card.rating"
-              color="indigo"
-              background-color="indigo"
+              color="black"
+              background-color="black"
               readonly
               dense
             />
@@ -22,7 +22,7 @@
         </tr>
       </tbody>
     </v-simple-table>
-    <v-pagination v-if="maxPages > 1" v-model="page" :length="maxPages" />
+    <v-pagination color="black" class="page" v-if="maxPages > 1" v-model="page" :length="maxPages" />
   </v-container>
 </template>
 
@@ -39,7 +39,7 @@ export default {
     },
   },
   data: () => ({
-      cardsPerPage: 10,
+      cardsPerPage: 8,
       page: 1,
   }),
   computed: {
@@ -60,3 +60,11 @@ export default {
   },
 };
 </script>
+<style>
+  .page{
+    margin-top:20px;
+  }
+  .tab{
+    width:450px;
+  }
+</style>

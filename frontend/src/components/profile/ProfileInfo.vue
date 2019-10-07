@@ -1,79 +1,35 @@
 <template>
-  <v-container
-    fill-height
-    fluid
-  > 
-    <v-row justify="center">
-      <v-col
-        cols="12"
-        md="8"
-      >
-        <material-card
-          color="green"
-          title="Edit Profile"
-          text="Complete your profile"
-        >
-          <v-form>
-            <v-container class="py-0">
-              <v-row>
-                <v-col
-                  cols="2"
-                  md="4"
-                >
-                  <v-text-field
-                    v-model = "items.id"
-                    label="User Name"
-                    class="purple-input"
-                  />
-                </v-col>
-                <v-col
-                  cols="2"
-                  md="4"
-                >
-                  <v-text-field
-                    v-model = "items.gender"
-                    label="Gender"
-                    class="purple-input"
-                  />
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col
-                  cols="2"
-                  md="4"
-                >
-                  <v-text-field
-                    v-model = "items.age"
-                    label="Age"
-                    class="purple-input"
-                  />
-                </v-col>
-                <v-col
-                  cols="2"
-                  md="4"
-                >
-                  <v-text-field
-                    v-model = "items.occupation"
-                    label="Occupation"
-                    class="purple-input"
-                  />
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col
-                  cols="12"
-                  class="text-right"
-                >
-                  <v-btn color="success" @click="modifyInfo($session.get('id'))">
-                    Update Profile
-                  </v-btn>
-                </v-col>
-              </v-row>
-            </v-container>
-          </v-form>
-        </material-card>
-      </v-col>
-    </v-row>
+  <v-container> 
+    <v-layout column>
+      <v-flex>
+        <v-layout column>
+          <v-flex>
+            <h3>회원정보</h3>
+          </v-flex>
+          <v-flex>
+            <v-layout row>
+              <v-flex class="user-img">
+                <div></div>
+              </v-flex>
+              <v-flex>
+                <v-row>
+                  <v-col>
+                    <v-text-field v-model = "items.username"  label="Name" class="purple-input" readonly/>
+                    <v-text-field v-model = "items.gender"  label="Gender" class="purple-input"/>
+                    <v-text-field v-model = "items.age"  label="Age" class="purple-input"/>
+                    <v-text-field v-model = "items.occupation"  label="Job  " class="purple-input"/>       
+                    <v-btn color="black white--text" @click="modifyInfo($session.get('id'))">Update</v-btn>                 
+                 </v-col>                  
+                </v-row>
+              </v-flex>  
+            </v-layout>
+          </v-flex>
+        </v-layout>
+      </v-flex>
+      <v-flex>
+        <div><h3>유사유저</h3></div>
+      </v-flex>
+    </v-layout>
   </v-container>
 </template>
 <script>
@@ -103,12 +59,21 @@ export default {
         )
         .then(() => {
           this.updateDialog = false;
-          router.push("/profileInfo");
+          router.push("/profile");
         });
     }
   }
 };
 </script>
-
 <style>
+  .head{
+    background-color: blue;
+  }
+  .user-img{
+    width:150px;
+    height:300px;
+    /*background: white;*/
+    padding: 10px;
+    margin-left : 30px;
+  }
 </style>

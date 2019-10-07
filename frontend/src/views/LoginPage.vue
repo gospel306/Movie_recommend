@@ -1,16 +1,13 @@
 <template>
     <v-container grid-list-md>
-      <v-layout row wrap align-center justify-center fill-height>
-        <v-flex xs12 sm8 lg4 md5>
+      <v-layout row wrap align-center text-center justify-center fill-height>
+        <v-flex xs2>
           <v-card class="login-card">
             <v-card-title>
-              <span class="headline">Login to Movies</span>
+              <span class="headline">Login</span>
             </v-card-title>
-
             <v-spacer/>
-
             <v-card-text>
-
               <v-layout
                 row
                 fill-height
@@ -20,38 +17,31 @@
               >
                 <v-progress-circular
                   :size="50"
-                  color="primary"
-                  indeterminate
+                  indeterminate color="black"
+
                 />
               </v-layout>
 
 
               <v-form v-else ref="form" v-model="valid" lazy-validation>
                 <v-container>
-
                   <v-text-field
                     v-model="credentials.username"
-                    :counter="70"
-                    label="email address"
-                    maxlength="70"
+                    label="E-mail"
+                    color="black"
                     required
                   />
-
                   <v-text-field
                     type="password"
                     v-model="credentials.password"
-                    :counter="20"
-                    label="password"
+                    color="black"
+                    label="Password"
                     maxlength="20"
                     required
                   />
-
                 </v-container>
-                <v-btn class="pink white--text" :disabled="!valid" @click="login">Login</v-btn>
-
+                <v-btn class="black white--text" :disabled="!valid" @click="login">Login</v-btn>
               </v-form>
-
-
             </v-card-text>
           </v-card>
         </v-flex>
@@ -92,3 +82,8 @@ export default {
     }
 }
 </script>
+<style>
+
+
+
+</style>

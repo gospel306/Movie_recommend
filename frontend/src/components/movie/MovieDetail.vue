@@ -88,6 +88,7 @@
 </template>
 
 <script>
+ /*jslint devel: true */
 import axios from "axios";
 
 export default {
@@ -148,7 +149,7 @@ export default {
       this.$router.push({name: 'moviesimilar', params:{'id': id}});
     },
     postRating(){
-      newRating.movieid = item.id;
+      this.newRating.movieid = this.item.id;
     },
     submit(){
       axios.post(this.$store.state.server + "/api/ratings/", this.newRating);

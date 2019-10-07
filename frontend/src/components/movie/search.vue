@@ -1,95 +1,52 @@
 <template>
-  <v-container grid-list-md text-center>
-    <v-layout justify-center wrap>
-      <v-flex xs4>
-        <v-container fluid row>
-          <v-checkbox v-model="selected" label="연령대" value="1" @change="ShowBox"></v-checkbox>
-          <v-checkbox v-model="selected" label="직업군" value="2" @change="ShowBox"></v-checkbox>
-          <v-checkbox v-model="selected" label="성별" value="3" @change="ShowBox"></v-checkbox>
-          <v-checkbox v-model="selected" label="조회수/평점" value="4" @change="ShowBox"></v-checkbox>
-        </v-container>
+  <v-container text-center>
+    <v-layout row align-center class="sh">
+      <v-flex class="fir">
+        <v-slide-group v-model="model" class="pa-0" active-class="success" show-arrows>
+          <v-slide-item v-for="movie in movies" :key="movie.id" v-slot:default="{ active, toggle }">
+            <v-card class="ma-2" height="400" width="250" @click="showDetail(movie.id)">
+              <v-layout column>
+                <v-flex class="top">
+                  <v-img 
+                  :src="movie.poster" 
+                  width="100%"
+                  height="100%"
+                  ></v-img>
+                </v-flex>
+                <v-flex class="ca">
+                  <h3>{{movie.title}}</h3>
+                </v-flex>
+              </v-layout>
+            </v-card>            
+          </v-slide-item>
+        </v-slide-group>
       </v-flex>
-    </v-layout>
-    <v-layout justify-center wrap>
-      <!-- 검색 폼 -->
-      <v-flex xs6>
-        <v-container>
-          <v-form ref="form">
-            <v-layout>
-              <v-flex xs12 v-if="option_1">
-                <v-select
-                  v-model="A_option"
-                  :items="A_options"
-                  item-text="text"
-                  item-value="value"
-                  label="연령대"
-                />
-              </v-flex>
-              <v-flex xs12 v-if="option_2">
-                <v-select
-                  v-model="O_option"
-                  :items="O_options"
-                  item-text="text"
-                  item-value="value"
-                  label="직업군"
-                />
-              </v-flex>
-              <v-flex xs12 v-if="option_3">
-                <v-select
-                  v-model="G_option"
-                  :items="G_options"
-                  item-text="text"
-                  item-value="value"
-                  label="성별"
-                />
-              </v-flex>
-
-              <v-flex xs12 v-if="option_4">
-                <v-select
-                  v-model="V_option"
-                  :items="V_options"
-                  item-text="text"
-                  item-value="value"
-                  label="조회수/평점순"
-                />
-              </v-flex>
-            </v-layout>
-            <v-layout justify-center wrap>
-              <v-flex xs3>
-                <v-select
-                  v-model="T_option"
-                  :items="T_options"
-                  item-text="text"
-                  item-value="value"
-                />
-              </v-flex>
-              <v-flex xs9>
-                <v-text-field label="검색어" v-model="value" />
-              </v-flex>
-            </v-layout>
-            <v-layout justify-center pa-10>
-              <v-btn large color="indigo white--text" @click="onSubmit">Search</v-btn>
-            </v-layout>
-          </v-form>
-        </v-container>
-      </v-flex>
-      <!-- 검색 결과 -->
-      <v-flex xs7>
-        <v-progress-circular :size="200" color="primary" indeterminate v-if="loading"/>
-        <MovieList :MovieItems="movieLists" />
+      <v-flex>
+        <v-layout justify-center wrap class="under">
+          <v-flex xs2> 
+            <v-checkbox v-model="selected" label="조회수/평점" value="4" @change="ShowBox"></v-checkbox>
+          </v-flex>
+          <v-flex xs2> 
+            <v-text-field color="black" label="검색어" v-model="value" />
+          </v-flex>
+          <v-flex xs2> 
+            <v-btn large color="black white--text" @click="onSubmit">Search</v-btn>
+          </v-flex>
+        </v-layout>
       </v-flex>
     </v-layout>
   </v-container>
 </template>
 
 <script>
-import MovieList from "@/components/movie/MovieList";
 import axios from "axios";
 export default {
   components: {
-    MovieList
+    
   },
   data: () => ({
+    model: null,
+    movies: [],
     value: "",
     loading: false,
     A_options: [
@@ -148,6 +105,10 @@ export default {
   computed: {},
 
   methods: {
+    showDetail(id){
+      this.$router.push({ name: "movieinfo", params:{id: id}
+      });
+    },
     onSubmit() {
       this.loading = true;
       if (this.T_option == "title") {
@@ -173,7 +134,11 @@ export default {
             params
         })
         .then(res => {
-          this.movieLists = res.data;
+          this.movies = res.data;
+          for(var i = 0; i<this.movies.length;i++){
+            if(this.movies[i].title.length > 25)
+              this.movies[i].title = this.movies[i].title.substring(0,23)+"..";
+          }
           this.loading = false;
         });
     },
@@ -211,3 +176,35 @@ export default {
   }
 };
 </script>
+
+<style>
+  .under{
+    margin-top: 10px;
+  }
+  .ca{
+    margin-top: 10px;
+  }
+  .sh{
+
+    height : 600px;
+
+  }
+
+  .fir{
+    width:100%;
+    height:70%;
+  }
+  .top{
+    width:250px;
+    height:350px;
+  }
+/*
+    border-style: solid;
+    border-width: 5px;
+    border-color: chartreuse;
+
+
+ */
+
+
+</style>
