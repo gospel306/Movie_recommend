@@ -27,7 +27,6 @@
         </v-layout>
       </v-flex>
       <v-flex>
-        <div><h3>유사유저</h3></div>
       </v-flex>
     </v-layout>
   </v-container>

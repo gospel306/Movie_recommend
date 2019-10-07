@@ -1,7 +1,7 @@
 <template>
     <v-container class="profile">
         <v-layout row wrap>
-            <v-flex sm5z class="board">
+            <v-flex sm5 class="board">
                 <ProfileInfo></ProfileInfo>
             </v-flex>
             <v-flex sm5 class="board">
