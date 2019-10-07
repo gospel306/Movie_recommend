@@ -90,6 +90,22 @@ class UserCluster(models.Model):
     clusternum = models.IntegerField()
 
 
+class Table_MF(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+    rating = models.CharField(max_length=10, default='0')
+
+
+class Table_KNN_user(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    movie = models.TextField()
+
+
+class Table_KNN_movie(models.Model):
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+    user = models.TextField()
+
+
 class SubScribe(models.Model):
     userid = models.ForeignKey(User, on_delete=models.CASCADE)
     startdate = models.DateTimeField()
