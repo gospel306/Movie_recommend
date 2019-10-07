@@ -51,8 +51,8 @@ def users(request):
             user = User.objects.get(username = id)
             if user :
                 profile = Profile.objects.get(user = user)
-        
-        serializer = ProfileSerializer(profile)        
+
+        serializer = ProfileSerializer(profile)
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
     if request.method == 'POST':
