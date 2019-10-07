@@ -53,7 +53,7 @@ export default {
   float: right;
 }
 .bt{
-  margin: 11px 0px;
+  margin: 15px 0px;
 }
 #fir{
   margin-top:20px;
