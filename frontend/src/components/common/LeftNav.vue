@@ -11,7 +11,7 @@
         <v-tooltip right>
           <template v-slot:activator="{ on }">
             <v-btn icon @click="goTo('search')" class="toolbartext" v-on="on">
-              <v-icon color="white"  >mdi-magnify</v-icon>
+              <v-icon large color="white"  >mdi-magnify</v-icon>
             </v-btn>
           </template>
           <span>영화검색</span>
@@ -21,7 +21,7 @@
         <v-tooltip right>
           <template v-slot:activator="{ on }">
             <v-btn icon  @click="goTo('best')" class="toolbartext" v-on="on">
-             <v-icon color="white">mdi-movie</v-icon>
+             <v-icon large color="white">mdi-movie</v-icon>
             </v-btn>
           </template>
           <span>영화추천</span>
@@ -32,7 +32,7 @@
           <v-tooltip right>
             <template v-slot:activator="{ off }">
               <v-btn icon class="toolbartext" v-on="on">
-                <v-icon color="white">mdi-checkbox-blank</v-icon>
+                <v-icon large color="white">mdi-checkbox-blank</v-icon>
               </v-btn>
             </template>            
           </v-tooltip>
