@@ -1,14 +1,14 @@
 <template>
   <v-content>
     <v-container fluid fill-height class="back">
-     <v-layout align-center justify-center>
+      <LeftNav></LeftNav>
+      <RightNav></RightNav>
+      <v-layout align-center justify-center>        
         <v-flex class="main-board">
           <router-view></router-view>
         </v-flex>
       </v-layout>
     </v-container>
-    <LeftNav class="ck"></LeftNav>
-    <RightNav></RightNav>
   </v-content>
 </template>
 
@@ -41,7 +41,7 @@ export default {
       this.window.height = window.innerHeight;
       var num = window.innerHeight / 50;
       this.$store.state.leftNavNum = Math.floor(num-3);
-      this.$store.state.rightNavNum = Math.floor(num-2);
+      this.$store.state.rightNavNum = Math.floor(num-3);
     }
   },
 };

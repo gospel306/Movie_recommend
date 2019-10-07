@@ -5,15 +5,15 @@
         <v-layout row>
           <v-flex xs11>
            <v-layout row wrap>
-             <v-flex class="ck" xs12>
+             <v-flex xs12>
                <h1>{{this.info.title}}</h1>
              </v-flex>
-             <v-flex class="ck" xs12>
+             <v-flex xs12>
                <h3>{{this.info.genres}}</h3>
              </v-flex>
-             <v-flex class="ck" xs12>
+             <v-flex xs12>
                <v-layout row>
-                 <v-flex class="ck" xs2>
+                 <v-flex xs2>
                   <v-rating
                     :value="this.info.average_rating"
                     color="black"
@@ -23,7 +23,7 @@
                     readonly
                   />
                  </v-flex>
-                 <v-flex class="ck" xs2 >
+                 <v-flex xs2>
                   <v-dialog v-model="dialog" persistent max-width="290">
                     <template v-slot:activator="{ on }">
                       <v-btn color="black white--text" dark v-on="on">평점 작성</v-btn>
@@ -53,14 +53,14 @@
                  </v-flex>
                </v-layout>
              </v-flex>
-             <v-flex class="ck" xs12>
+             <v-flex xs12>
               {{movie.plot}}                
              </v-flex>
            </v-layout>
           </v-flex>          
         </v-layout>
       </v-flex>      
-      <v-flex class="ck" xs3>
+      <v-flex xs3>
         <v-layout align-center >
           <v-flex>
             <v-img
@@ -203,13 +203,5 @@ p {
   height: 90%;
 }
 
-.ck{
-  /**
-    border-color: black;
-  border-width: 1px;
-  border-style: solid;
-   */
 
-
-}
 </style>

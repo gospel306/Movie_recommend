@@ -7,24 +7,65 @@
     class="black"
   >
     <v-layout column justify-center >
-      <v-flex id="fir" class="bt" text-sm-left v-if="$store.state.login == false">
-        <v-icon color="white" @click="goTo('login')" >mdi-login</v-icon>
+      <v-flex  class="ma-2"  v-if="$store.state.login == false">
+        <v-tooltip left>
+          <template v-slot:activator="{ on }">
+            <v-btn icon @click="goTo('login')" class="toolbartext" v-on="on">
+              <v-icon color="white"  >mdi-login</v-icon>
+            </v-btn>
+          </template>
+          <span>로그인</span>
+        </v-tooltip>
       </v-flex>
-      <v-flex class="bt" text-sm-left v-if="$store.state.login == true">
-        <v-icon color="white" @click="logout()">mdi-logout</v-icon>
+      <v-flex  class="ma-2"  v-if="$store.state.login == true">
+        <v-tooltip left>
+          <template v-slot:activator="{ on }">
+            <v-btn icon @click="logout()" class="toolbartext" v-on="on">
+              <v-icon color="white"  >mdi-logout</v-icon>
+            </v-btn>
+          </template>
+          <span>로그아웃</span>
+        </v-tooltip>
       </v-flex>
-      <v-flex class="bt" text-sm-left v-if="$store.state.login == false">
-        <v-icon color="white" @click="goTo('signup')">mdi-account-plus</v-icon>
+      <v-flex  class="ma-2"  v-if="$store.state.login == false">
+        <v-tooltip left>
+          <template v-slot:activator="{ on }">
+            <v-btn icon @click="goTo('signup')" class="toolbartext" v-on="on">
+              <v-icon color="white"  >mdi-account-plus</v-icon>
+            </v-btn>
+          </template>
+          <span>회원가입</span>
+        </v-tooltip>
       </v-flex>
-      <v-flex class="bt" text-sm-left v-if="$store.state.login == true && $session.get('id')=='admin'">
-        <v-icon color="white" @click="goTo('signup')">mdi-settings</v-icon>
+      <v-flex  class="ma-2"  v-if="$store.state.login == true && $session.get('id')=='admin'">
+        <v-tooltip left>
+          <template v-slot:activator="{ on }">
+            <v-btn icon @click="goTo('admin')" class="toolbartext" v-on="on">
+              <v-icon color="white"  >mdi-settings</v-icon>
+            </v-btn>
+          </template>
+          <span>관리자정보</span>
+        </v-tooltip>
       </v-flex>
-      <v-flex class="bt" text-sm-left v-if="$store.state.login == true && $session.get('id')!='admin'">
-        <v-icon color="white" @click="goTo('profile')">mdi-account</v-icon>
+      <v-flex  class="ma-2"  v-if="$store.state.login == true && $session.get('id')!='admin'">
+        <v-tooltip left>
+          <template v-slot:activator="{ on }">
+            <v-btn icon @click="goTo('profile')" class="toolbartext" v-on="on">
+              <v-icon color="white"  >mdi-account</v-icon>
+            </v-btn>
+          </template>
+          <span>회원정보</span>
+        </v-tooltip>
       </v-flex>
       <template v-for="i in this.$store.state.rightNavNum">
-        <v-flex class="bt" text-sm-left :key="i">
-          <v-icon color="white">mdi-checkbox-blank</v-icon>
+        <v-flex class="ma-2"  :key="i">
+          <v-tooltip left>
+            <template v-slot:activator="{ off }">
+              <v-btn icon class="toolbartext" v-on="on">
+                <v-icon color="white">mdi-checkbox-blank</v-icon>
+              </v-btn>
+            </template>            
+          </v-tooltip>
         </v-flex>
       </template>   
     </v-layout>
