@@ -6,19 +6,36 @@
     left
     class="black"    
     >
-    <v-layout column justify-center >
-      <v-flex id="fir" class="bt" text-sm-right>
-        <v-icon color="white" @click="goTo('search')" >mdi-magnify</v-icon>
+    <v-layout column justify-center>
+      <v-flex  class="ma-2" >
+        <v-tooltip right>
+          <template v-slot:activator="{ on }">
+            <v-btn icon @click="goTo('search')" class="toolbartext" v-on="on">
+              <v-icon color="white"  >mdi-magnify</v-icon>
+            </v-btn>
+          </template>
+          <span>영화검색</span>
+        </v-tooltip>
       </v-flex>
-      <v-flex class="bt" text-sm-right>
-        <v-icon color="white" @click="goTo('best')">mdi-movie</v-icon>
-      </v-flex>
-      <v-flex class="bt" text-sm-right>
-        <v-icon color="white" @click="goTo('null')">mdi-checkbox-blank</v-icon>
+      <v-flex  class="ma-2" >
+        <v-tooltip right>
+          <template v-slot:activator="{ on }">
+            <v-btn icon  @click="goTo('best')" class="toolbartext" v-on="on">
+             <v-icon color="white">mdi-movie</v-icon>
+            </v-btn>
+          </template>
+          <span>영화추천</span>
+        </v-tooltip>
       </v-flex>
       <template v-for="i in this.$store.state.leftNavNum">
-        <v-flex class="bt" text-sm-right :key="i">
-          <v-icon color="white">mdi-checkbox-blank</v-icon>
+        <v-flex class="ma-2"  :key="i">
+          <v-tooltip right>
+            <template v-slot:activator="{ off }">
+              <v-btn icon class="toolbartext" v-on="on">
+                <v-icon color="white">mdi-checkbox-blank</v-icon>
+              </v-btn>
+            </template>            
+          </v-tooltip>
         </v-flex>
       </template>   
     </v-layout>
@@ -53,7 +70,7 @@ export default {
   float: right;
 }
 .bt{
-  margin: 15px 0px;
+  margin: 0px 0px;
 }
 #fir{
   margin-top:20px;

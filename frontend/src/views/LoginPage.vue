@@ -1,7 +1,7 @@
 <template>
     <v-container grid-list-md>
       <v-layout row wrap align-center text-center justify-center fill-height>
-        <v-flex xs2>
+        <v-flex xs3>
           <v-card class="login-card">
             <v-card-title>
               <span class="headline">Login</span>
