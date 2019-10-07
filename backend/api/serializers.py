@@ -65,7 +65,7 @@ class SubScribeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SubScribe
-        fields = ('userid', 'startdate', 'subscribedate', 'autoscribe', 'cluster')
+        fields = ('userid', 'startdate', 'subscribedate', 'enddate', 'autoscribe', 'cluster')
 
 
 class MovieDetailSerializer(serializers.ModelSerializer):
