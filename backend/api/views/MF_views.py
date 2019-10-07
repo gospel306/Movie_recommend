@@ -7,11 +7,13 @@ from api.serializers import RatingSerializer
 
 import numpy as np
 
+
 def my_round(n, decimals=0):
     expoN = n * 10 ** decimals
     if abs(expoN) - abs(np.floor(expoN)) < 0.5:
         return np.floor(expoN) / 10 ** decimals
     return np.ceil(expoN) / 10 ** decimals
+
 
 class MatrixFactorization():
     def __init__(self, R, k, learning_rate, reg_param, epochs, verbose=False):
@@ -22,7 +24,6 @@ class MatrixFactorization():
         self._reg_param = reg_param
         self._epochs = epochs
         self._verbose = verbose
-
 
     def fit(self):
         self._P = np.random.normal(size=(self._num_users, self._k))
@@ -80,39 +81,39 @@ class MatrixFactorization():
 def mfAlgorithm(request):
     if request.method == 'GET':
         userid = request.GET.get('user_id', None)
-        exe = request.GET.get('exe',None)
+        exe = request.GET.get('exe', None)
 
         ratings = Rating.objects.all()
         if exe:
-            ratings = ratings.values('movieid_id','userid_id','rating')
-            tmp = np.zeros((6043,3953))
+            ratings = ratings.values('movieid_id', 'userid_id', 'rating')
+            tmp = np.zeros((6043, 3953))
             for r in ratings:
-                tmp[r['userid_id']][ r['movieid_id']] = r['rating']
+                tmp[r['userid_id']][r['movieid_id']] = r['rating']
 
-            R = np.zeros((6041,3952))
-            for i in range(2,len(tmp)):
-                R[i-2] = tmp[i][1:]
+            R = np.zeros((6041, 3952))
+            for i in range(2, len(tmp)):
+                R[i - 2] = tmp[i][1:]
 
             factorizer = MatrixFactorization(R, k=3, learning_rate=0.01, reg_param=0.01, epochs=3, verbose=True)
             factorizer.fit()
-            
+
             D = factorizer.get_complete_matrix()
 
             # print(D)
             movies = Movie.objects.all()
             movies = movies.values('id')
-            
+
             tableMF = Table_MF.objects.all()
             tableMF.delete()
-            for i in range(2,len(D)):
-              for m in movies:
-                  Table_MF(movie_id=m['id'], user_id=i, rating=my_round(D[i-2][m['id']-1],1)).save()
+            for i in range(2, len(D)):
+                for m in movies:
+                    Table_MF(movie_id=m['id'], user_id=i, rating=my_round(D[i - 2][m['id'] - 1], 1)).save()
             return Response(status=status.HTTP_200_OK)
-        
+
         if userid:
             movies = Table_MF.objects.all()
             movies = movies.filter(user=userid)
-            movies = movies.values('rating','movie_id').order_by('-rating')
+            movies = movies.values('rating', 'movie_id').order_by('-rating')
 
             ratings = ratings.filter(userid=userid)
             ratings = ratings.values('movieid')
@@ -120,9 +121,9 @@ def mfAlgorithm(request):
             result = []
 
             for i in range(10):
-                idx = 100+(10*i)
+                idx = 100 + (10 * i)
                 for movie in ratings:
-                    if movie['movieid']==movies[idx]['movie_id']:
+                    if movie['movieid'] == movies[idx]['movie_id']:
                         idx = idx + 1
                         break
                 result.append(movies[idx])
