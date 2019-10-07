@@ -1,12 +1,13 @@
 <template >
   <v-navigation-drawer
     v-model="drawer"
-    width="3%"
+    width="4%"
     app
     right
     class="black"
   >
-    <v-layout column justify-center >
+    <v-layout column justify-center text-sm-left>
+      <v-flex class="ma-1"/>
       <v-flex  class="ma-2"  v-if="$store.state.login == false">
         <v-tooltip left>
           <template v-slot:activator="{ on }">

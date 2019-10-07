@@ -1,12 +1,13 @@
 <template >
   <v-navigation-drawer
     v-model="drawer"
-    width="3%"
+    width="4%"
     app
     left
     class="black"    
     >
-    <v-layout column justify-center>
+    <v-layout column justify-center text-sm-right>
+      <v-flex class="ma-1"/>
       <v-flex  class="ma-2" >
         <v-tooltip right>
           <template v-slot:activator="{ on }">
@@ -73,7 +74,7 @@ export default {
   margin: 0px 0px;
 }
 #fir{
-  margin-top:20px;
+  margin-top:10px;
 }
 </style>
 

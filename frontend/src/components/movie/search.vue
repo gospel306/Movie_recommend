@@ -136,7 +136,7 @@ export default {
         .then(res => {
           this.movies = res.data;
           for(var i = 0; i<this.movies.length;i++){
-            if(this.movies[i].title.length > 25)
+            if(this.movies[i].title.length > 20)
               this.movies[i].title = this.movies[i].title.substring(0,23)+"..";
           }
           this.loading = false;
@@ -198,13 +198,4 @@ export default {
     width:250px;
     height:350px;
   }
-/*
-    border-style: solid;
-    border-width: 5px;
-    border-color: chartreuse;
-
-
- */
-
-
 </style>
