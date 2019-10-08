@@ -41,7 +41,7 @@ def update(request):
         ia = IMDb()
         for movie in movies:
             print(movie.title)
-            if movie.id < 3458:
+            if movie.id < 3514:
                 continue
             try:
                 imovie = ia.search_movie(movie.title)

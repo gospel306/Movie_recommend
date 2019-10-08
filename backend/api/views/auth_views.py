@@ -96,7 +96,7 @@ def subscribe(request):
     if request.method == 'PUT':
         id = request.GET.get('id', None)
         if id:
-            user = User.objects.get(pk=id)
+            user = User.objects.get(username=id)
             subscribe = SubScribe.objects.filter(userid=user)
             autoscribe = request.GET.get('auto', False)
             date = datetime.now(koreadate)
