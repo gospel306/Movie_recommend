@@ -124,7 +124,7 @@ def subscribe(request):
                 return Response(status=status.HTTP_200_OK)
     if request.method == 'GET':
         id = request.GET.get('id', None)
-        user = User.objects.get(pk=id)
+        user = User.objects.get(username=id)
         date = request.GET.get('firstdate')
         firstdate = datetime.strptime(date, "%Y-%m-%d")
         scribedate = SubScribe.objects.filter(userid=user)
