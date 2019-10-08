@@ -22,7 +22,7 @@
         </tr>
       </tbody>
     </v-simple-table>
-    <v-pagination color="black" class="page" v-if="maxPages > 1" v-model="page" :length="maxPages" />
+    <v-pagination color="red darken-4" class="page" v-if="maxPages > 1" v-model="page" :length="maxPages" />
   </v-container>
 </template>
 

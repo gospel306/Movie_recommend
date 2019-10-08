@@ -71,7 +71,7 @@
                     <v-radio color="black" label="Female" value="F"></v-radio>
                   </v-radio-group>
                 </v-container>
-                <v-btn class="black white--text" :disabled="!valid" @click="sign">Sign</v-btn>
+                <v-btn color="red darken-4" class="white--text"  :disabled="!valid" @click="sign">Sign</v-btn>
               </v-form>
             </v-card-text>
           </v-card>

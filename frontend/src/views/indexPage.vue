@@ -16,7 +16,8 @@
           </v-layout>
         </v-flex>
         <v-flex class="str">
-          <h1>이 곳은 빅데이터 기반의 '영화 추천 사이트'입니다.</h1>
+          <h1>이 곳은 빅데이터 기반의 <span class="rd">영화 추천 사이트</span>입니다.</h1>
+
         </v-flex>
       </v-layout>
     </v-container>
@@ -25,7 +26,7 @@
 
 <script>
 export default {
-  name: "intropage",
+  name: "indexpage",
   data: () => ({
 
   }),
@@ -35,6 +36,11 @@ export default {
 </script>
 
 <style>
+.rd{
+  color:#d32f2f ;
+  font-size:40px;
+
+  }
 .intro{
   border-width: 1px;
   border-style: solid;
@@ -53,7 +59,7 @@ export default {
   height: 60px;  
 }
 .str{
-  border-width: 0px 0px 3px 0px;
+  border-width: 0px 0px 5px 0px;
   border-style: solid;
   border-color: black;
   margin-top: 60px;
