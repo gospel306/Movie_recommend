@@ -18,7 +18,7 @@
                     <v-text-field v-model = "items.gender"  label="Gender" class="purple-input"/>
                     <v-text-field v-model = "items.age"  label="Age" class="purple-input"/>
                     <v-text-field v-model = "items.occupation"  label="Job  " class="purple-input"/>       
-                    <v-btn color="black white--text" @click="modifyInfo($session.get('id'))">Update</v-btn>                 
+                    <v-btn color="red darken-4" class="white--text" @click="modifyInfo($session.get('id'))">Update</v-btn>                 
                  </v-col>                  
                 </v-row>
               </v-flex>  

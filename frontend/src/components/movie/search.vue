@@ -10,7 +10,7 @@
             <v-text-field color="black" label="검색어" v-model="value" />
           </v-flex>
           <v-flex xs2> 
-            <v-btn large color="black white--text" @click="onSubmit">Search</v-btn>
+            <v-btn large color="red darken-4" class="white--text" @click="onSubmit">Search</v-btn>
           </v-flex>
         </v-layout>
       </v-flex>

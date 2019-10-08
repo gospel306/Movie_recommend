@@ -40,7 +40,7 @@
                     required
                   />
                 </v-container>
-                <v-btn class="black white--text" :disabled="!valid" @click="login">Login</v-btn>
+                <v-btn color="red darken-4" class="white--text"  :disabled="!valid" @click="login">Login</v-btn>
               </v-form>
             </v-card-text>
           </v-card>
