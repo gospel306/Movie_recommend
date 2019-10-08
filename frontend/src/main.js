@@ -10,7 +10,7 @@ Vue.use(VueSession)
 Vue.config.productionTip = false
 
 router.beforeEach(function (to, from, next) {
-  if (store.state.login === false && !(to.path == '/' || to.path == '/search' || to.path == '/login' || to.path == '/signup')) {
+  if (store.state.login === false && !(to.path == '/intro' ||to.path == '/' || to.path == '/search' || to.path == '/login' || to.path == '/signup')) {
     alert("권한이 없습니다");
     next("/");
   } else  {

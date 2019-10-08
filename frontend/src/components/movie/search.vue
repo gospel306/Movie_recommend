@@ -1,8 +1,21 @@
 <template>
   <v-container text-center>
     <v-layout row align-center class="sh">
+      <v-flex>
+        <v-layout justify-center wrap class="under">
+          <v-flex xs2> 
+            <v-checkbox v-model="selected" label="조회수/평점" value="4" @change="ShowBox"></v-checkbox>
+          </v-flex>
+          <v-flex xs2> 
+            <v-text-field color="black" label="검색어" v-model="value" />
+          </v-flex>
+          <v-flex xs2> 
+            <v-btn large color="black white--text" @click="onSubmit">Search</v-btn>
+          </v-flex>
+        </v-layout>
+      </v-flex>
       <v-flex class="fir">
-        <v-slide-group v-model="model" class="pa-4" active-class="success" show-arrows>
+        <v-slide-group v-model="model" active-class="success" show-arrows>
           <v-slide-item v-for="movie in movies" :key="movie.id" v-slot:default="{ active, toggle }">
             <v-card class="ma-2" height="400" width="250" @click="showDetail(movie.id)">
               <v-layout column>
@@ -21,19 +34,7 @@
           </v-slide-item>
         </v-slide-group>
       </v-flex>
-      <v-flex>
-        <v-layout justify-center wrap class="under">
-          <v-flex xs2> 
-            <v-checkbox v-model="selected" label="조회수/평점" value="4" @change="ShowBox"></v-checkbox>
-          </v-flex>
-          <v-flex xs2> 
-            <v-text-field color="black" label="검색어" v-model="value" />
-          </v-flex>
-          <v-flex xs2> 
-            <v-btn large color="black white--text" @click="onSubmit">Search</v-btn>
-          </v-flex>
-        </v-layout>
-      </v-flex>
+
     </v-layout>
   </v-container>
 </template>
