@@ -5,7 +5,8 @@
       <RightNav></RightNav>
       <v-layout align-center justify-center>        
         <v-flex class="main-board">
-          <router-view></router-view>
+          <router-view>
+          </router-view>
         </v-flex>
       </v-layout>
     </v-container>
@@ -28,6 +29,9 @@ export default {
     LeftNav,
     RightNav
   },
+  mounted(){
+    
+  },
   created() {
     window.addEventListener('resize', this.handleResize)
     this.handleResize();
@@ -37,6 +41,7 @@ export default {
   },
   methods: {
     handleResize() {
+   
       this.window.width = window.innerWidth;
       this.window.height = window.innerHeight;
       var num = window.innerHeight / 50;

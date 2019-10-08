@@ -1,5 +1,6 @@
 import LoginPage from '@/views/LoginPage'
 import SignUpPage from '@/views/SignUpPage'
+import IntroPage from '@/views/IntroPage'
 export default [
     {
         path: '/login',
@@ -10,5 +11,10 @@ export default [
         path: '/signup',
         name: 'SignUp',
         component: SignUpPage
+    },
+    {
+        path: '/intro',
+        name: 'Intro',
+        component: IntroPage
     }
 ]
