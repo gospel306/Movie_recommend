@@ -40,7 +40,7 @@ export default {
       this.window.width = window.innerWidth;
       this.window.height = window.innerHeight;
       var num = window.innerHeight / 50;
-      this.$store.state.leftNavNum = Math.floor(num-3);
+      this.$store.state.leftNavNum = Math.floor(num-4);
       this.$store.state.rightNavNum = Math.floor(num-3);
     }
   },
