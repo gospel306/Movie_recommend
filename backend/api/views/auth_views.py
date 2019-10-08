@@ -125,22 +125,9 @@ def subscribe(request):
     if request.method == 'GET':
         id = request.GET.get('id', None)
         user = User.objects.get(pk=id)
-        option = request.GET.get('option')
         date = request.GET.get('firstdate')
         firstdate = datetime.strptime(date, "%Y-%m-%d")
-        ldate = request.GET.get('lastdate', None)
-        if ldate:
-            lastdate = datetime.strptime(ldate, "%Y-%m-%d")
         scribedate = SubScribe.objects.filter(userid=user)
-        if option == "list":
-            scribedate = scribedate.filter(startdate__range=(firstdate, lastdate))
-        elif option == "isscribe":
-            scribedate = scribedate.filter(subscribedate__gt=firstdate)
-        # elif option == "isauto":
-        #     scribedate = scribedate.order_by("subscribedate")[0]
-        #     if scribedate and scribedate.autoscribe:
-        #         date = datetime.now(koreadate)
-        #         SubScribe.objects.filter(pk=scribedate.id).update(subscribedate=date)
-        scribedate = scribedate.order_by("subscribedate")
+        scribedate = scribedate.filter(enddate__gt=firstdate).filter(subscribedate__lt=firstdate)
         serializer = SubScribeSerializer(scribedate, many=True)
         return Response(data=serializer.data, status=status.HTTP_200_OK)
