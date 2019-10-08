@@ -12,6 +12,14 @@ export default {
   data() {
     return {};
   },
+  mounted(){
+    if (this.$session.get("id")!=null) {
+      this.$store.state.login = true;
+      this.$router.push('/');
+    }else{
+      this.$store.state.login = false;
+    }
+  }
 }
 </script>
 

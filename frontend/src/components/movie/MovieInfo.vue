@@ -134,7 +134,6 @@ export default {
         .then(res => {
           this.movie = res.data[0];
           
-          alert(temp[1]);
           if (this.movie.video == "") {
             this.video = "";
           } else {
