@@ -3,7 +3,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from api.models import Rating, Table_KNN_user, Table_KNN_movie, Movie, Profile
 from api.serializers import RatingSerializer
-
+from django.contrib.auth.models import User
 import math
 import numpy as np
 from numpy import linalg as la
@@ -141,8 +141,9 @@ def knnAlgorithm(request):
         result = []
 
         if userid:
+            id = User.objects.get(username=userid)
             users = Table_KNN_user.objects.all()
-            users = users.filter(user=userid)
+            users = users.filter(user=id.id)
             result = users.values('movie', 'user_id')
 
         if movieid:

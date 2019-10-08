@@ -42,7 +42,7 @@ export default {
       var num = window.innerHeight / 50;
       this.$store.state.leftNavNum = Math.floor(num-4);
       this.$store.state.rightNavNum = Math.floor(num-3);
-    }
+    },
   },
 };
 </script>
