@@ -2,13 +2,13 @@
     <v-container>
       <v-layout column align-center>        
         <v-flex sm4>
-          <v-img class="ck"
+          <v-img class="intro"
             src="../images/intro.gif" 
             width="400"
             height="166"
           ></v-img>
         </v-flex>
-        <v-flex class="under">
+        <v-flex class="sear">
           <v-layout text-sm-right >
             <v-flex class="pa-1">
               <v-icon large color="black">mdi-magnify</v-icon>
@@ -35,14 +35,14 @@ export default {
 </script>
 
 <style>
-.ck{
+.intro{
   border-width: 1px;
   border-style: solid;
   border-color: white;
   border-radius: 15px;
   filter: grayscale(100%);
 }
-.under{
+.sear{
   border-width: 10px 10px 10px 10px;
   border-style: solid;
   border-color: black;
