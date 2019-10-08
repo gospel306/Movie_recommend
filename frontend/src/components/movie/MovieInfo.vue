@@ -53,9 +53,17 @@
                  </v-flex>
                </v-layout>
              </v-flex>
-             <v-flex xs12>
-              {{movie.plot}}                
+             <v-flex xs12 v-if="movie.plot.length==0">
+               죄송합니다. 줄거리가 아직 등록되지 않았습니다.
              </v-flex>
+             <v-flex xs12 v-if="!this.state && this.movie.plot.length > 300">
+              {{movie.plot.substring(1,300)}}       
+             </v-flex>
+             <v-flex xs12 v-if="this.state">
+              {{movie.plot.substring(1,2000)}}       
+             </v-flex>
+            <v-btn text color="black" v-if="!this.state && this.movie.plot.length > 300" @click="turnState()">..확장</v-btn>
+            <v-btn text color="black" v-if="this.state" @click="turnState()">..축소</v-btn>       
            </v-layout>
           </v-flex>          
         </v-layout>
@@ -82,6 +90,7 @@ import axios from "axios";
 export default {
   data() {
     return {
+      state:false,
       movie: {},
       rating: 0,
       video: "",
@@ -115,11 +124,8 @@ export default {
     this.MovieInfomation(this.$route.params.id);
     this.rating = this.$route.params.rating;
     axios.get(this.$store.state.server+"/api/movies/?id="+this.$route.params.id).then(res=>{
-      console.log(res)
       this.info = res.data[0]
-    }).catch(e=>{
-      console.log(e)
-    })
+    });
   },
   methods: {
     MovieInfomation(id) {
@@ -127,13 +133,8 @@ export default {
         .get(this.$store.state.server + "/api/moviedetail/?id=" + id)
         .then(res => {
           this.movie = res.data[0];
-
-          // 영화 줄거리 내용을 100자이내로 가공
-          if(this.movie.plot.length > 600)
-            this.movie.plot = this.movie.plot.substring(1,600)+"...";
-          else if(this.movie.plot.length == 0)
-            this.movie.plot = "죄송합니다. 영화 줄거리가 아직 등록되지 않았습니다.";
-
+          
+          alert(temp[1]);
           if (this.movie.video == "") {
             this.video = "";
           } else {
@@ -183,9 +184,13 @@ export default {
         movieid: this.info.id,
         rating: this.rating,
         timestamp:"123456789"
-      }).catch(e=>{
-        console.log(e)
       });
+    },
+    turnState(){
+      if(this.state)
+        this.state = false;
+      else
+        this.state = true;
     }
   }
 };
