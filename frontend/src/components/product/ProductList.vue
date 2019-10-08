@@ -6,7 +6,7 @@
           <v-list-item three-line>
             <v-list-item-content>
               <v-list-item-title class="headline mb-1">{{item.title}}</v-list-item-title>
-              <div class="overline mb-4">구독자 수: {{item.subscriber}} 명</div>
+              <div class="overline mb-4">구독자 수: {{item.subscriber}}</div>
               <v-list-item-subtitle>{{item.subtitle}}</v-list-item-subtitle>
             </v-list-item-content>
 
@@ -35,21 +35,21 @@ export default {
         {
           id: "KNN_user",
           title: "KNN 유저 추천",
-          subscriber: 3820,
+          subscriber: "추후 업데이트 예정",
           subtitle:
             "유저가 현재 본 영화를 바탕으로 유저 유사도를 측정하여 평점이 높은 순서로 영화를 추천합니다."
         },
         {
           id: "KNN_movie",
           title: "KNN 영화 추천",
-          subscriber: 1240,
+          subscriber: "추후 업데이트 예정",
           subtitle:
             "영화를 본 유저를 바탕으로 영화 유사도를 측정하여 평점이 높은 순서로 영화를 추천합니다."
         },
         {
           id: "MF",
           title: "MF 영화 추천",
-          subscriber: 1200,
+          subscriber: "추후 업데이트 예정",
           subtitle: "매트릭스 팩토리제이션"
         }
       ]

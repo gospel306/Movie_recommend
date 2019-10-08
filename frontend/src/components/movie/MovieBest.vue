@@ -54,8 +54,8 @@ export default {
       this.cluster_string = str;
       this.cluster_string = this.cluster_string.replace("[", "");
       this.cluster_string = this.cluster_string.replace("]", "");
-      this.cluster_string = this.cluster_string.replace("(", "");
-      this.cluster_string = this.cluster_string.replace(")", "");
+      this.cluster_string = this.cluster_string.replace(/\(/gi, "");
+      this.cluster_string = this.cluster_string.replace(/\)/gi, "");
       var array = this.cluster_string.split(",");
 
       for (let index = 1; index < array.length; index += 2) {
@@ -72,9 +72,14 @@ export default {
           )
           .then(res => {
             this.StrEdit(res.data[0].movie);
+
             for (let i = 0; i < this.cluster_movies.length; i++) {
               axios
-                .get(this.$store.state.server + "/api/movies/?id="+this.cluster_movies[i])
+                .get(
+                  this.$store.state.server +
+                    "/api/movies/?id=" +
+                    this.cluster_movies[i]
+                )
                 .then(res => {
                   this.movies.push(res.data[0]);
                   this.titleSkip();
@@ -82,15 +87,10 @@ export default {
             }
           });
       } else if (this.$session.get("cluster") == "KNN_movie") {
-        axios
-          .get(
-            this.$store.state.server +
-              "/api/KNN/?movie_id=" +
-              this.$session.get("id")
-          )
-          .then(res => {
-            this.cluster_movies = res.data;
-          });
+        axios.get(this.$store.state.server + "/api/movies/").then(res => {
+          this.movies = res.data;
+          this.titleSkip();
+        });
       } else if (this.$session.get("cluster") == "MF") {
         axios
           .get(
@@ -100,6 +100,18 @@ export default {
           )
           .then(res => {
             this.cluster_movies = res.data;
+            for (let i = 0; i < this.cluster_movies.length; i++) {
+              axios
+                .get(
+                  this.$store.state.server +
+                    "/api/movies/?id=" +
+                    this.cluster_movies[i]
+                )
+                .then(res => {
+                  this.movies.push(res.data[0]);
+                  this.titleSkip();
+                });
+            }
           });
       } else {
         axios.get(this.$store.state.server + "/api/movies/").then(res => {
