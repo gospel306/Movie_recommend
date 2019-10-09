@@ -26,7 +26,7 @@
                  <v-flex xs2>
                   <v-dialog v-model="dialog" persistent max-width="290">
                     <template v-slot:activator="{ on }">
-                      <v-btn color="black white--text" dark v-on="on">평점 작성</v-btn>
+                      <v-btn color="red darken-2"  dark v-on="on">평점 작성</v-btn>
                     </template>
                     <v-card>
                       <v-layout justify-center>
