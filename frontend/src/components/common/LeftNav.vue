@@ -12,7 +12,7 @@
         <v-tooltip right>
           <template v-slot:activator="{ on }">
             <v-btn icon @click="goTo('search')" class="toolbartext" v-on="on">
-              <v-icon large color="white"  >mdi-magnify</v-icon>
+              <v-icon large color="white" class="vic">mdi-magnify</v-icon>
             </v-btn>
           </template>
           <span>영화검색</span>
@@ -22,7 +22,7 @@
         <v-tooltip right>
           <template v-slot:activator="{ on }">
             <v-btn icon  @click="goTo('best')" class="toolbartext" v-on="on">
-             <v-icon large color="white">mdi-movie</v-icon>
+             <v-icon large color="white" class="vic">mdi-movie</v-icon>
             </v-btn>
           </template>
           <span>영화추천</span>
@@ -32,7 +32,7 @@
         <v-tooltip right>
           <template v-slot:activator="{ on }">
             <v-btn icon  @click="goTo('productlist')" class="toolbartext" v-on="on">
-             <v-icon large color="white">subscriptions</v-icon>
+             <v-icon large color="white" class="vic">mdi-check</v-icon>
             </v-btn>
           </template>
           <span>영화구독</span>
@@ -85,6 +85,12 @@ export default {
 }
 #fir{
   margin-top:10px;
+}
+
+.vic:hover:before,
+.vic:focus:before{
+  color:#d32f2f;
+  transition: all 0.8s;
 }
 </style>
 
