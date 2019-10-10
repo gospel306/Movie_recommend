@@ -5,7 +5,8 @@
       <RightNav></RightNav>
       <v-layout align-center justify-center>        
         <v-flex class="main-board">
-          <router-view></router-view>
+          <router-view>
+          </router-view>
         </v-flex>
       </v-layout>
     </v-container>
@@ -28,6 +29,9 @@ export default {
     LeftNav,
     RightNav
   },
+  mounted(){
+    
+  },
   created() {
     window.addEventListener('resize', this.handleResize)
     this.handleResize();
@@ -37,12 +41,13 @@ export default {
   },
   methods: {
     handleResize() {
+   
       this.window.width = window.innerWidth;
       this.window.height = window.innerHeight;
       var num = window.innerHeight / 50;
-      this.$store.state.leftNavNum = Math.floor(num-3);
+      this.$store.state.leftNavNum = Math.floor(num-4);
       this.$store.state.rightNavNum = Math.floor(num-3);
-    }
+    },
   },
 };
 </script>
@@ -52,17 +57,16 @@ export default {
   background-color : black;
   }
 .main-board{
+  border-color:#545454;
+  border-width: 0px 11px 11px 0px;
+  border-style: solid;
   background-color: white;
-  border-radius: 15px;
+  border-radius: 30px 30px 0px 30px;
   height: 90%;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.ck{
-  border-color: aqua;
-  border-width:3px;
-  border-style: solid;
-}
+
 </style>
 

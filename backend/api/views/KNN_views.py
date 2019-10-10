@@ -1,13 +1,13 @@
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from api.models import Rating, Table_KNN_user, Table_KNN_movie, Movie, Profile
+from api.models import Rating, Table_KNN_user, Table_KNN_movie, Movie, Profile, MovieCluster
 from api.serializers import RatingSerializer
-
+from django.contrib.auth.models import User
 import math
 import numpy as np
 from numpy import linalg as la
-
+import random
 
 def sim_pearson(data, name1, name2):
     avg_name1 = 0
@@ -115,34 +115,34 @@ def knnAlgorithm(request):
                 Table_KNN_user(user_id=i, movie=movieRank).save()
 
             ##### 영화 KNN #####
-            movieDict2 = dict()
-            for i in range(1, 3953):
-                eachMovieRating = ratings.filter(movieid=i)
-                eachMovieRating = eachMovieRating.order_by('userid_id')
-
-                userDict2 = dict()
-
-                for rate in eachMovieRating:
-                    userDict2[rate.userid_id] = rate.rating
-
-                movieDict2[i] = userDict2
-
             tableKNNMoive = Table_KNN_movie.objects.all()
             tableKNNMoive.delete()
+            
+            recommend_movie_list = []
+            moviecluster = MovieCluster.objects.all()
+            for movieidx in range(1, 3952):
+                clusterNum = moviecluster.filter(movieid=movieidx)
+                clusterNum = clusterNum.values('clusternum')
+                if clusterNum:
+                    clusterNum = clusterNum[0]['clusternum']
+                    clusterMovies = moviecluster.filter(clusternum=clusterNum)
+                    clusterMovies = clusterMovies.values('movieid')
 
-            movies = Movie.objects.all()
-            movies = movies.values('id')
-            for m in movies:
-                userRank = getRecommendation(movieDict2, m['id'])[:10]
-                Table_KNN_movie(movie_id=m['id'], user=userRank).save()
+                    inputUserList = []
+                    for i in range(10):
+                        inputUserList.append(random.choice(clusterMovies)['movieid'])
+                    Table_KNN_movie(movie_id=movieidx, user=inputUserList).save()
+                else :
+                    continue
 
             return Response(status=status.HTTP_200_OK)
 
         result = []
 
         if userid:
+            id = User.objects.get(username=userid)
             users = Table_KNN_user.objects.all()
-            users = users.filter(user=userid)
+            users = users.filter(user=id.id)
             result = users.values('movie', 'user_id')
 
         if movieid:

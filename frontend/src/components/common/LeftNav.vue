@@ -28,6 +28,16 @@
           <span>영화추천</span>
         </v-tooltip>
       </v-flex>
+      <v-flex  class="ma-2" >
+        <v-tooltip right>
+          <template v-slot:activator="{ on }">
+            <v-btn icon  @click="goTo('productlist')" class="toolbartext" v-on="on">
+             <v-icon large color="white">subscriptions</v-icon>
+            </v-btn>
+          </template>
+          <span>영화구독</span>
+        </v-tooltip>
+      </v-flex>
       <template v-for="i in this.$store.state.leftNavNum">
         <v-flex class="ma-2"  :key="i">
           <v-tooltip right>
