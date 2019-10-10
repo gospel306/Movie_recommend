@@ -27,7 +27,10 @@ class ProfileSerializer(serializers.ModelSerializer):
         return a
 
     def get_cluster(self, obj):
-        return SubScribe.objects.filter(userid_id=obj.user.id).values('cluster')
+        tmp = SubScribe.objects.filter(userid_id=obj.user.id).values('cluster')
+        if tmp:
+            return tmp[0]['cluster']
+        return tmp
 
 
 class MovieSerializer(serializers.ModelSerializer):
