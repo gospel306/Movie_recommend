@@ -7,7 +7,7 @@
             <v-checkbox v-model="selected" label="조회수/평점" value="4" @change="ShowBox"></v-checkbox>
           </v-flex>
           <v-flex xs2> 
-            <v-text-field color="black" label="검색어" v-model="value" />
+            <v-text-field color="black" label="검색어" v-model="value" @keyup.enter="onSubmit"/>
           </v-flex>
           <v-flex xs2> 
             <v-btn large color="red darken-4" class="white--text" @click="onSubmit">Search</v-btn>
