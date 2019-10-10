@@ -125,9 +125,9 @@ def subscribe(request):
     if request.method == 'GET':
         id = request.GET.get('id', None)
         user = User.objects.get(username=id)
-        date = request.GET.get('firstdate')
-        firstdate = datetime.strptime(date, "%Y-%m-%d")
+        date = datetime.now(koreadate)
         scribedate = SubScribe.objects.filter(userid=user)
-        scribedate = scribedate.filter(enddate__gt=firstdate).filter(subscribedate__lt=firstdate)
+        print(date)
+        scribedate = scribedate.filter(subscribedate__lte=date).filter(enddate__gte=date)
         serializer = SubScribeSerializer(scribedate, many=True)
         return Response(data=serializer.data, status=status.HTTP_200_OK)
