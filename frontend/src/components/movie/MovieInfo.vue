@@ -11,9 +11,9 @@
               <v-flex xs5>
                 <h3>{{this.info.genres}}</h3>
               </v-flex>
-              <v-flex xs6>
+              <v-flex xs7>
                 <v-layout row>
-                  <v-flex xs4>
+                  <v-flex xs3>
                     <v-rating
                       :value="this.info.average_rating"
                       color="black"
@@ -24,10 +24,15 @@
                     />
                   </v-flex>
                   <v-flex x4 class="pa-0">
-                    <v-dialog v-model="dialog" persistent max-width="290">
+                    <v-tooltip right>
                       <template v-slot:activator="{ on }">
-                        <v-btn color="red darken-2" dark v-on="on">평점 작성</v-btn>
+                        <v-btn text color="white" @click="dialog=true" dark v-on="on">
+                          <v-icon large color="red darken-2" v-on="on">mdi-plus</v-icon>
+                        </v-btn>
                       </template>
+                      <span>평점등록하기</span>
+                    </v-tooltip>
+                    <v-dialog v-model="dialog" persistent max-width="290">
                       <v-card>
                         <v-layout justify-center>
                           <v-card-title class="headline">이 영화의 점수는?</v-card-title>
@@ -36,7 +41,7 @@
                           <v-layout justify-center>별점을 매겨주세요!</v-layout>
                         </v-card-text>
                         <v-layout justify-center>
-                          <v-rating v-model="rating" color="black" dense background-color="black" />
+                          <v-rating v-model="rating" color="red darken-2" dense background-color="#bdbdbd" />
                         </v-layout>
                         <v-card-actions>
                           <div class="flex-grow-1"></div>
@@ -84,6 +89,7 @@
         <v-layout align-center>
           <v-flex>
             <v-img
+              class="vi"
               float:right
               height="100%"
               width="100%"
@@ -108,8 +114,8 @@
     </v-dialog>
 
     <v-dialog v-model="personDialog"  max-width="60%" >
-      <v-card>
-        <v-card-title>인물소개</v-card-title>
+      <v-card >
+        <v-card-title class="justify-center"><h3>인물　소개</h3></v-card-title>
         <v-card-text>
           <v-layout>
             <v-flex xs3>
@@ -121,12 +127,12 @@
                 <v-flex>출　　　생　:　{{person.birth_date}}</v-flex>
                 <v-flex>신　　　장　:　{{person.height}}</v-flex>
                 <v-flex>
-                  배　우　자　:　
+                  배　우　자　　
                   <v-flex v-for="family in family_member" :key="family">　{{family}}</v-flex>
                 </v-flex>
                 <v-flex>
-                  이력　사항　:　
-                  <p class="font-weight-thin">　{{career.substring(1,700)}}...</p>
+                  이력　사항　　
+                  <p class="font-weight-thin">{{career}}</p>
                 </v-flex>
               </v-layout>
             </v-flex>
@@ -192,7 +198,7 @@ export default {
         .get(this.$store.state.server + "/api/moviedetail/?id=" + id)
         .then(res => {
           this.movie = res.data[0];
-
+          
           if (this.movie.video == "") {
             this.video = "";
           } else {
@@ -231,6 +237,8 @@ export default {
     Manufacture(family, biography) {
       this.family_member = family.split("|");
       this.career = biography.substring(2, biography.length - 2);
+      if(this.career.length > 300)
+        this.career = this.career.substring(0,300)+"...";
       this.person.birth_date = this.person.birth_date.substring(0, 10);
     },
     CastMore() {
@@ -259,5 +267,10 @@ export default {
 .base {
   width: 95%;
   height: 90%;
+}
+.vi{
+  border-style: solid;
+  border-radius: 10px;
+  border-width: 0px 0px 7px 0px;
 }
 </style>
