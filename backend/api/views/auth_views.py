@@ -48,9 +48,9 @@ def users(request):
         id = request.GET.get('id',None)
         '''해당 id를 갖는 profile의 pk값을 가져온다 '''
         if id :
-            user = User.objects.get(username = id)
+            user = User.objects.get(username=id)
             if user :
-                profile = Profile.objects.get(user = user)
+                profile = Profile.objects.get(user=user)
 
         serializer = ProfileSerializer(profile)
         return Response(data=serializer.data, status=status.HTTP_200_OK)
@@ -125,9 +125,9 @@ def subscribe(request):
     if request.method == 'GET':
         id = request.GET.get('id', None)
         user = User.objects.get(username=id)
-        date = request.GET.get('firstdate')
-        firstdate = datetime.strptime(date, "%Y-%m-%d")
+        date = datetime.now(koreadate)
         scribedate = SubScribe.objects.filter(userid=user)
-        scribedate = scribedate.filter(enddate__gt=firstdate).filter(subscribedate__lt=firstdate)
+        print(date)
+        scribedate = scribedate.filter(subscribedate__lte=date).filter(enddate__gte=date)
         serializer = SubScribeSerializer(scribedate, many=True)
         return Response(data=serializer.data, status=status.HTTP_200_OK)

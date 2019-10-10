@@ -3,13 +3,30 @@
     <v-layout row align-center class="sh">
       <v-flex>
         <v-layout justify-center wrap class="under">
-          <v-flex xs2> 
-            <v-checkbox v-model="selected" label="조회수/평점" value="4" @change="ShowBox"></v-checkbox>
+          <v-flex xs1 class="ma-1"> 
+            <v-checkbox v-model="selected" label="정렬" value="4" @change="ShowBox"></v-checkbox>
           </v-flex>
-          <v-flex xs2> 
-            <v-text-field color="black" label="검색어" v-model="value" @keyup.enter="onSubmit"/>
+          <v-flex xs1 v-if="option_4" class="ma-1"> 
+            <v-select
+              v-model="V_option"
+              :items="V_options"
+              item-text="text"
+              item-value="value"
+              label="기준"
+            />
           </v-flex>
-          <v-flex xs2> 
+          <v-flex xs1 class="ma-1" > 
+            <v-select 
+              v-model="T_option"
+              :items="T_options"
+              item-text="text"
+              item-value="value"
+            />
+          </v-flex>
+          <v-flex xs2 class="ma-1"> 
+            <v-text-field color="black" label="검색어" v-model="value" />
+          </v-flex>
+          <v-flex xs1 class="ma-1"> 
             <v-btn large color="red darken-4" class="white--text" @click="onSubmit">Search</v-btn>
           </v-flex>
         </v-layout>
@@ -34,7 +51,6 @@
           </v-slide-item>
         </v-slide-group>
       </v-flex>
-
     </v-layout>
   </v-container>
 </template>
