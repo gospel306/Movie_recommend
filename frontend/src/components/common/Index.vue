@@ -3,7 +3,7 @@
       <v-layout column align-center>        
         <v-flex sm4>
           <v-img class="intro"
-            src="../images/intro.gif" 
+            src="@/images/intro.gif" 
             width="400"
             height="166"
           ></v-img>
@@ -26,7 +26,7 @@
 
 <script>
 export default {
-  name: "indexpage",
+  name: "index",
   data: () => ({
 
   }),

@@ -71,7 +71,7 @@ export default {
                 this.$session.set('token', res.data.token);
                 this.$session.set('id', this.credentials.username);
                 alert("로그인 성공");
-                router.push('/index');
+                router.push('/');
                 
                 // eslint-disable-next-line
               }).catch(e => {
