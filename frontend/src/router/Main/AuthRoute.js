@@ -1,6 +1,7 @@
 import LoginPage from '@/views/LoginPage'
 import SignUpPage from '@/views/SignUpPage'
-import IndexPage from '@/views/IndexPage'
+import Index from '@/components/common/Index'
+
 export default [
     {
         path: '/login',
@@ -13,8 +14,8 @@ export default [
         component: SignUpPage
     },
     {
-        path: '/index',
+        path: '/',
         name: 'Index',
-        component: IndexPage
+        component: Index
     }
 ]
