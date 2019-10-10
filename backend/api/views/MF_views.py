@@ -1,7 +1,7 @@
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-
+from django.contrib.auth.models import User
 from api.models import Rating, Table_MF, Movie
 from api.serializers import RatingSerializer
 
@@ -111,11 +111,13 @@ def mfAlgorithm(request):
             return Response(status=status.HTTP_200_OK)
 
         if userid:
+            id = User.objects.get(username=userid)
+            print(id.id)
             movies = Table_MF.objects.all()
-            movies = movies.filter(user=userid)
+            movies = movies.filter(user=id.id)
             movies = movies.values('rating', 'movie_id').order_by('-rating')
 
-            ratings = ratings.filter(userid=userid)
+            ratings = ratings.filter(userid=id.id)
             ratings = ratings.values('movieid')
 
             result = []
