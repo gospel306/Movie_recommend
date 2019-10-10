@@ -59,7 +59,7 @@ export default {
   height: 60px;  
 }
 .str{
-  border-width: 0px 0px 5px 0px;
+  border-width: 0px 0px 4px 0px;
   border-style: solid;
   border-color: black;
   margin-top: 60px;
