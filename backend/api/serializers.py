@@ -7,10 +7,11 @@ class ProfileSerializer(serializers.ModelSerializer):
     username = serializers.SerializerMethodField('get_username')
     is_staff = serializers.SerializerMethodField('get_is_staff')
     rating = serializers.SerializerMethodField('get_rating')
+    cluster = serializers.SerializerMethodField('get_cluster')
 
     class Meta:
         model = Profile
-        fields = ('id', 'username', 'is_staff', 'gender', 'age', 'occupation','rating')
+        fields = ('id', 'username', 'is_staff', 'gender', 'age', 'occupation','rating', 'cluster')
 
     def get_username(self, obj):
         return obj.user.username
@@ -24,6 +25,9 @@ class ProfileSerializer(serializers.ModelSerializer):
         else:
             a = ''
         return a
+
+    def get_cluster(self, obj):
+        return SubScribe.objects.filter(userid_id=obj.user.id).values('cluster')
 
 
 class MovieSerializer(serializers.ModelSerializer):
