@@ -40,7 +40,7 @@
                     required
                   />
                 </v-container>
-                <v-btn class="black white--text" :disabled="!valid" @click="login">Login</v-btn>
+                <v-btn color="red darken-4" class="white--text"  :disabled="!valid" @click="login">Login</v-btn>
               </v-form>
             </v-card-text>
           </v-card>
@@ -71,7 +71,7 @@ export default {
                 this.$session.set('token', res.data.token);
                 this.$session.set('id', this.credentials.username);
                 alert("로그인 성공");
-                router.push('/search');
+                router.push('/');
                 
                 // eslint-disable-next-line
               }).catch(e => {
