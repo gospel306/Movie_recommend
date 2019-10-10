@@ -55,10 +55,10 @@
               </v-flex>
               <v-flex xs12>
                 <v-flex xs6>
-                  감　독 :　<a class="black--text" @click="PersonInfo(directorlist[0].id)">{{directorlist[0].name}}</a>
+                  감독 :<a class="black--text" @click="PersonInfo(directorlist[0].id)">{{directorlist[0].name}}</a>
                 </v-flex>
                 <v-flex xs12>
-                  출연진 :　 
+                  출연진:
                   <template v-for="i in 3">
                     <a class="black--text" @click="PersonInfo(castlist[i].id)" :key="i">{{castlist[i].name}}, </a>
                   </template>
@@ -115,7 +115,7 @@
 
     <v-dialog v-model="personDialog"  max-width="60%" >
       <v-card >
-        <v-card-title class="justify-center"><h3>인물　소개</h3></v-card-title>
+        <v-card-title class="justify-center"><h3>인물소개</h3></v-card-title>
         <v-card-text>
           <v-layout>
             <v-flex xs3>
@@ -124,14 +124,14 @@
             <v-flex xs9>
               <v-layout column pl-4>
                 <v-flex title>{{person.name}}</v-flex>
-                <v-flex>출　　　생　:　{{person.birth_date}}</v-flex>
-                <v-flex>신　　　장　:　{{person.height}}</v-flex>
+                <v-flex>출생:{{person.birth_date}}</v-flex>
+                <v-flex>신장:{{person.height}}</v-flex>
                 <v-flex>
-                  배　우　자　　
-                  <v-flex v-for="family in family_member" :key="family">　{{family}}</v-flex>
+                  배우자
+                  <v-flex v-for="family in family_member" :key="family">{{family}}</v-flex>
                 </v-flex>
                 <v-flex>
-                  이력　사항　　
+                  이력사항
                   <p class="font-weight-thin">{{career}}</p>
                 </v-flex>
               </v-layout>
@@ -271,6 +271,6 @@ export default {
 .vi{
   border-style: solid;
   border-radius: 10px;
-  border-width: 0px 0px 7px 0px;
+  border-width: 0px 7px 7px 0px;
 }
 </style>
