@@ -105,7 +105,7 @@ export default {
                 .get(
                   this.$store.state.server +
                     "/api/movies/?id=" +
-                    this.cluster_movies[i]
+                    this.cluster_movies[i].movie_id
                 )
                 .then(res => {
                   this.movies.push(res.data[0]);
