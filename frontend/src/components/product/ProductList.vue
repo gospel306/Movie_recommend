@@ -100,14 +100,11 @@ export default {
       return false;
     },
     getUserSubscribe() {
-      var date = this.nowDate();
       axios
         .get(
           this.$store.state.server +
             "/api/subscribe/?id=" +
-            this.$session.get("id") +
-            "&firstdate=" +
-            date
+            this.$session.get("id")
         )
         .then(res => {
           this.cluster = res.data[0];
