@@ -96,23 +96,23 @@ def knnAlgorithm(request):
 
         if exe:
             ##### 유저 KNN #####
-            # userDict1 = dict()
-            # for i in range(2, 6043):
-            #     eachUserRatings = ratings.filter(userid=i)
-            #     eachUserRatings = eachUserRatings.order_by('movieid_id')
+            userDict1 = dict()
+            for i in range(2, 6043):
+                eachUserRatings = ratings.filter(userid=i)
+                eachUserRatings = eachUserRatings.order_by('movieid_id')
 
-            #     movieDict1 = dict()
+                movieDict1 = dict()
 
-            #     for rate in eachUserRatings:
-            #         movieDict1[rate.movieid_id] = rate.rating
+                for rate in eachUserRatings:
+                    movieDict1[rate.movieid_id] = rate.rating
 
-            #     userDict1[i] = movieDict1
+                userDict1[i] = movieDict1
 
-            # tableKNNUser = Table_KNN_user.objects.all()
-            # tableKNNUser.delete()
-            # for i in range(2, 6043):
-            #     movieRank = getRecommendation(userDict1, i)[:10]
-            #     Table_KNN_user(user_id=i, movie=movieRank).save()
+            tableKNNUser = Table_KNN_user.objects.all()
+            tableKNNUser.delete()
+            for i in range(2, 6043):
+                movieRank = getRecommendation(userDict1, i)[:10]
+                Table_KNN_user(user_id=i, movie=movieRank).save()
 
             ##### 영화 KNN #####
             tableKNNMoive = Table_KNN_movie.objects.all()
