@@ -38,6 +38,7 @@
                     label="Password"
                     maxlength="20"
                     required
+                    @keyup.enter="login"
                   />
                 </v-container>
                 <v-btn color="red darken-4" class="white--text"  :disabled="!valid" @click="login">Login</v-btn>
