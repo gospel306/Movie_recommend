@@ -9,23 +9,16 @@
       <v-btn to="/adminmovie" color="grey darken-2" class="white--text">영화관리</v-btn>
       <v-btn to="/cluster" color="grey darken-2" class="white--text">클러스터</v-btn>
       <v-btn to="/recommend" color="grey darken-2" class="white--text">DB관리</v-btn>
+      <v-container fluid row>
+        <v-radio-group v-model="selected" row>
+          <v-radio label="KNN" value="KNN"></v-radio>
+          <v-radio label="MF" value="MF"></v-radio>
+        </v-radio-group>
+       </v-container>
+        <v-btn color="grey darken-2" class="white--text" @click="apply">DB업데이트</v-btn>
     </v-layout>
     <v-layout justify-center wrap>
       <v-flex xs6>
-        <v-container fluid row>
-          <v-radio-group v-model="selected" row>
-            <v-radio label="K-Means" value="K-Means"></v-radio>
-            <v-radio label="Hierarchical" value="Hierarchical"></v-radio>
-            <v-radio label="EM" value="EM"></v-radio>
-          </v-radio-group>
-          <v-select v-model="option" :items="options" item-text="text" item-value="value" />
-        </v-container>
-      </v-flex>
-    </v-layout>
-    <v-layout justify-center wrap>
-      <v-flex xs6 row>
-        <v-slider v-model="parameter" label="파라미터" max="20"></v-slider>
-        <v-btn color="grey darken-2" class="white--text" @click="apply">적용</v-btn>
       </v-flex>
     </v-layout>
   </v-container>
@@ -36,29 +29,19 @@ import axios from "axios";
 export default {
   data() {
     return {
-      selected: "K-Means",
-      loading: false,
-      parameter: 10,
-      option: "movie",
-      options: [
-        { text: "영화", value: "movie" },
-        { text: "유저", value: "user" }
-      ]
+      selected: "KNN",
+      loading: false
     };
   },
-  mounted() {},
   methods: {
     apply() {
       this.loading = true;
       axios
         .get(
           this.$store.state.server +
-            "/api/cluster/?type=" +
+            "/api/" +
             this.selected +
-            "&data=" +
-            this.option +
-            "&clusteringnum=" +
-            this.parameter
+            "/?exe=1"
         )
         .then(res => {
           if (res.data) {

@@ -48,9 +48,9 @@ def users(request):
         id = request.GET.get('id',None)
         '''해당 id를 갖는 profile의 pk값을 가져온다 '''
         if id :
-            user = User.objects.get(username = id)
+            user = User.objects.get(username=id)
             if user :
-                profile = Profile.objects.get(user = user)
+                profile = Profile.objects.get(user=user)
 
         serializer = ProfileSerializer(profile)
         return Response(data=serializer.data, status=status.HTTP_200_OK)
