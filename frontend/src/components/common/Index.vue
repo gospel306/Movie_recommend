@@ -49,7 +49,7 @@ export default {
   filter: grayscale(100%);
 }
 .sear{
-  border-width: 10px 10px 10px 10px;
+  border-width: 3px 8px 10px 3px;
   border-style: solid;
   border-color: black;
   margin-top: 60px;

@@ -58,7 +58,8 @@ export default {
         { text: "닉네임", value: "username" },
         { text: "성별", value: "gender" },
         { text: "나이", value: "age" },
-        { text: "직업", value: "occupation" }
+        { text: "직업", value: "occupation" },
+        { text: "구독정보", value: "cluster"}
       ],
       desserts: []
     };
