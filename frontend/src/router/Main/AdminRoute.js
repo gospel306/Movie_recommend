@@ -2,6 +2,7 @@ import AdminPage from '@/views/AdminPage'
 import AdminUser from '@/components/admin/AdminUser'
 import AdminMovie from '@/components/admin/AdminMovie'
 import AdminCluster from '@/components/admin/AdminCluster'
+import AdminRecommend from '@/components/admin/AdminRecommend'
 
 export default [
     {
@@ -23,5 +24,10 @@ export default [
         path: '/cluster',
         name: 'cluster',
         component: AdminCluster
+    },
+    {
+        path: '/recommend',
+        name: 'recommend',
+        component: AdminRecommend
     }
 ]
