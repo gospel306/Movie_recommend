@@ -57,17 +57,16 @@ export default {
   background-color : black;
   }
 .main-board{
+  border-color:#545454;
+  border-width: 0px 11px 11px 0px;
+  border-style: solid;
   background-color: white;
-  border-radius: 15px;
+  border-radius: 30px 30px 0px 30px;
   height: 90%;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.ck{
-  border-color: aqua;
-  border-width:3px;
-  border-style: solid;
-}
+
 </style>
 
